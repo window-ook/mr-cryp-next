@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { DescriptionTypo, NGTypo, LogoTypo, theme } from '../defaultTheme';
-import { globalColors } from '../globalColors';
-import { loginGoogle } from './api/firebase';
-
-import ButtonKakao from '@/components/ButtonKakao';
+import { loginGoogle } from '@/api/firebase';
+import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import { Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ButtonKakao from '@/components/ButtonKakao';
+import Image from 'next/image';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Image from 'next/image';
 
 function Copyright(props) {
   return (

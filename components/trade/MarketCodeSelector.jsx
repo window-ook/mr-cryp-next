@@ -1,6 +1,6 @@
-import { Box, MenuItem, Select } from '@mui/material';
 import { memo } from 'react';
-import { DescriptionTypo } from '../../defaultTheme';
+import { DescriptionTypo } from '@/defaultTheme';
+import { Box, MenuItem, Select } from '@mui/material';
 
 /** 마켓 코드 셀렉터
   - Props 

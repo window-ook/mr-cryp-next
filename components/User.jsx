@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Modal } from '@mui/material';
-import { NGTypo } from '../defaultTheme';
+import { NGTypo } from '@/defaultTheme';
 
 export default function User({ open, handleClose }) {
   const [imgUrl, setImgUrl] = useState('');

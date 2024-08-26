@@ -1,5 +1,5 @@
+import { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import React, { useState, useEffect, Fragment } from 'react';
 import {
   Alert,
   Radio,

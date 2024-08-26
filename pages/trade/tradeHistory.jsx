@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { useFetchMarketCode, useWsTrade } from 'use-upbit-api';
-import MarketCodeSelector from '../../components/Trade/MarketCodeSelector';
+import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import {
   Button,
   TableContainer,
@@ -13,7 +13,7 @@ import {
   Box,
   LinearProgress,
 } from '@mui/material';
-import { DescriptionTypo, PriceTypo, SubTitle } from '../../defaultTheme';
+import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 
 const headStyle = {
   fontSize: 20,

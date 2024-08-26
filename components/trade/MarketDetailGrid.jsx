@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useWsTicker, useFetchMarketCode } from 'use-upbit-api';
 import { useSelector } from 'react-redux';
+import { useWsTicker, useFetchMarketCode } from 'use-upbit-api';
 import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
-import { Box, Divider, LinearProgress } from '@mui/material';
 import { globalColors } from '@/globalColors';
+import { Box, Divider, LinearProgress } from '@mui/material';
 
 const yAxisStyle = {
   display: 'flex',

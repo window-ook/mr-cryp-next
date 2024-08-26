@@ -3,8 +3,8 @@ import indicators from 'highcharts/indicators/indicators';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { throttle } from 'lodash';
 import { useSelector } from 'react-redux';
+import { throttle } from 'lodash';
 import { globalColors } from '@/globalColors';
 import { Box } from '@mui/material';
 

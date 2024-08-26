@@ -1,4 +1,5 @@
-import React from 'react';
+import { theme, NGTypo } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import {
   Box,
   Accordion,
@@ -6,8 +7,6 @@ import {
   AccordionDetails,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { theme, NGTypo } from '../../defaultTheme';
-import { globalColors } from '../../globalColors';
 
 export default function AccountDetail({ balance }) {
   const totalBalance = balance.reduce(
