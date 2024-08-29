@@ -1,14 +1,12 @@
-import { Box, MenuItem, Select } from '@mui/material';
 import { memo } from 'react';
-import { DescriptionTypo } from '../../defaultTheme';
+import { Box, MenuItem, Select } from '@mui/material';
+import { DescriptionTypo } from '@/defaultTheme';
 
 /** 마켓 코드 셀렉터
-  - Props 
-        - curMarketCode
-        - setCurMarketCode
-        - isLoading
-        - marketCode
- */
+@prop curMarketCode
+@prop setCurMarketCode
+@prop isLoading
+@prop marketCode  */
 function MarketCodeSelector({
   curMarketCode,
   setCurMarketCode,
@@ -46,5 +44,4 @@ function MarketCodeSelector({
     </Box>
   );
 }
-
 export default memo(MarketCodeSelector);

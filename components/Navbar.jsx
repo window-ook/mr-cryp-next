@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import User from '../components/User';
-import { logoutGoogle } from '../pages/api/firebase';
-import logoutKakao from '../pages/api/logoutKakao';
-import { globalColors } from '../globalColors';
-import { LogoTypo, NavTypo } from '../defaultTheme';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { logoutGoogle } from '@/pages/api/firebase';
+import { globalColors } from '@/globalColors';
+import { LogoTypo, NavTypo } from '@/defaultTheme';
+import User from '@/components/User';
+import logoutKakao from '@/pages/api/logoutKakao';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +16,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useRouter } from 'next/router';
 
 const pages = ['대시보드', '비전', '거래'];
 const settings = ['프로필 정보', '로그아웃'];

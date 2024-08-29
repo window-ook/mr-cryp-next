@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { InforTypo, SubTitle } from '../defaultTheme';
-import { globalColors } from '../globalColors';
+import { InforTypo, SubTitle } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import AccountBox from '@/components/home/AccountBox';
 import AccountDetail from '@/components/home/AccountDetail';
 

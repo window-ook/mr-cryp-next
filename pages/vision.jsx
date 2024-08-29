@@ -1,10 +1,10 @@
 import React from 'react';
-import Information from '../components/Vision/Information';
-import Videos from '../components/Vision/Videos';
-import Articles from '../components/Vision/Articles';
+import Information from '@/components/Vision/Information';
+import Videos from '@/components/Vision/Videos';
+import Articles from '@/components/Vision/Articles';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { DescriptionTypo, SubTitle } from '../defaultTheme';
+import { DescriptionTypo, SubTitle } from '@/defaultTheme';
 
 export default function Vision() {
   return (

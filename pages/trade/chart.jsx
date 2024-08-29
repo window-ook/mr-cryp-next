@@ -1,15 +1,15 @@
 import { useDispatch } from 'react-redux';
-import { setOpen } from '../../redux/store';
+import { setOpen } from '@/redux/store';
 import { Box, Grid, Button } from '@mui/material';
 import { DescriptionTypo, theme } from '@/defaultTheme';
-import MarketListGrid from '../../components/trade/MarketListGrid';
-import MarketDetailGrid from '../../components/trade/MarketDetailGrid';
-import OrderbookGrid from '../../components/trade/OrderbookGrid';
-import TradeHistoryGrid from '../../components/trade/TradeHistoryGrid';
-import OrderModal from '../../components/trade/OrderModal';
+import MarketListGrid from '@/components/trade/MarketListGrid';
+import MarketDetailGrid from '@/components/trade/MarketDetailGrid';
+import OrderbookGrid from '@/components/trade/OrderbookGrid';
+import TradeHistoryGrid from '@/components/trade/TradeHistoryGrid';
+import OrderModal from '@/components/trade/OrderModal';
 import dynamic from 'next/dynamic';
 
-const DynamicChart = dynamic(() => import('../../components/trade/ChartGrid'), {
+const DynamicChart = dynamic(() => import('@/components/trade/ChartGrid'), {
   ssr: false,
 });
 

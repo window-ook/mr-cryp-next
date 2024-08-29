@@ -91,7 +91,11 @@ export default function Articles() {
               <Card key={article.link} sx={cardStyle}>
                 <CardHeader
                   avatar={<ArticleIcon sx={{ fontSize: 30 }} />}
-                  title={<NGTypo fontWeight={'bold'}>{title}</NGTypo>}
+                  title={
+                    <NGTypo fontWeight={'bold'} fontSize={20}>
+                      {title}
+                    </NGTypo>
+                  }
                 />
                 <CardContent
                   sx={{

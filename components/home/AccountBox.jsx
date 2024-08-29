@@ -1,7 +1,6 @@
-import React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { theme } from '../../defaultTheme';
-import { globalColors } from '../../globalColors';
+import { theme } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 
 export default function AccountBox({ balance }) {
   const palette = [

@@ -3,7 +3,6 @@ import indicators from 'highcharts/indicators/indicators';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { throttle } from 'lodash';
 import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
 import { Box } from '@mui/material';
@@ -50,9 +49,9 @@ const initialOptions = {
           return Highcharts.numberFormat(Number(this.value), 0, '', ',');
         },
       },
-      height: '80%', // 높이
+      height: '80%',
       lineWidth: 2,
-      // 마우스 포인터 위치를 알려주는 십자선
+      // 마우스 포인터 위치를 나타내는 크로스헤어
       crosshair: {
         snap: false,
       },
@@ -112,35 +111,59 @@ const initialOptions = {
   },
 };
 
-export default function ChartGrid() {
+export async function getServerSideProps(context) {
+  const code = context.query.code || 'KRW-BTC';
+  try {
+    const response = await axios.get('http://localhost:3000/api/upbit', {
+      params: {
+        type: '1min',
+        unit: '1',
+        ticker: code,
+        count: 200,
+      },
+    });
+    const fetchedCandles = response.data;
+    return {
+      props: {
+        initialCandles: fetchedCandles || [],
+        initialCode: code,
+      },
+    };
+  } catch (error) {
+    console.error('API 호출 에러:', error);
+    return {
+      props: {
+        initialCandles: [],
+        initialCode: code,
+      },
+    };
+  }
+}
+
+export default function ChartGrid({ initialCandles, initialCode }) {
   const [options, setOptions] = useState(initialOptions);
-  const [candles, setCandles] = useState([]);
-  const code = useSelector(state => state.chart.code);
+  const [candles, setCandles] = useState(initialCandles);
+  const code = useSelector(state => state.chart.code || initialCode);
   const fetchCandles = useCallback(
-    throttle(async (type, count) => {
-      let fetchedCandles;
+    async type => {
       try {
         const response = await axios.get('/api/upbit', {
           params: {
             type,
             unit: type.replace('min', ''),
             ticker: code,
-            count,
+            count: 200,
           },
         });
-        fetchedCandles = response.data;
+        const fetchedCandles = response.data;
+        console.log(fetchedCandles);
+        setCandles(fetchedCandles);
       } catch (error) {
-        console.error('API 호출 중 에러:', error);
-        return;
+        console.error('캔들 다운로드 중 에러 발생 :', error);
       }
-      setCandles(fetchedCandles);
-    }, 2000),
+    },
     [code],
   );
-
-  useEffect(() => {
-    fetchCandles('1min', 200);
-  }, [fetchCandles]);
 
   const rangeSelector = useMemo(
     () => ({
@@ -150,31 +173,31 @@ export default function ChartGrid() {
         {
           text: '1분봉',
           events: {
-            click: () => fetchCandles('1min', 200),
+            click: () => fetchCandles('1min'),
           },
         },
         {
           text: '5분봉',
           events: {
-            click: () => fetchCandles('5min', 200),
+            click: () => fetchCandles('5min'),
           },
         },
         {
           text: '일봉',
           events: {
-            click: () => fetchCandles('days', 200),
+            click: () => fetchCandles('days'),
           },
         },
         {
           text: '주봉',
           events: {
-            click: () => fetchCandles('weeks', 200),
+            click: () => fetchCandles('weeks'),
           },
         },
         {
           text: '월봉',
           events: {
-            click: () => fetchCandles('months', 200),
+            click: () => fetchCandles('months'),
           },
         },
       ],
@@ -183,7 +206,7 @@ export default function ChartGrid() {
   );
 
   useEffect(() => {
-    if (candles.length > 0) {
+    if (Array.isArray(candles) && candles.length > 0) {
       candles.sort((a, b) => a.timestamp - b.timestamp);
       const ohlc = candles.map(candle => [
         candle.timestamp,
@@ -240,7 +263,7 @@ export default function ChartGrid() {
         ],
       }));
     }
-  }, [candles, code, fetchCandles, rangeSelector]);
+  }, [candles, code, rangeSelector]);
 
   return (
     <Box>

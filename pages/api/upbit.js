@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       case '1min':
       case '5min':
         if (!unit) {
-          res.status(400).json({ error: 'unit 인자가 필요합니다' });
+          res.status(400).json({ error: 'unit (몇 분)을 입력하세요' });
           return;
         }
         data = await upbit.candleMinutes(unit, ticker, count);
@@ -28,8 +28,10 @@ export default async function handler(req, res) {
         res.status(400).json({ error: 'Invalid type parameter' });
         return;
     }
+    console.log('Fetched data:', data);
     res.status(200).json(data);
   } catch (error) {
+    console.log('API 호출 실패:', error);
     res.status(500).json({ error: 'API 호출 실패' });
   }
 }

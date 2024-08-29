@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { NGTypo } from '../defaultTheme';
+import { NGTypo } from '@/defaultTheme';
 import Button from '@mui/material/Button';
 
 export default function ButtonKakao() {
