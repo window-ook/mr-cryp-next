@@ -4,11 +4,25 @@ import { Grid, Box, Skeleton, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { SubTitle, DescriptionTypo, NGTypo } from '@/defaultTheme';
 
-function VideoCard() {
+function IFrame({ src, title }) {
+  return (
+    <Box sx={{ width: '100%', height: 230 }}>
+      <iframe
+        width="100%"
+        height="100%"
+        src={src}
+        allowFullScreen
+        title={title}
+      ></iframe>
+    </Box>
+  );
+}
+
+function VideoCard({ initialVideos }) {
   const theme = useTheme();
   const {
     isPending,
-    data: videos = [],
+    data: videos = initialVideos,
     error,
   } = useQuery({
     queryKey: ['videos'],
@@ -51,28 +65,12 @@ function VideoCard() {
     <Grid container spacing={2}>
       {videos.map(video => (
         <Grid item xs={12} sm={6} key={video.id}>
-          <Box sx={{ width: '100%', mt: 3 }}>
-            <Box
-              component="img"
-              src={video.snippet.thumbnails.default.url}
-              alt={video.snippet.title}
-              sx={{
-                width: '100%',
-                height: 'auto',
-                maxHeight: 230,
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-              }}
-              onClick={() => {
-                console.log(video.id.videoId);
-                window.open(
-                  `https://www.youtube.com/watch?v=${video.id}`,
-                  '_blank',
-                );
-              }}
+          <Box sx={{ width: '100%', pt: 3 }}>
+            <IFrame
+              src={`https://www.youtube.com/embed/${video.id}`}
+              title={video.snippet.title}
             />
-            <Box sx={{ pr: 2 }}>
+            <Box sx={{ pr: 2, pt: 2 }}>
               <NGTypo gutterBottom variant="body2" fontWeight={'bold'}>
                 {video.snippet.title.replace(/"/g, '').replace(/'/g, '')}
               </NGTypo>
@@ -80,7 +78,7 @@ function VideoCard() {
                 display="block"
                 variant="caption"
                 fontWeight={'bold'}
-                sx={{ color: theme.palette.primary.main }}
+                color={theme.palette.primary.main}
               >
                 {video.snippet.channelTitle}
               </NGTypo>
@@ -96,14 +94,14 @@ function VideoCard() {
   );
 }
 
-export default function Videos() {
+export default function Videos({ initialVideos }) {
   return (
     <Box sx={{ mb: 10, mr: 4 }}>
       <SubTitle>TREND 🔥</SubTitle>
       <DescriptionTypo>
         코인에 대한 실시간 트렌드를 확인해보세요!
       </DescriptionTypo>
-      <VideoCard />
+      <VideoCard initialVideos={initialVideos} />
     </Box>
   );
 }
