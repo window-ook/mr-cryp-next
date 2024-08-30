@@ -91,7 +91,6 @@ const initialOptions = {
           point.close > point.open
             ? globalColors.color_pos
             : globalColors.color_neg;
-
         return `
           <span style="color:${color}">●</span> <b>${point.series.name}</b><br/>
           시간: ${Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', point.x)}<br/>
@@ -111,43 +110,15 @@ const initialOptions = {
   },
 };
 
-export async function getServerSideProps(context) {
-  const code = context.query.code || 'KRW-BTC';
-  try {
-    const response = await axios.get('http://localhost:3000/api/upbit', {
-      params: {
-        type: '1min',
-        unit: '1',
-        ticker: code,
-        count: 200,
-      },
-    });
-    const fetchedCandles = response.data;
-    return {
-      props: {
-        initialCandles: fetchedCandles || [],
-        initialCode: code,
-      },
-    };
-  } catch (error) {
-    console.error('API 호출 에러:', error);
-    return {
-      props: {
-        initialCandles: [],
-        initialCode: code,
-      },
-    };
-  }
-}
-
-export default function ChartGrid({ initialCandles, initialCode }) {
+export default function ChartGrid() {
   const [options, setOptions] = useState(initialOptions);
-  const [candles, setCandles] = useState(initialCandles);
-  const code = useSelector(state => state.chart.code || initialCode);
+  const [candles, setCandles] = useState([]);
+  const code = useSelector(state => state.chart.code);
   const fetchCandles = useCallback(
     async type => {
+      let fetchedCandles;
       try {
-        const response = await axios.get('/api/upbit', {
+        const response = await axios.get('/api/candles', {
           params: {
             type,
             unit: type.replace('min', ''),
@@ -155,15 +126,19 @@ export default function ChartGrid({ initialCandles, initialCode }) {
             count: 200,
           },
         });
-        const fetchedCandles = response.data;
-        console.log(fetchedCandles);
-        setCandles(fetchedCandles);
+        fetchedCandles = response.data;
       } catch (error) {
         console.error('캔들 다운로드 중 에러 발생 :', error);
+        return;
       }
+      setCandles(fetchedCandles);
     },
     [code],
   );
+
+  useEffect(() => {
+    fetchCandles('1min');
+  }, [fetchCandles]);
 
   const rangeSelector = useMemo(
     () => ({
@@ -206,7 +181,7 @@ export default function ChartGrid({ initialCandles, initialCode }) {
   );
 
   useEffect(() => {
-    if (Array.isArray(candles) && candles.length > 0) {
+    if (candles.length > 0) {
       candles.sort((a, b) => a.timestamp - b.timestamp);
       const ohlc = candles.map(candle => [
         candle.timestamp,
@@ -263,7 +238,7 @@ export default function ChartGrid({ initialCandles, initialCode }) {
         ],
       }));
     }
-  }, [candles, code, rangeSelector]);
+  }, [candles, code, fetchCandles, rangeSelector]);
 
   return (
     <Box>

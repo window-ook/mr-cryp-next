@@ -1,29 +1,36 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { InforTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+import axios from 'axios';
 import AccountBox from '@/components/home/AccountBox';
 import AccountDetail from '@/components/home/AccountDetail';
 
-export default function Home() {
-  const [balance, setBalance] = useState([]);
+export async function getStaticProps() {
+  let balance = [];
+  try {
+    const response = await axios.get('http://localhost:3000/data/balance.json');
+    balance = response.data;
+  } catch (error) {
+    console.log('계좌 현황 다운로드 중 에러 발생 : ', error);
+  }
 
-  useEffect(() => {
-    const handleData = async () => {
-      try {
-        const response = await axios.get('/data/balance.json');
-        setBalance(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    handleData();
-  }, []);
+  return {
+    props: {
+      balance,
+    },
+  };
+}
 
+export default function Home({ balance }) {
   return (
-    <Box sx={{ width: '80%', marginBottom: 10, marginX: 'auto' }}>
+    <Box
+      sx={{
+        width: '80%',
+        my: 5,
+        mx: 'auto',
+      }}
+    >
       <Grid container spacing={1}>
         <Grid item xs={12} md={12} marginBottom={4}>
           <Box
@@ -63,7 +70,7 @@ export default function Home() {
               justifyContent: 'center',
               backgroundColor: globalColors.white,
               borderRadius: '30px',
-              paddingY: 5,
+              py: 5,
               boxShadow: 4,
             }}
           >

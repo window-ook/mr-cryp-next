@@ -1,3 +1,5 @@
+import { theme, NGTypo } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import {
   Box,
   Accordion,
@@ -5,9 +7,33 @@ import {
   AccordionDetails,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { theme, NGTypo } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
 
+function HoldingRatio({ percentage }) {
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <NGTypo>보유비중</NGTypo>
+      <NGTypo fontWeight={'bold'}>{percentage.toFixed(2)}%</NGTypo>
+    </Box>
+  );
+}
+
+function HoldingAmount({ balance, currency, price }) {
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <NGTypo>보유수량(평가금액)</NGTypo>
+      <NGTypo fontWeight={'bold'}>
+        {balance && currency ? `${balance} ${currency}` : null}
+      </NGTypo>
+      <NGTypo fontWeight={'bold'}>
+        {parseFloat(parseFloat(price) * balance).toLocaleString()} KRW
+      </NGTypo>
+    </Box>
+  );
+}
+
+/** 계좌 현황 상세 리스트
+  @prop balance : 계좌 데이터
+ */
 export default function AccountDetail({ balance }) {
   const totalBalance = balance.reduce(
     (sum, item) => sum + parseFloat(item.balance) * item.avg_buy_price,
@@ -55,25 +81,15 @@ export default function AccountDetail({ balance }) {
                       justifyContent: 'space-around',
                     }}
                   >
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <NGTypo>보유비중</NGTypo>
-                      <NGTypo fontWeight={'bold'}>
-                        {(
-                          (parseFloat(item.balance) / totalBalance) *
-                          100
-                        ).toFixed(2)}
-                        %
-                      </NGTypo>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <NGTypo>보유수량(평가금액)</NGTypo>
-                      <NGTypo fontWeight={'bold'}>
-                        {parseFloat(
-                          parseFloat(item.balance).toFixed(4),
-                        ).toLocaleString()}{' '}
-                        KRW
-                      </NGTypo>
-                    </Box>
+                    <HoldingRatio
+                      percentage={
+                        (parseFloat(item.balance) / totalBalance) * 100
+                      }
+                    />
+                    <HoldingAmount
+                      balance={item.balance}
+                      price={item.avg_buy_price}
+                    />
                   </Box>
                 </AccordionDetails>
               </Accordion>
@@ -114,29 +130,18 @@ export default function AccountDetail({ balance }) {
                       justifyContent: 'space-around',
                     }}
                   >
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <NGTypo>보유비중</NGTypo>
-                      <NGTypo fontWeight={'bold'}>
-                        {(
-                          ((parseFloat(item.avg_buy_price) * item.balance) /
-                            totalBalance) *
-                          100
-                        ).toFixed(2)}
-                        %
-                      </NGTypo>
-                    </Box>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <NGTypo>보유수량(평가금액)</NGTypo>
-                      <NGTypo fontWeight={'bold'}>
-                        {item.balance} {item.currency}
-                      </NGTypo>
-                      <NGTypo fontWeight={'bold'}>
-                        {parseFloat(
-                          parseFloat(item.avg_buy_price) * item.balance,
-                        ).toLocaleString()}{' '}
-                        KRW
-                      </NGTypo>
-                    </Box>
+                    <HoldingRatio
+                      percentage={
+                        ((parseFloat(item.avg_buy_price) * item.balance) /
+                          totalBalance) *
+                        100
+                      }
+                    />
+                    <HoldingAmount
+                      balance={item.balance}
+                      currency={item.currency}
+                      price={item.avg_buy_price}
+                    />
                   </Box>
                 </AccordionDetails>
               </Accordion>
