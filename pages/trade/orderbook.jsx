@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { useFetchMarketCode, useWsOrderbook } from 'use-upbit-api';
-import MarketCodeSelector from '../../components/Trade/MarketCodeSelector';
+import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import {
   Box,
   Button,
@@ -13,13 +13,8 @@ import {
   TableRow,
   LinearProgress,
 } from '@mui/material';
-import { globalColors } from '../../globalColors';
-import {
-  DescriptionTypo,
-  NGTypo,
-  PriceTypo,
-  SubTitle,
-} from '../../defaultTheme';
+import { globalColors } from '@/globalColors';
+import { DescriptionTypo, NGTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 
 const OrderTable = memo(function OrderTable({ targetMarketCode }) {
   const webSocketOptions = { throttle_time: 1000, max_length_queue: 100 };

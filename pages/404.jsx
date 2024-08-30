@@ -1,7 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
 import { Box } from '@mui/material';
 import { DescriptionTypo, NGTypo } from '@/defaultTheme';
+import React from 'react';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (

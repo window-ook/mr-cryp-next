@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { DescriptionTypo } from '../../defaultTheme';
+import { DescriptionTypo } from '@/defaultTheme';
 
 export default function Trade() {
   return (

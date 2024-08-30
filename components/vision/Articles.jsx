@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { DescriptionTypo, NGTypo, SubTitle } from '@/defaultTheme';
-import { theme } from '@/defaultTheme';
+import { theme, DescriptionTypo, NGTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
   Card,
