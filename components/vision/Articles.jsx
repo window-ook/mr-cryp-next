@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { theme, DescriptionTypo, NGTypo, SubTitle } from '@/defaultTheme';
@@ -15,6 +14,7 @@ import {
   Tooltip,
   LinearProgress,
 } from '@mui/material';
+import axios from 'axios';
 import ArticleIcon from '@mui/icons-material/Article';
 import LinkIcon from '@mui/icons-material/Link';
 import IosShareIcon from '@mui/icons-material/IosShare';
@@ -22,30 +22,30 @@ import IosShareIcon from '@mui/icons-material/IosShare';
 const cardStyle = {
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   height: '100%',
-  mt: 3,
+  transform: 'translateY(12px)',
   backgroundColor: globalColors.vanilla['200'],
 };
 
-export default function Articles() {
+export default function Articles({ initialArticles }) {
   const [open, setOpen] = useState(false);
   const {
-    isPending,
-    data: articles,
+    data: articles = initialArticles,
     error,
+    isFetching,
   } = useQuery({
     queryKey: ['articles'],
     queryFn: async () => {
       const response = await axios.get('/api/naver', {
-        params: { keyword: '비트 코인' },
+        params: { keyword: '비트코인' },
       });
-      console.log('API Response:', response.data);
       return response.data;
     },
     staleTime: 1000 * 60 * 10,
   });
 
-  if (isPending) {
+  if (isFetching) {
     return <LinearProgress color="primary" />;
   }
 
@@ -90,7 +90,11 @@ export default function Articles() {
               <Card key={article.link} sx={cardStyle}>
                 <CardHeader
                   avatar={<ArticleIcon sx={{ fontSize: 30 }} />}
-                  title={<NGTypo fontWeight={'bold'}>{title}</NGTypo>}
+                  title={
+                    <NGTypo fontWeight={'bold'} fontSize={20}>
+                      {title}
+                    </NGTypo>
+                  }
                 />
                 <CardContent
                   sx={{
@@ -105,11 +109,12 @@ export default function Articles() {
                   sx={{
                     width: '100%',
                     alignSelf: 'flex-end',
+                    pt: 0,
                   }}
                 >
                   <Tooltip title="기사로 이동">
                     <IconButton
-                      aria-label="add to favorites"
+                      aria-label="move"
                       onClick={() => window.open(article.link, '_blank')}
                     >
                       <IosShareIcon

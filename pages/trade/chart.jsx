@@ -9,7 +9,7 @@ import OrderbookGrid from '@/components/trade/OrderbookGrid';
 import TradeHistoryGrid from '@/components/trade/TradeHistoryGrid';
 import OrderModal from '@/components/trade/OrderModal';
 
-const DynamicChart = dynamic(() => import('../../components/trade/ChartGrid'), {
+const DynamicChart = dynamic(() => import('@/components/trade/ChartGrid'), {
   ssr: false,
 });
 

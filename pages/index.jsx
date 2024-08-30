@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { loginGoogle } from '@/api/firebase';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+import { loginGoogle } from '@/pages/api/firebase';
 import { Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ButtonKakao from '@/components/ButtonKakao';
 import Image from 'next/image';
+import ButtonKakao from '@/components/ButtonKakao';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';

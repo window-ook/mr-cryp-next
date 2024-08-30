@@ -1,10 +1,10 @@
 import '@/styles/globals.css';
 import Layout from '@/layouts/Layout';
-import { wrapper } from '../redux/store';
-import { useRouter } from 'next/router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { theme } from '@/defaultTheme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { theme } from '@/defaultTheme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { wrapper } from '@/redux/store';
 
 const queryClient = new QueryClient();
 

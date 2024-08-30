@@ -5,7 +5,7 @@ import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import { Box, Divider, LinearProgress } from '@mui/material';
 
-const yAxisStyle = {
+const subColumnStyle = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -50,11 +50,23 @@ const statusTextStyle = {
   alignSelf: 'end',
 };
 
+function SubIndicators({ label, value, valueStyle }) {
+  return (
+    <>
+      <Box sx={boxStyle}>
+        <NGTypo sx={statusTextStyle}>{label}</NGTypo>
+        <PriceTypo sx={valueStyle}>{Number(value).toLocaleString()}</PriceTypo>
+      </Box>
+      <Divider />
+    </>
+  );
+}
+
 /** 실시간 마켓 정보 */
 export default function MarketDetailGrid() {
+  const webSocketOptions = { throttle_time: 1000, debug: false };
   const { isLoading, marketCodes } = useFetchMarketCode();
   const [krwMarketCodes, setKrwMarketCodes] = useState([]);
-  const webSocketOptions = { throttle_time: 1000, debug: false };
   const { socket, isConnected, socketData } = useWsTicker(
     krwMarketCodes,
     null,
@@ -170,59 +182,41 @@ export default function MarketDetailGrid() {
             },
           }}
         >
-          <Box sx={{ yAxisStyle }}>
-            {/* 고가 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>고가</NGTypo>
-              <PriceTypo sx={posStyle}>
-                {Number(data.high_price).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
-            {/* 저가 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>저가</NGTypo>
-              <PriceTypo sx={negStyle}>
-                {Number(data.low_price).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
+          <Box sx={{ subColumnStyle }}>
+            <SubIndicators
+              label="고가"
+              value={data.high_price}
+              valueStyle={posStyle}
+            />
+            <SubIndicators
+              label="저가"
+              value={data.low_price}
+              valueStyle={negStyle}
+            />
           </Box>
-          <Box sx={{ yAxisStyle }}>
-            {/* 52주 신고가 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>52주 신고가</NGTypo>
-              <PriceTypo sx={posStyle}>
-                {Number(data.highest_52_week_price).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
-            {/* 52주 신저가 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>52주 신저가</NGTypo>
-              <PriceTypo sx={negStyle}>
-                {Number(data.lowest_52_week_price).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
+          <Box sx={{ subColumnStyle }}>
+            <SubIndicators
+              label="52주 신고가"
+              value={data.highest_52_week_price}
+              valueStyle={posStyle}
+            />
+            <SubIndicators
+              label="52주 신저가"
+              value={data.lowest_52_week_price}
+              valueStyle={negStyle}
+            />
           </Box>
-          <Box sx={{ yAxisStyle }}>
-            {/* 거래량 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>거래량(24시간)</NGTypo>
-              <PriceTypo sx={normalStyle}>
-                {Number(data.acc_trade_volume_24h).toFixed(3).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
-            {/* 거래대금 */}
-            <Box sx={boxStyle}>
-              <NGTypo sx={statusTextStyle}>거래대금(24시간)</NGTypo>
-              <PriceTypo sx={normalStyle}>
-                {Math.round(Number(data.acc_trade_price_24h)).toLocaleString()}
-              </PriceTypo>
-            </Box>
-            <Divider />
+          <Box sx={{ subColumnStyle }}>
+            <SubIndicators
+              label="거래량(24시간)"
+              value={data.acc_trade_volume_24h}
+              valueStyle={normalStyle}
+            />
+            <SubIndicators
+              label="거래대금(24시간)"
+              value={Math.round(data.acc_trade_price_24h)}
+              valueStyle={normalStyle}
+            />
           </Box>
         </Box>
       </Box>

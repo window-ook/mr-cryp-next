@@ -1,16 +1,17 @@
 import { globalColors } from '@/globalColors';
 import { createTheme, TableCell, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-
-/** 컬러 팔레트, 기본 컴포넌트 세팅
- - 프로젝트 전체 배경색 : skyblue
- - primary : hotpink 
- - secondary : vanilla
-        - light : 300
-        - main : 400
-        - dark : 500
- - contrastText: primary와 secondary의 서로 반대 컬러['300']
- */
+/**
+  * 프로젝트의 테마 설정을 정의하는 객체입니다.
+  @description 컬러 팔레트, 기본 컴포넌트 세팅
+  @example 프로젝트 전체 배경색 : skyblue
+      - primary : hotpink 
+      - secondary : vanilla
+          - light : 300
+          - main : 400
+          - dark : 500
+      - contrastText: primary와 secondary의 서로 반대 컬러['300']
+*/
 export let theme = createTheme({
   palette: {
     primary: {
@@ -95,7 +96,10 @@ export let theme = createTheme({
   },
 });
 
-// 홈 안내 타이포
+/**
+ * 홈 안내 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const InforTypo = styled(Typography)(() => ({
   fontSize: 48,
   fontWeight: 'bold',
@@ -121,7 +125,10 @@ export const InforTypo = styled(Typography)(() => ({
   },
 }));
 
-// 공통 서브 타이틀
+/**
+ * 공통 서브 타이틀 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const SubTitle = styled(Typography)(() => ({
   fontSize: 32,
   fontFamily: 'NEXON Lv1 Gothic OTF',
@@ -135,7 +142,10 @@ export const SubTitle = styled(Typography)(() => ({
   },
 }));
 
-// 공용 디스크립션
+/**
+ * 공통 디스크립션 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const DescriptionTypo = styled(Typography)(() => ({
   fontFamily: 'NEXON Lv1 Gothic OTF',
   color: globalColors.white,
@@ -143,30 +153,45 @@ export const DescriptionTypo = styled(Typography)(() => ({
   fontWeight: 'bold',
 }));
 
-// 공용 넥슨 고딕 타이포
+/**
+ * 공통 넥슨 고딕 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const NGTypo = styled(Typography)(() => ({
   fontFamily: 'NEXON Lv1 Gothic OTF',
 }));
 
-// 공용 금액 타이포그래피
+/**
+ * 공통 금액 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const PriceTypo = styled(Typography)(() => ({
   fontFamily: 'ONE-Mobile-Title',
 }));
 
-// 네비게이션바 타이포그래피
+/**
+ * 네비게이션바 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const NavTypo = styled(Typography)(() => ({
   fontFamily: 'SBAggroB',
   fontWeight: 500,
 }));
 
-// 네비게이션바 로고 타이포그래피
+/**
+ * 네비게이션바 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const LogoTypo = styled(Typography)(() => ({
   fontFamily: 'SBAggroB',
   fontWeight: 'bold',
   fontStyle: 'italic',
 }));
 
-// 주문하기 모달 타이포그래피 : 모바일
+/**
+ * 주문하기 모달 타이포그래피 (모바일용) 스타일을 정의하는 컴포넌트입니다.
+ * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
 export const MobModalTypo = styled(Typography)(() => ({
   fontFamily: 'NEXON Lv1 Gothic OTF',
   '@media (max-width:500px)': {
@@ -174,7 +199,11 @@ export const MobModalTypo = styled(Typography)(() => ({
   },
 }));
 
-// 스티키 테이블 헤드
+/**
+ * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
+ * @param {object} theme - MUI 테마 객체
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
+ */
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   position: 'sticky',

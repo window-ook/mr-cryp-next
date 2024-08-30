@@ -1,7 +1,10 @@
+import { PieChart } from '@mui/x-charts/PieChart';
 import { theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import { PieChart } from '@mui/x-charts/PieChart';
 
+/** 계좌 현황
+  @prop balance : 계좌 데이터
+ */
 export default function AccountBox({ balance }) {
   const palette = [
     theme.palette.primary.main,

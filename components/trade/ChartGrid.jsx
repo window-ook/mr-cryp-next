@@ -50,9 +50,9 @@ const initialOptions = {
           return Highcharts.numberFormat(Number(this.value), 0, '', ',');
         },
       },
-      height: '80%', // 높이
+      height: '80%',
       lineWidth: 2,
-      // 마우스 포인터 위치를 알려주는 십자선
+      // 마우스 포인터 위치를 나타내는 크로스헤어
       crosshair: {
         snap: false,
       },
@@ -92,7 +92,6 @@ const initialOptions = {
           point.close > point.open
             ? globalColors.color_pos
             : globalColors.color_neg;
-
         return `
           <span style="color:${color}">●</span> <b>${point.series.name}</b><br/>
           시간: ${Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', point.x)}<br/>
@@ -117,29 +116,29 @@ export default function ChartGrid() {
   const [candles, setCandles] = useState([]);
   const code = useSelector(state => state.chart.code);
   const fetchCandles = useCallback(
-    throttle(async (type, count) => {
+    async type => {
       let fetchedCandles;
       try {
-        const response = await axios.get('/api/upbit', {
+        const response = await axios.get('/api/candles', {
           params: {
             type,
             unit: type.replace('min', ''),
             ticker: code,
-            count,
+            count: 200,
           },
         });
         fetchedCandles = response.data;
       } catch (error) {
-        console.error('API 호출 중 에러:', error);
+        console.error('캔들 다운로드 중 에러 발생 :', error);
         return;
       }
       setCandles(fetchedCandles);
-    }, 2000),
+    },
     [code],
   );
 
   useEffect(() => {
-    fetchCandles('1min', 200);
+    fetchCandles('1min');
   }, [fetchCandles]);
 
   const rangeSelector = useMemo(
@@ -150,31 +149,31 @@ export default function ChartGrid() {
         {
           text: '1분봉',
           events: {
-            click: () => fetchCandles('1min', 200),
+            click: () => fetchCandles('1min'),
           },
         },
         {
           text: '5분봉',
           events: {
-            click: () => fetchCandles('5min', 200),
+            click: () => fetchCandles('5min'),
           },
         },
         {
           text: '일봉',
           events: {
-            click: () => fetchCandles('days', 200),
+            click: () => fetchCandles('days'),
           },
         },
         {
           text: '주봉',
           events: {
-            click: () => fetchCandles('weeks', 200),
+            click: () => fetchCandles('weeks'),
           },
         },
         {
           text: '월봉',
           events: {
-            click: () => fetchCandles('months', 200),
+            click: () => fetchCandles('months'),
           },
         },
       ],
