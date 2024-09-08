@@ -1,13 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setOpen } from '@/redux/store';
 import { Box, Grid, Button } from '@mui/material';
 import { DescriptionTypo, theme } from '@/defaultTheme';
+import axios from 'axios';
+import dynamic from 'next/dynamic';
 import MarketListGrid from '@/components/trade/MarketListGrid';
 import MarketDetailGrid from '@/components/trade/MarketDetailGrid';
-import OrderbookGrid from '@/components/trade/OrderbookGrid';
-import TradeHistoryGrid from '@/components/trade/TradeHistoryGrid';
 import OrderModal from '@/components/trade/OrderModal';
-import dynamic from 'next/dynamic';
+import TradeHistoryGrid from '@/components/trade/TradeHistoryGrid';
+import OrderbookGrid from '@/components/trade/OrderbookGrid';
 
 const DynamicChart = dynamic(() => import('@/components/trade/ChartGrid'), {
   ssr: false,
@@ -21,10 +23,43 @@ function ChartGrid() {
   );
 }
 
-export default function Chart() {
+export async function getServerSideProps() {
+  let marketCodes = [];
+
+  // 마켓 코드 (REST API)
+  try {
+    const response = await axios.get('http://localhost:3000/api/marketCodes');
+    marketCodes = response.data.marketCodes;
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {
+    props: {
+      initialMarketCodes: marketCodes,
+    },
+  };
+}
+
+export default function Chart({ initialMarketCodes }) {
   const dispatch = useDispatch();
-  const handleOpen = () => dispatch(setOpen(true));
-  const handleClose = () => dispatch(setOpen(false));
+  const handleOpen = () => dispatch(setOpen(true)); // 모달 open
+  const handleClose = () => dispatch(setOpen(false)); // 모달 close
+  const code = useSelector(state => state.chart.code);
+  const [orderbookData, setOrderbookData] = useState(null);
+
+  useEffect(() => {
+    if (code) {
+      axios
+        .get(`http://localhost:3001/api/orderbook/${code}`)
+        .then(response => {
+          setOrderbookData(response.data);
+        })
+        .catch(error => {
+          console.error('웹소켓 오더북 데이터 호출 중 에러: ', error);
+        });
+    }
+  }, [code, orderbookData]);
 
   return (
     <Box>
@@ -68,7 +103,10 @@ export default function Chart() {
               <TradeHistoryGrid />
             </Grid>
             <Grid item xs={12} md={5}>
-              <OrderbookGrid />
+              <OrderbookGrid
+                marketCodes={initialMarketCodes}
+                orderbookData={orderbookData}
+              />
             </Grid>
           </Grid>
         </Grid>

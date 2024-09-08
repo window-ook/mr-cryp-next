@@ -1,5 +1,4 @@
 import { memo, useEffect, useCallback, useState } from 'react';
-import { useFetchMarketCode, useWsOrderbook } from 'use-upbit-api';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -27,15 +26,9 @@ const cellStyle = {
   align: 'center',
 };
 
-const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
+const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   const rate = useSelector(state => state.chart.rate);
   const prevPrice = useSelector(state => state.chart.prevPrice);
-  const webSocketOptions = { throttle_time: 1000, max_length_queue: 100 };
-  const { socket, isConnected, socketData } = useWsOrderbook(
-    targetMarketCode,
-    null,
-    webSocketOptions,
-  );
   const [numColor, setNumColor] = useState(
     rate === 0
       ? 'black'
@@ -43,21 +36,16 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
         ? globalColors.color_pos['400']
         : globalColors.color_neg['400'],
   );
-  const [bidMaxSize, setBidMaxSize] = useState();
-  const [askMaxSize, setAskMaxSize] = useState();
-  const getMaxSize = useCallback(socketData => {
-    if (!socketData || !socketData.orderbook_units) {
+  const [bidMaxSize, setBidMaxSize] = useState(0);
+  const [askMaxSize, setAskMaxSize] = useState(0);
+
+  const getMaxSize = useCallback(data => {
+    if (!data || !data.orderbook_units) {
       return [0, 0];
     }
-    const askSizes = [];
-    const bidSizes = [];
-    socketData.orderbook_units.map(element => {
-      askSizes.push(element.ask_size);
-      bidSizes.push(element.bid_size);
-    });
-    const maxAskSize = Math.max(...askSizes);
-    const maxBidSize = Math.max(...bidSizes);
-    return [maxAskSize, maxBidSize];
+    const askSizes = data.orderbook_units.map(unit => unit.ask_size);
+    const bidSizes = data.orderbook_units.map(unit => unit.bid_size);
+    return [Math.max(...askSizes), Math.max(...bidSizes)];
   }, []);
 
   useEffect(() => {
@@ -71,14 +59,18 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
   }, [rate]);
 
   useEffect(() => {
-    const [maxAskSize, maxBidSize] = getMaxSize(socketData);
+    const [maxAskSize, maxBidSize] = getMaxSize(orderbookData);
     setAskMaxSize(maxAskSize);
     setBidMaxSize(maxBidSize);
-  }, [socketData]);
+  }, [getMaxSize, orderbookData]);
+
+  if (!orderbookData) {
+    return <LinearProgress color="primary" />;
+  }
 
   return (
     <>
-      {socketData && (
+      {orderbookData.orderbook_units && (
         <TableContainer
           sx={{
             height: 400,
@@ -109,7 +101,7 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
             </TableHead>
             <TableBody>
               {/* 매도 물량 */}
-              {[...socketData.orderbook_units]
+              {[...orderbookData.orderbook_units]
                 .reverse()
                 .map((element, index) => (
                   <TableRow key={`ask_${index}`}>
@@ -152,7 +144,7 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
                           fontSize={12}
                           fontWeight={'bold'}
                         >
-                          {element.ask_price.toLocaleString()}
+                          {Number(element.ask_price).toLocaleString()}
                         </PriceTypo>
                         <PriceTypo fontSize={12} color={numColor}>
                           {Number(rate) > 0 ? '+' : ''}
@@ -169,7 +161,7 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
                   </TableRow>
                 ))}
               {/* 매수 물량 */}
-              {[...socketData.orderbook_units].map((element, index) => (
+              {[...orderbookData.orderbook_units].map((element, index) => (
                 <TableRow key={`bid_${index}`}>
                   <TableCell sx={{ padding: 1 }}></TableCell>
                   <TableCell sx={{ padding: 1 }} align="center">
@@ -179,7 +171,7 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
                         fontSize={12}
                         fontWeight={'bold'}
                       >
-                        {element.bid_price.toLocaleString()}
+                        {Number(element.bid_price).toLocaleString()}
                       </PriceTypo>
                       <PriceTypo fontSize={12} color={numColor}>
                         {Number(rate) > 0 ? '+' : ''}
@@ -233,31 +225,18 @@ const OrderBookTable = memo(function OrderTable({ targetMarketCode }) {
   );
 });
 
-function OrderBookGrid() {
-  const { isLoading, marketCodes } = useFetchMarketCode();
-  const [targetMarketCode, setTargetMarketCode] = useState();
-  const code = useSelector(state => state.chart.code);
+function OrderbookGrid({ orderbookData }) {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (marketCodes) {
-      const targetCode = marketCodes.find(
-        marketCode => marketCode.market === code,
-      );
-      setTargetMarketCode(
-        targetCode || {
-          market: 'KRW-BTC',
-          korean_name: '비트코인',
-          english_name: 'Bitcoin',
-        },
-      );
-    }
-  }, [code, marketCodes]);
+    setIsLoading(false);
+  }, []);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
   }
 
-  return <OrderBookTable targetMarketCode={targetMarketCode} />;
+  return <OrderbookTable orderbookData={orderbookData} />;
 }
 
-export default memo(OrderBookGrid);
+export default memo(OrderbookGrid);

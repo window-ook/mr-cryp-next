@@ -8,7 +8,6 @@ const initialState = {
   open: false,
 };
 
-// 차트 페이지
 const chartSlice = createSlice({
   name: 'chartSlice',
   initialState,

@@ -27,7 +27,7 @@ function VideoCard({ initialVideos }) {
   } = useQuery({
     queryKey: ['videos'],
     queryFn: async () => {
-      const response = await axios.get('/api/youtube', {
+      const response = await axios.get('/api/videos', {
         params: { keyword: '코인 추천' },
       });
       return response.data;
