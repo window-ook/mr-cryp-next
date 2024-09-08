@@ -1,7 +1,9 @@
 import axios from 'axios';
 import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
-import { useFetchMarketCode, useWsOrderbook } from 'use-upbit-api';
+import { throttle } from 'lodash';
+import { globalColors } from '@/globalColors';
+import { DescriptionTypo, NGTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
   Box,
   Button,
@@ -14,35 +16,40 @@ import {
   TableRow,
   LinearProgress,
 } from '@mui/material';
-import { globalColors } from '@/globalColors';
-import { DescriptionTypo, NGTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 
-const OrderTable = memo(function OrderTable({ targetMarketCode }) {
-  const webSocketOptions = { throttle_time: 1000, max_length_queue: 100 };
-  const { socket, isConnected, socketData } = useWsOrderbook(
-    ...targetMarketCode,
-    null,
-    webSocketOptions,
-  );
+export async function getServerSideProps() {
+  let marketCodes = [];
 
-  const connectButtonHandler = () => {
-    if (isConnected && socket) {
-      socket.close();
-      console.log('연결 종료');
-    }
+  try {
+    const response = await axios.get('http://localhost:3000/api/marketCodes');
+    marketCodes = response.data.marketCodes.slice(0, 200);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {
+    props: {
+      marketCodes,
+    },
   };
+}
 
+const OrderTable = memo(function OrderTable({
+  orderbookData,
+  isConnected,
+  handleDisconnect,
+}) {
   return (
     <>
       <Box display="flex" alignItems="center" gap={4}>
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-        <Button onClick={connectButtonHandler}>
+        <Button onClick={handleDisconnect}>
           <DescriptionTypo>연결종료</DescriptionTypo>
         </Button>
       </Box>
-      {socketData ? (
+      {orderbookData && isConnected ? (
         <TableContainer
           component={Paper}
           sx={{
@@ -59,10 +66,13 @@ const OrderTable = memo(function OrderTable({ targetMarketCode }) {
           >
             <Box sx={{ display: 'flex' }}>
               <NGTypo>마켓 티커 </NGTypo>
-              <NGTypo fontWeight={'bold'}> : {socketData.code}</NGTypo>
+              <NGTypo fontWeight={'bold'}>
+                {' '}
+                : {orderbookData.targetMarketCode}
+              </NGTypo>
             </Box>
-            <NGTypo>총 매도 물량 : {socketData.total_ask_size}</NGTypo>
-            <NGTypo>총 매수 물량 : {socketData.total_bid_size}</NGTypo>
+            <NGTypo>총 매도 물량 : {orderbookData.total_ask_size}</NGTypo>
+            <NGTypo>총 매수 물량 : {orderbookData.total_bid_size}</NGTypo>
           </Box>
           <Table display="flex">
             <TableHead>
@@ -79,29 +89,29 @@ const OrderTable = memo(function OrderTable({ targetMarketCode }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...socketData.orderbook_units]
+              {[...orderbookData.orderbook_units]
                 .reverse()
                 .map((element, index) => (
-                  <TableRow key={`ask_${index}`}>
+                  <TableRow key={`${element.ask_price}${index}`}>
                     <TableCell sx={{ backgroundColor: 'skyblue' }}>
                       <PriceTypo fontSize={12} align="right">
-                        {element.ask_size}
+                        {Number(element.ask_size)}
                       </PriceTypo>
                     </TableCell>
                     <TableCell>
                       <PriceTypo align="center" fontSize={12}>
-                        {element.ask_price.toLocaleString()}
+                        {Number(element.ask_price).toLocaleString()}
                       </PriceTypo>
                     </TableCell>
                     <TableCell>-</TableCell>
                   </TableRow>
                 ))}
-              {[...socketData.orderbook_units].map((element, index) => (
-                <TableRow key={`bid_${index}`}>
+              {[...orderbookData.orderbook_units].map((element, index) => (
+                <TableRow key={`${element.bid_price}${index}`}>
                   <TableCell>-</TableCell>
                   <TableCell>
                     <PriceTypo align="center" fontSize={12}>
-                      {element.bid_price.toLocaleString()}
+                      {Number(element.bid_price).toLocaleString()}
                     </PriceTypo>
                   </TableCell>
                   <TableCell
@@ -121,25 +131,43 @@ const OrderTable = memo(function OrderTable({ targetMarketCode }) {
   );
 });
 
-function Orderbook() {
-  const { isLoading, marketCodes } = useFetchMarketCode();
-  const [curMarketCode, setCurMarketCode] = useState(
-    marketCodes && marketCodes.length > 0 ? marketCodes[0].market : '',
+function Orderbook({ marketCodes }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
+  const [orderbookData, setOrderbookData] = useState([]);
+  const [currentCode, setCurrentCode] = useState(
+    marketCodes.length > 0 ? marketCodes[0].market : 'KRW-BTC',
   );
-  const [targetMarketCode, setTargetMarketCode] = useState([
-    {
-      market: 'KRW-BTC',
-      korean_name: '비트코인',
-      english_name: 'Bitcoin',
-    },
-  ]);
+  const [wsInstance, setWsInstance] = useState(null);
 
   useEffect(() => {
-    if (marketCodes) {
-      const target = marketCodes.filter(code => code.market === curMarketCode);
-      setTargetMarketCode(target);
+    if (currentCode) {
+      const ws = new WebSocket(
+        `ws://localhost:3001/api/orderbook/${currentCode}`,
+      );
+
+      ws.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        console.log('실시간 오더북: ', data);
+        setOrderbookData(data);
+        setIsLoading(false);
+        setIsConnected(true);
+      }, 2000);
+
+      setWsInstance(ws);
+
+      return () => {
+        ws.close();
+      };
     }
-  }, [curMarketCode, marketCodes]);
+  }, [currentCode]);
+
+  const handleDisconnect = () => {
+    if (wsInstance) {
+      wsInstance.close();
+      setIsConnected(false);
+    }
+  };
 
   return (
     <Box
@@ -151,12 +179,16 @@ function Orderbook() {
     >
       <SubTitle>실시간 오더북</SubTitle>
       <MarketCodeSelector
-        curMarketCode={curMarketCode}
-        setCurMarketCode={setCurMarketCode}
+        currentCode={currentCode}
+        setCurrentCode={setCurrentCode}
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <OrderTable targetMarketCode={targetMarketCode} />
+      <OrderTable
+        orderbookData={orderbookData}
+        isConnected={isConnected}
+        handleDisconnect={handleDisconnect}
+      />
     </Box>
   );
 }

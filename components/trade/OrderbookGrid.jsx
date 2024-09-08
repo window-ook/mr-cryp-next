@@ -229,8 +229,8 @@ function OrderbookGrid({ orderbookData }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
+    if (orderbookData) setIsLoading(false);
+  }, [orderbookData]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
@@ -238,5 +238,4 @@ function OrderbookGrid({ orderbookData }) {
 
   return <OrderbookTable orderbookData={orderbookData} />;
 }
-
 export default memo(OrderbookGrid);
