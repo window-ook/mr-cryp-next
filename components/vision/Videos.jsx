@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { SubTitle, DescriptionTypo, NGTypo } from '@/defaultTheme';
 import { Grid, Box, Skeleton, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { SubTitle, DescriptionTypo, NGTypo } from '@/defaultTheme';
 
 function IFrame({ src, title }) {
   return (
