@@ -37,7 +37,7 @@ export default function Articles({ initialArticles }) {
   } = useQuery({
     queryKey: ['articles'],
     queryFn: async () => {
-      const response = await axios.get('/api/naver', {
+      const response = await axios.get('/api/articles', {
         params: { keyword: '비트코인' },
       });
       return response.data;

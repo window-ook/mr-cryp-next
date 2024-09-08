@@ -82,7 +82,11 @@ export default function User({ open, handleClose }) {
               },
             }}
           >
-            {socialType === 'Google' ? '구글 계정' : '카카오 계정'}
+            {socialType === 'Google'
+              ? '구글 계정'
+              : socialType === 'Kakao'
+                ? '카카오 계정'
+                : '로그인을 해주세요'}
           </NGTypo>
         </Box>
       </Box>

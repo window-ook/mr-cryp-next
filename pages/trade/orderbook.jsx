@@ -1,6 +1,7 @@
+import axios from 'axios';
+import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
 import { useFetchMarketCode, useWsOrderbook } from 'use-upbit-api';
-import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import {
   Box,
   Button,
@@ -24,9 +25,10 @@ const OrderTable = memo(function OrderTable({ targetMarketCode }) {
     webSocketOptions,
   );
 
-  const connectButtonHandler = event => {
+  const connectButtonHandler = () => {
     if (isConnected && socket) {
       socket.close();
+      console.log('연결 종료');
     }
   };
 
@@ -119,7 +121,7 @@ const OrderTable = memo(function OrderTable({ targetMarketCode }) {
   );
 });
 
-function OrderBook() {
+function Orderbook() {
   const { isLoading, marketCodes } = useFetchMarketCode();
   const [curMarketCode, setCurMarketCode] = useState(
     marketCodes && marketCodes.length > 0 ? marketCodes[0].market : '',
@@ -158,5 +160,4 @@ function OrderBook() {
     </Box>
   );
 }
-
-export default memo(OrderBook);
+export default memo(Orderbook);
