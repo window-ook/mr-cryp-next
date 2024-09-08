@@ -1,6 +1,8 @@
-import { memo, useEffect, useState } from 'react';
-import { useFetchMarketCode, useWsTrade } from 'use-upbit-api';
+import axios from 'axios';
 import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
+import { memo, useEffect, useState } from 'react';
+import { throttle } from 'lodash';
+import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
   Button,
   TableContainer,
@@ -13,7 +15,6 @@ import {
   Box,
   LinearProgress,
 } from '@mui/material';
-import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 
 const headStyle = {
   fontSize: 20,
@@ -22,27 +23,35 @@ const headStyle = {
   },
 };
 
-const TradeTable = memo(function TradeTable({ targetMarketCode }) {
-  const webSocketOptions = { throttle_time: 1000, max_length_queue: 100 };
-  const { socket, isConnected, socketData } = useWsTrade(
-    ...targetMarketCode,
-    null,
-    webSocketOptions,
-  );
+export async function getServerSideProps() {
+  let marketCodes = [];
 
-  const connectButtonHandler = event => {
-    if (isConnected && socket) {
-      socket.close();
-    }
+  try {
+    const response = await axios.get('http://localhost:3000/api/marketCodes');
+    marketCodes = response.data.marketCodes.slice(0, 200);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {
+    props: {
+      marketCodes,
+    },
   };
+}
 
+const TradeTable = memo(function TradeTable({
+  isConnected,
+  tradeData,
+  handleDisconnect,
+}) {
   return (
     <>
       <Box display="flex" alignItems="center" gap={4}>
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-        <Button onClick={connectButtonHandler}>
+        <Button onClick={handleDisconnect}>
           <DescriptionTypo>연결종료</DescriptionTypo>
         </Button>
       </Box>
@@ -50,7 +59,7 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
         component={Paper}
         sx={{ maxWidth: 1000, marginTop: '1rem' }}
       >
-        {socketData ? (
+        {tradeData && isConnected ? (
           <Table>
             <TableHead>
               <TableRow>
@@ -72,21 +81,26 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...socketData].reverse().map((ele, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center">{ele.code}</TableCell>
-                  <TableCell align="center">{ele.sequential_id}</TableCell>
-                  <TableCell align="center">
-                    {ele.trade_date} {ele.trade_time}
-                  </TableCell>
-                  <TableCell align="center">{ele.ask_bid}</TableCell>
-                  <TableCell align="center">
-                    <PriceTypo fontSize={11}>
-                      {ele.prev_closing_price.toLocaleString()}
-                    </PriceTypo>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {tradeData
+                .slice()
+                .reverse()
+                .map(element => (
+                  <TableRow key={`${element.sequential_id}`}>
+                    <TableCell align="center">{element.code}</TableCell>
+                    <TableCell align="center">
+                      {Number(element.sequential_id)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {element.trade_date} {element.trade_time}
+                    </TableCell>
+                    <TableCell align="center">{element.ask_bid}</TableCell>
+                    <TableCell align="center">
+                      <PriceTypo fontSize={11}>
+                        {Number(element.prev_closing_price).toLocaleString()}
+                      </PriceTypo>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         ) : (
@@ -97,25 +111,41 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
   );
 });
 
-function TradeHistory() {
-  const { isLoading, marketCodes } = useFetchMarketCode();
-  const [curMarketCode, setCurMarketCode] = useState(
-    marketCodes && marketCodes.length > 0 ? marketCodes[0].market : '',
+function TradeHistory({ marketCodes }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
+  const [tradeData, setTradeData] = useState([]);
+  const [currentCode, setCurrentCode] = useState(
+    marketCodes.length > 0 ? marketCodes[0].market : 'KRW-BTC',
   );
-  const [targetMarketCode, setTargetMarketCode] = useState([
-    {
-      market: 'KRW-BTC',
-      korean_name: '비트코인',
-      english_name: 'Bitcoin',
-    },
-  ]);
+  const [wsInstance, setWsInstance] = useState(null);
 
   useEffect(() => {
-    if (marketCodes) {
-      const target = marketCodes.filter(code => code.market === curMarketCode);
-      setTargetMarketCode(target);
+    if (currentCode) {
+      const ws = new WebSocket(`ws://localhost:3001/api/trade/${currentCode}`);
+
+      ws.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        console.log('Received trade data:', data);
+        setTradeData(prev => [...prev, data]);
+        setIsLoading(false);
+        setIsConnected(true);
+      }, 1000);
+
+      setWsInstance(ws);
+
+      return () => {
+        ws.close();
+      };
     }
-  }, [curMarketCode, marketCodes]);
+  }, [currentCode]);
+
+  const handleDisconnect = () => {
+    if (wsInstance) {
+      wsInstance.close();
+      setIsConnected(false);
+    }
+  };
 
   return (
     <Box
@@ -127,14 +157,17 @@ function TradeHistory() {
     >
       <SubTitle>실시간 거래내역</SubTitle>
       <MarketCodeSelector
-        curMarketCode={curMarketCode}
-        setCurMarketCode={setCurMarketCode}
+        currentCode={currentCode}
+        setCurrentCode={setCurrentCode}
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <TradeTable targetMarketCode={targetMarketCode} />
+      <TradeTable
+        tradeData={tradeData}
+        isConnected={isConnected}
+        handleDisconnect={handleDisconnect}
+      />
     </Box>
   );
 }
-
 export default memo(TradeHistory);

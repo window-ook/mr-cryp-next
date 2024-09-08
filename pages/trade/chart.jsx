@@ -26,7 +26,6 @@ function ChartGrid() {
 export async function getServerSideProps() {
   let marketCodes = [];
 
-  // 마켓 코드 (REST API)
   try {
     const response = await axios.get('http://localhost:3000/api/marketCodes');
     marketCodes = response.data.marketCodes;
@@ -41,7 +40,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Chart({ initialMarketCodes }) {
+export default function Chart() {
   const dispatch = useDispatch();
   const handleOpen = () => dispatch(setOpen(true)); // 모달 open
   const handleClose = () => dispatch(setOpen(false)); // 모달 close
@@ -103,10 +102,7 @@ export default function Chart({ initialMarketCodes }) {
               <TradeHistoryGrid />
             </Grid>
             <Grid item xs={12} md={5}>
-              <OrderbookGrid
-                marketCodes={initialMarketCodes}
-                orderbookData={orderbookData}
-              />
+              <OrderbookGrid orderbookData={orderbookData} />
             </Grid>
           </Grid>
         </Grid>
