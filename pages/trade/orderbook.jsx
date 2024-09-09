@@ -148,7 +148,6 @@ function Orderbook({ marketCodes }) {
 
       ws.onmessage = throttle(event => {
         const data = JSON.parse(event.data);
-        console.log('실시간 오더북: ', data);
         setOrderbookData(data);
         setIsLoading(false);
         setIsConnected(true);

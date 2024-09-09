@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpen } from '@/redux/store';
+import { throttle } from 'lodash';
 import { Box, Grid, Button } from '@mui/material';
 import { DescriptionTypo, theme } from '@/defaultTheme';
 import axios from 'axios';
@@ -35,30 +36,37 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      initialMarketCodes: marketCodes,
+      marketCodes,
     },
   };
 }
 
-export default function Chart() {
+export default function Chart({ marketCodes }) {
   const dispatch = useDispatch();
   const handleOpen = () => dispatch(setOpen(true)); // 모달 open
   const handleClose = () => dispatch(setOpen(false)); // 모달 close
   const code = useSelector(state => state.chart.code);
-  const [orderbookData, setOrderbookData] = useState(null);
+  const [orderbookData, setOrderbookData] = useState([]);
+  const [tradeData, setTradeData] = useState([]);
 
   useEffect(() => {
     if (code) {
-      axios
-        .get(`http://localhost:3001/api/orderbook/${code}`)
-        .then(response => {
-          setOrderbookData(response.data);
-        })
-        .catch(error => {
-          console.error('웹소켓 오더북 데이터 호출 중 에러: ', error);
-        });
+      const wsOrderbook = new WebSocket(
+        `ws://localhost:3001/api/orderbook/${code}`,
+      );
+      const wsTrade = new WebSocket(`ws://localhost:3001/api/trade/${code}`);
+
+      wsOrderbook.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        setOrderbookData(data);
+      }, 2000);
+
+      wsTrade.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        setTradeData(prev => [...prev, data]);
+      }, 2000);
     }
-  }, [code, orderbookData]);
+  }, [code]);
 
   return (
     <Box>
@@ -79,10 +87,10 @@ export default function Chart() {
         margin="auto"
       >
         <Grid item xs={12} md={3}>
-          <MarketListGrid />
+          <MarketListGrid marketCodes={marketCodes} />
         </Grid>
         <Grid item xs={12} md={9}>
-          <MarketDetailGrid />
+          <MarketDetailGrid marketCodes={marketCodes} />
           <Box sx={{ position: 'relative' }}>
             <ChartGrid />
             <Button
@@ -99,7 +107,7 @@ export default function Chart() {
           </Box>
           <Grid container spacing={0} padding="0">
             <Grid item xs={12} md={7}>
-              <TradeHistoryGrid />
+              <TradeHistoryGrid tradeData={tradeData} />
             </Grid>
             <Grid item xs={12} md={5}>
               <OrderbookGrid orderbookData={orderbookData} />
