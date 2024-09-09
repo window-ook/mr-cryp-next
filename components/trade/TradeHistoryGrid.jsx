@@ -1,6 +1,4 @@
 import { memo, useEffect, useState } from 'react';
-import { useFetchMarketCode, useWsTrade } from 'use-upbit-api';
-import { useSelector } from 'react-redux';
 import {
   TableContainer,
   Table,
@@ -8,7 +6,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Box,
   LinearProgress,
 } from '@mui/material';
 import {
@@ -19,16 +16,7 @@ import {
 } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 
-/** 실시간 거래내역 테이블 UI
- * - timestampToTime : 타임스탬프 값을 KST 시간으로 변환
- */
-const TradeTable = memo(function TradeTable({ targetMarketCode }) {
-  const webSocketOptions = { throttle_time: 1000, max_length_queue: 100 };
-  const { socket, isConnected, socketData } = useWsTrade(
-    targetMarketCode,
-    null,
-    webSocketOptions,
-  );
+const TradeTable = memo(function TradeTable({ tradeData }) {
   const timestampToTime = timestamp => {
     const time = new Date(timestamp);
     const timeStr = time.toLocaleTimeString();
@@ -44,7 +32,7 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
         backgroundColor: globalColors.white,
       }}
     >
-      {socketData && (
+      {tradeData && (
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -63,9 +51,11 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {socketData ? (
-              [...socketData].reverse().map((data, index) => (
-                <TableRow key={index}>
+            {tradeData
+              .slice()
+              .reverse()
+              .map(data => (
+                <TableRow key={`${data.sequential_id}-${data.trade_timestamp}`}>
                   <TableCell align="center">
                     <NGTypo fontSize={12}>
                       {timestampToTime(data.trade_timestamp)}
@@ -104,10 +94,7 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
                     </PriceTypo>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <LinearProgress color="primary" />
-            )}
+              ))}
           </TableBody>
         </Table>
       )}
@@ -115,38 +102,20 @@ const TradeTable = memo(function TradeTable({ targetMarketCode }) {
   );
 });
 
-/** 실시간 거래 내역
- * - targetMarketCode : props로 전달받은 마켓의 티커
- */
-function TradeHistoryGrid() {
-  const { isLoading, marketCodes } = useFetchMarketCode();
-  const [targetMarketCode, setTargetMarketCode] = useState();
-  const code = useSelector(state => state.chart.code);
+function TradeHistoryGrid({ tradeData }) {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (marketCodes) {
-      const targetCode = marketCodes.find(
-        marketCode => marketCode.market === code,
-      );
-      setTargetMarketCode(
-        targetCode || {
-          market: 'KRW-BTC',
-          korean_name: '비트코인',
-          english_name: 'Bitcoin',
-        },
-      );
+    if (tradeData) {
+      setIsLoading(false);
     }
-  }, [code, marketCodes]);
+  }, [tradeData]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
   }
 
-  return (
-    <Box>
-      <TradeTable targetMarketCode={targetMarketCode} />
-    </Box>
-  );
+  return <TradeTable />;
 }
 
 export default memo(TradeHistoryGrid);

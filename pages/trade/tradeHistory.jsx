@@ -84,8 +84,8 @@ const TradeTable = memo(function TradeTable({
               {tradeData
                 .slice()
                 .reverse()
-                .map(element => (
-                  <TableRow key={`${element.sequential_id}`}>
+                .map((element, index) => (
+                  <TableRow key={`${index}${element.trade_time}`}>
                     <TableCell align="center">{element.code}</TableCell>
                     <TableCell align="center">
                       {Number(element.sequential_id)}
@@ -122,21 +122,17 @@ function TradeHistory({ marketCodes }) {
 
   useEffect(() => {
     if (currentCode) {
-      const ws = new WebSocket(`ws://localhost:3001/api/trade/${currentCode}`);
+      setTradeData([]);
 
+      const ws = new WebSocket(`ws://localhost:3001/api/trade/${currentCode}`);
       ws.onmessage = throttle(event => {
         const data = JSON.parse(event.data);
-        console.log('Received trade data:', data);
         setTradeData(prev => [...prev, data]);
         setIsLoading(false);
         setIsConnected(true);
-      }, 1000);
+      }, 2000);
 
       setWsInstance(ws);
-
-      return () => {
-        ws.close();
-      };
     }
   }, [currentCode]);
 

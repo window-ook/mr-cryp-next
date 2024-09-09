@@ -4,7 +4,6 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
 import { globalColors } from '@/globalColors';
 import { Box } from '@mui/material';
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useWsTicker, useFetchMarketCode } from 'use-upbit-api';
 import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import { Box, Divider, LinearProgress } from '@mui/material';
+import { throttle } from 'lodash';
+import { useSelector } from 'react-redux';
 
 const subColumnStyle = {
   display: 'flex',
@@ -64,45 +64,30 @@ function SubIndicators({ label, value, valueStyle }) {
 
 /** 실시간 마켓 정보 */
 export default function MarketDetailGrid() {
-  const webSocketOptions = { throttle_time: 1000, debug: false };
-  const { isLoading, marketCodes } = useFetchMarketCode();
-  const [krwMarketCodes, setKrwMarketCodes] = useState([]);
-  const { socket, isConnected, socketData } = useWsTicker(
-    krwMarketCodes,
-    null,
-    webSocketOptions,
-  );
-  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [tickerData, setTickerData] = useState({});
   const code = useSelector(state => state.chart.code);
 
   useEffect(() => {
-    if (!isLoading && marketCodes) {
-      setKrwMarketCodes(
-        marketCodes.filter(element => element.market.includes('KRW')),
-      );
-    }
-  }, [isLoading, marketCodes]);
+    if (code) {
+      setIsLoading(false);
+      const wsTicker = new WebSocket(`ws://localhost:3001/api/ticker/${code}`);
 
-  useEffect(() => {
-    if (socketData) {
-      const targetData = socketData.find(element => element.code === code);
-      setData(targetData);
+      wsTicker.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        setTickerData(data);
+      }, 2000);
     }
-  }, [code, socketData]);
-
-  const marketCodeMap = {};
-  krwMarketCodes.forEach(item => {
-    marketCodeMap[item.market] = item.korean_name;
-  });
+  }, [code]);
 
   const numColor =
-    data.signed_change_rate === 0
+    tickerData && tickerData.signed_change_rate === 0
       ? 'black'
-      : data.signed_change_rate > 0
+      : tickerData && tickerData.signed_change_rate > 0
         ? globalColors.color_pos['400']
         : globalColors.color_neg['400'];
 
-  if (!data) {
+  if (isLoading) {
     return <LinearProgress color="primary" />;
   }
 
@@ -123,10 +108,10 @@ export default function MarketDetailGrid() {
         alignItems="flex-end"
       >
         <NGTypo fontSize={20} fontWeight={'bold'}>
-          {marketCodeMap[data.code]}
+          {tickerData.code}
         </NGTypo>
         <NGTypo fontSize={15} align="right">
-          {data.code}
+          {tickerData.code}
         </NGTypo>
       </Box>
       <Divider />
@@ -144,7 +129,7 @@ export default function MarketDetailGrid() {
         >
           <Box display="flex" alignItems="flex-end">
             <PriceTypo variant="h5" color={numColor} sx={priceStyle}>
-              {Number(data.trade_price).toLocaleString()}
+              {Number(tickerData.trade_price).toLocaleString()}
             </PriceTypo>
             <NGTypo fontWeight={'bold'} color={numColor}>
               KRW
@@ -159,16 +144,16 @@ export default function MarketDetailGrid() {
               전일대비
             </NGTypo>
             <PriceTypo fontSize={15} color={numColor} sx={priceStyle}>
-              {Number(data.signed_change_rate) > 0 ? '+' : ''}
-              {Number(data.signed_change_rate * 100).toFixed(2)}%
+              {Number(tickerData.signed_change_rate) > 0 ? '+' : ''}
+              {Number(tickerData.signed_change_rate * 100).toFixed(2)}%
             </PriceTypo>
             <PriceTypo fontSize={15} color={numColor} sx={priceStyle}>
-              {Number(data.signed_change_price) < 0
+              {Number(tickerData.signed_change_price) < 0
                 ? '▼'
-                : Number(data.signed_change_price) > 0
+                : Number(tickerData.signed_change_price) > 0
                   ? '▲'
                   : ''}
-              {Number(data.change_price).toLocaleString()}
+              {Number(tickerData.change_price).toLocaleString()}
             </PriceTypo>
           </Box>
         </Box>
@@ -185,36 +170,36 @@ export default function MarketDetailGrid() {
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="고가"
-              value={data.high_price}
+              value={tickerData.high_price}
               valueStyle={posStyle}
             />
             <SubIndicators
               label="저가"
-              value={data.low_price}
+              value={tickerData.low_price}
               valueStyle={negStyle}
             />
           </Box>
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="52주 신고가"
-              value={data.highest_52_week_price}
+              value={tickerData.highest_52_week_price}
               valueStyle={posStyle}
             />
             <SubIndicators
               label="52주 신저가"
-              value={data.lowest_52_week_price}
+              value={tickerData.lowest_52_week_price}
               valueStyle={negStyle}
             />
           </Box>
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="거래량(24시간)"
-              value={data.acc_trade_volume_24h}
+              value={tickerData.acc_trade_volume_24h}
               valueStyle={normalStyle}
             />
             <SubIndicators
               label="거래대금(24시간)"
-              value={Math.round(data.acc_trade_price_24h)}
+              value={Math.round(tickerData.acc_trade_price_24h)}
               valueStyle={normalStyle}
             />
           </Box>
