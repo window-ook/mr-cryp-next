@@ -142,6 +142,7 @@ function Orderbook({ marketCodes }) {
 
   useEffect(() => {
     if (currentCode) {
+      setIsLoading(false);
       const ws = new WebSocket(
         `ws://localhost:3001/api/orderbook/${currentCode}`,
       );
@@ -149,15 +150,12 @@ function Orderbook({ marketCodes }) {
       ws.onmessage = throttle(event => {
         const data = JSON.parse(event.data);
         setOrderbookData(data);
-        setIsLoading(false);
         setIsConnected(true);
       }, 2000);
 
       setWsInstance(ws);
 
-      return () => {
-        ws.close();
-      };
+      return () => ws.close();
     }
   }, [currentCode]);
 

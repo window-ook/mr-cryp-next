@@ -1,7 +1,7 @@
-const WebSocket = require('ws');
-const cors = require('cors');
-const express = require('express');
-const expressWs = require('express-ws');
+import WebSocket from 'ws';
+import cors from 'cors';
+import express from 'express';
+import expressWs from 'express-ws';
 
 const app = express();
 expressWs(app);

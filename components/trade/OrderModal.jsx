@@ -1,5 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import { NGTypo, theme, MobModalTypo } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import {
   Alert,
   Radio,
@@ -20,8 +22,6 @@ import {
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { styled } from '@mui/system';
 import RestoreIcon from '@mui/icons-material/Restore';
-import { NGTypo, theme, MobModalTypo } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
 
 const StyledTab = styled(Tab)({
   fontFamily: 'NEXON Lv1 Gothic OTF',

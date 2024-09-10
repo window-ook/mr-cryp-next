@@ -133,6 +133,8 @@ function TradeHistory({ marketCodes }) {
       }, 2000);
 
       setWsInstance(ws);
+
+      return () => ws.close();
     }
   }, [currentCode]);
 
