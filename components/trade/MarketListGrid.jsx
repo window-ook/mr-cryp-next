@@ -25,9 +25,9 @@ import {
   LinearProgress,
 } from '@mui/material';
 
-const RealTimePriceTable = memo(function RealTimePriceTable({
-  tickers,
+const RealTimePriceTable = function RealTimePriceTable({
   marketCodeMap,
+  tickers,
 }) {
   const dispatch = useDispatch();
 
@@ -68,15 +68,15 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
         </TableHead>
         <TableBody>
           {tickers &&
-            tickers.map(tickerData => (
+            tickers.map(ticker => (
               <TableRow
-                key={tickerData.code}
+                key={`${ticker.acc_trade_price} + ${ticker.signed_change_rate}`}
                 onClick={() => {
                   handleRowClick(
-                    tickerData.code,
-                    tickerData.signed_change_rate,
-                    tickerData.prev_closing_price,
-                    tickerData.trade_price,
+                    ticker.code || ticker.market,
+                    ticker.signed_change_rate,
+                    ticker.prev_closing_price,
+                    ticker.trade_price,
                   );
                 }}
                 sx={{
@@ -92,10 +92,10 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
                     fontWeight={'bold'}
                     sx={{ maxWidth: '5em', overflowWrap: 'break-word' }}
                   >
-                    {marketCodeMap[tickerData.code]}
+                    {marketCodeMap[ticker.code] || marketCodeMap[ticker.market]}
                   </NGTypo>
                   <NGTypo fontSize={10} color={globalColors.market_code}>
-                    {tickerData.code}
+                    {ticker.code || ticker.market}
                   </NGTypo>
                 </TableCell>
                 <TableCell align="right">
@@ -104,22 +104,25 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
                     fontWeight={'bold'}
                     sx={{
                       color:
-                        tickerData.signed_change_rate > 0
+                        ticker.signed_change_rate > 0
                           ? globalColors.color_pos['400']
-                          : tickerData.signed_change_rate < 0
+                          : ticker.signed_change_rate < 0
                             ? globalColors.color_neg['400']
                             : 'black',
                     }}
                   >
-                    {tickerData.trade_price.toLocaleString()}
+                    {ticker.trade_price !== undefined &&
+                    ticker.trade_price !== null
+                      ? ticker.trade_price.toLocaleString()
+                      : 0}
                   </PriceTypo>
                 </TableCell>
                 <TableCell
                   sx={{
                     color:
-                      tickerData.signed_change_rate > 0
+                      ticker.signed_change_rate > 0
                         ? globalColors.color_pos['400']
-                        : tickerData.signed_change_rate < 0
+                        : ticker.signed_change_rate < 0
                           ? globalColors.color_neg['400']
                           : 'black',
                   }}
@@ -127,10 +130,10 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
                 >
                   <Box display="flex" flexDirection="column">
                     <PriceTypo fontSize={10} fontWeight={'bold'}>
-                      {(tickerData.signed_change_rate * 100).toFixed(2)}%
+                      {(ticker.signed_change_rate * 100).toFixed(2)}%
                     </PriceTypo>
                     <PriceTypo fontSize={10} fontWeight={'bold'}>
-                      {tickerData.signed_change_price.toLocaleString()}
+                      {ticker.signed_change_price.toLocaleString()}
                     </PriceTypo>
                   </Box>
                 </TableCell>
@@ -138,7 +141,7 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
                   <Box display={'flex'}>
                     <PriceTypo fontSize={10}>
                       {Math.round(
-                        parseInt(tickerData.acc_trade_price_24h) / 1000000,
+                        parseInt(ticker.acc_trade_price_24h) / 1000000,
                       ).toLocaleString()}
                     </PriceTypo>
                     <NGTypo fontSize={10}>백만</NGTypo>
@@ -150,7 +153,7 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
       </Table>
     </TableContainer>
   );
-});
+};
 
 /** 
  * 실시간 가격
@@ -160,48 +163,35 @@ const RealTimePriceTable = memo(function RealTimePriceTable({
 */
 function MarketListGrid({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [krwCodes, setKrwCodes] = useState([]);
   const [tickers, setTickers] = useState([]);
   const marketCodeMap = {};
+  marketCodes.forEach(item => {
+    marketCodeMap[item.market] = item.korean_name;
+  });
 
   useEffect(() => {
     if (marketCodes) {
-      setIsLoading(false);
       const filtered = marketCodes
-        .filter(element => element.market.includes('KRW'))
-        .map(element => element.market);
-      setKrwCodes(filtered);
+        .filter(code => code.market.includes('KRW'))
+        .map(code => code.market);
+      const fetchTickers = async () => {
+        try {
+          const codesString = filtered.join(',');
+          const response = await fetch(`/api/tickers?codes=${codesString}`);
+          const data = await response.json();
+          setTickers(data);
+        } catch (error) {
+          console.error('마켓 리스트 다운로드 오류: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchTickers();
+      const interval = setInterval(fetchTickers, 2000);
+      return () => clearInterval(interval);
     }
   }, [marketCodes]);
-
-  useEffect(() => {
-    if (krwCodes.length > 0) {
-      krwCodes.forEach(item => {
-        marketCodeMap[item.market] = item.korean_name;
-      });
-      const codesString = krwCodes.join(',');
-      const wsTicker = new WebSocket(
-        `ws://localhost:3001/api/tickers?codes=${codesString}`,
-      );
-
-      wsTicker.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        console.log('받은 데이터:', data);
-        if (data && data.code) {
-          setTickers(prevTickers => {
-            const updatedTickers = [...prevTickers];
-            const index = updatedTickers.findIndex(t => t.code === data.code);
-            if (index > -1) {
-              updatedTickers[index] = data;
-            } else {
-              updatedTickers.push(data);
-            }
-            return updatedTickers;
-          });
-        }
-      }, 2000);
-    }
-  }, [krwCodes, marketCodeMap]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;

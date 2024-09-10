@@ -1,5 +1,6 @@
 import { memo, useEffect, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { throttle } from 'lodash';
 import {
   Box,
   Table,
@@ -225,12 +226,25 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   );
 });
 
-function OrderbookGrid({ orderbookData }) {
+function OrderbookGrid() {
   const [isLoading, setIsLoading] = useState(true);
+  const [orderbookData, setOrderbookData] = useState([]);
+  const code = useSelector(state => state.chart.code);
 
   useEffect(() => {
-    if (orderbookData) setIsLoading(false);
-  }, [orderbookData]);
+    if (code) {
+      setIsLoading(false);
+
+      const ws = new WebSocket(`ws://localhost:3001/api/orderbook/${code}`);
+
+      ws.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        setOrderbookData(data);
+      }, 2000);
+
+      return () => ws.close();
+    }
+  }, [code]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;

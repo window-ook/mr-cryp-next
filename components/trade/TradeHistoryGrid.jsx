@@ -1,4 +1,6 @@
 import { memo, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { throttle } from 'lodash';
 import {
   TableContainer,
   Table,
@@ -16,7 +18,7 @@ import {
 } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 
-const TradeTable = memo(function TradeTable({ tradeData }) {
+const TradeTable = function TradeTable({ tradeData }) {
   const timestampToTime = timestamp => {
     const time = new Date(timestamp);
     const timeStr = time.toLocaleTimeString();
@@ -55,7 +57,7 @@ const TradeTable = memo(function TradeTable({ tradeData }) {
               .slice()
               .reverse()
               .map(data => (
-                <TableRow key={`${data.sequential_id}-${data.trade_timestamp}`}>
+                <TableRow key={`${data.sequential_id}+${data.trade_timestamp}`}>
                   <TableCell align="center">
                     <NGTypo fontSize={12}>
                       {timestampToTime(data.trade_timestamp)}
@@ -100,22 +102,36 @@ const TradeTable = memo(function TradeTable({ tradeData }) {
       )}
     </TableContainer>
   );
-});
+};
 
-function TradeHistoryGrid({ tradeData }) {
+function TradeHistoryGrid() {
   const [isLoading, setIsLoading] = useState(true);
+  const [tradeData, setTradeData] = useState([]);
+  const code = useSelector(state => state.chart.code);
 
   useEffect(() => {
-    if (tradeData) {
+    if (code) {
+      setTradeData([]);
       setIsLoading(false);
+
+      const ws = new WebSocket(`ws://localhost:3001/api/trade/${code}`);
+
+      ws.onmessage = throttle(event => {
+        const data = JSON.parse(event.data);
+        setTradeData(prevTradeData => [...prevTradeData, data]);
+      }, 2000);
+
+      ws.onopen = () => setIsLoading(false);
+
+      return () => ws.close();
     }
-  }, [tradeData]);
+  }, [code]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
   }
 
-  return <TradeTable />;
+  return <TradeTable tradeData={tradeData} />;
 }
 
 export default memo(TradeHistoryGrid);

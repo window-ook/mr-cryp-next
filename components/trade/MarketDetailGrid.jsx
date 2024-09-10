@@ -62,11 +62,20 @@ function SubIndicators({ label, value, valueStyle }) {
   );
 }
 
-/** 실시간 마켓 정보 */
-export default function MarketDetailGrid() {
+/** 
+ * 실시간 마켓 정보
+  @description marketCodes: [{market, korean_name, english_name}]
+  @description krwCodes: KRW로 시작하는 마켓 코드들
+  @description tickers: KRW 마켓 코드들의 실시간 호가 정보
+   */
+export default function MarketDetailGrid({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [tickerData, setTickerData] = useState({});
+  const [ticker, setTicker] = useState({});
   const code = useSelector(state => state.chart.code);
+  const marketCodeMap = {};
+  marketCodes.forEach(item => {
+    marketCodeMap[item.market] = item.korean_name;
+  });
 
   useEffect(() => {
     if (code) {
@@ -75,15 +84,17 @@ export default function MarketDetailGrid() {
 
       wsTicker.onmessage = throttle(event => {
         const data = JSON.parse(event.data);
-        setTickerData(data);
+        setTicker(data);
       }, 2000);
+
+      return () => wsTicker.close();
     }
   }, [code]);
 
   const numColor =
-    tickerData && tickerData.signed_change_rate === 0
+    ticker && ticker.signed_change_rate === 0
       ? 'black'
-      : tickerData && tickerData.signed_change_rate > 0
+      : ticker && ticker.signed_change_rate > 0
         ? globalColors.color_pos['400']
         : globalColors.color_neg['400'];
 
@@ -108,10 +119,10 @@ export default function MarketDetailGrid() {
         alignItems="flex-end"
       >
         <NGTypo fontSize={20} fontWeight={'bold'}>
-          {tickerData.code}
+          {marketCodeMap[ticker.code]}
         </NGTypo>
         <NGTypo fontSize={15} align="right">
-          {tickerData.code}
+          {ticker.code}
         </NGTypo>
       </Box>
       <Divider />
@@ -129,7 +140,7 @@ export default function MarketDetailGrid() {
         >
           <Box display="flex" alignItems="flex-end">
             <PriceTypo variant="h5" color={numColor} sx={priceStyle}>
-              {Number(tickerData.trade_price).toLocaleString()}
+              {Number(ticker.trade_price).toLocaleString()}
             </PriceTypo>
             <NGTypo fontWeight={'bold'} color={numColor}>
               KRW
@@ -144,16 +155,16 @@ export default function MarketDetailGrid() {
               전일대비
             </NGTypo>
             <PriceTypo fontSize={15} color={numColor} sx={priceStyle}>
-              {Number(tickerData.signed_change_rate) > 0 ? '+' : ''}
-              {Number(tickerData.signed_change_rate * 100).toFixed(2)}%
+              {Number(ticker.signed_change_rate) > 0 ? '+' : ''}
+              {Number(ticker.signed_change_rate * 100).toFixed(2)}%
             </PriceTypo>
             <PriceTypo fontSize={15} color={numColor} sx={priceStyle}>
-              {Number(tickerData.signed_change_price) < 0
+              {Number(ticker.signed_change_price) < 0
                 ? '▼'
-                : Number(tickerData.signed_change_price) > 0
+                : Number(ticker.signed_change_price) > 0
                   ? '▲'
                   : ''}
-              {Number(tickerData.change_price).toLocaleString()}
+              {Number(ticker.change_price).toLocaleString()}
             </PriceTypo>
           </Box>
         </Box>
@@ -170,36 +181,36 @@ export default function MarketDetailGrid() {
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="고가"
-              value={tickerData.high_price}
+              value={ticker.high_price}
               valueStyle={posStyle}
             />
             <SubIndicators
               label="저가"
-              value={tickerData.low_price}
+              value={ticker.low_price}
               valueStyle={negStyle}
             />
           </Box>
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="52주 신고가"
-              value={tickerData.highest_52_week_price}
+              value={ticker.highest_52_week_price}
               valueStyle={posStyle}
             />
             <SubIndicators
               label="52주 신저가"
-              value={tickerData.lowest_52_week_price}
+              value={ticker.lowest_52_week_price}
               valueStyle={negStyle}
             />
           </Box>
           <Box sx={{ subColumnStyle }}>
             <SubIndicators
               label="거래량(24시간)"
-              value={tickerData.acc_trade_volume_24h}
+              value={ticker.acc_trade_volume_24h}
               valueStyle={normalStyle}
             />
             <SubIndicators
               label="거래대금(24시간)"
-              value={Math.round(tickerData.acc_trade_price_24h)}
+              value={Math.round(ticker.acc_trade_price_24h)}
               valueStyle={normalStyle}
             />
           </Box>
