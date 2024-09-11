@@ -1,24 +1,26 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export default function KakaoAuth() {
-  const navigate = useNavigate();
+  const router = useRouter();
+
   useEffect(() => {
     const getAuthToken = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const authCode = urlParams.get('code');
       const authCancel = urlParams.get('error');
+
       if (authCode) {
         try {
           const response = await axios.post(
             'https://kauth.kakao.com/oauth/token',
             {
               grant_type: 'authorization_code',
-              client_id: import.meta.env.VITE_KAKAO_REST_API_KEY,
-              redirect_uri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
+              client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
+              redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
               code: authCode,
-              client_secret: import.meta.env.VITE_KAKAO_CLIENT_SECRET_KEY,
+              client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_KEY,
             },
             {
               headers: {
@@ -28,19 +30,22 @@ export default function KakaoAuth() {
             },
           );
           const accessToken = response.data.access_token;
+          const expires_in = response.data.expires_in;
+
           localStorage.setItem('socialType', 'Kakao');
           localStorage.setItem('accessToken', accessToken);
-          console.log('카카오 로그인');
+          localStorage.setItem('expires_in', expires_in);
+
           getUserData();
-          navigate('/home');
+          router.push('/home');
         } catch (error) {
-          console.error('카카오 로그인 오류: ', error.message);
+          console.error('카카오 로그인 실패: ', error.message);
         }
       }
       if (authCancel) {
         console.log('약관 동의 중 취소');
         window.alert('시작화면으로 돌아갑니다');
-        navigate('/');
+        router.push('/');
       }
     };
 
@@ -59,13 +64,13 @@ export default function KakaoAuth() {
         localStorage.setItem('userId', id);
         localStorage.setItem('imgUrl', imgUrl);
         localStorage.setItem('nickname', nickname);
-        console.log('카카오 유저 데이터 저장');
       } catch (error) {
-        console.error('유저 데이터 다운로드 오류', error);
+        console.error('로그인 데이터 다운로드 에러: ', error);
       }
     };
+
     getAuthToken();
   });
 
-  return <></>;
+  return;
 }

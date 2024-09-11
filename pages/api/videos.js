@@ -17,6 +17,7 @@ export default async function handler(req, res) {
         },
       },
     );
+
     const items = response.data.items.map(item => ({
       ...item,
       id: item.id.videoId,
