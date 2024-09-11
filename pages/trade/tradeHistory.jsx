@@ -1,5 +1,5 @@
 import axios from 'axios';
-import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
+import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
 import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
