@@ -6,6 +6,7 @@ import { wrapper } from '@/redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { theme } from '@/defaultTheme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }) {
             <Component {...pageProps} />
           ) : (
             <Layout>
-              <Component {...pageProps} />
+              <ProtectedRoute>
+                <Component {...pageProps} />
+              </ProtectedRoute>
             </Layout>
           )}
         </QueryClientProvider>

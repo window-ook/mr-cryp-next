@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default async function handler(req, res) {
   const { codes } = req.query;
 
@@ -6,10 +8,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `https://api.upbit.com/v1/ticker?markets=${codes}`,
     );
-    const data = await response.json();
+    const data = await response.data;
     res.status(200).json(data);
   } catch (error) {
     res
