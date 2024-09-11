@@ -8,6 +8,14 @@ const initialState = {
   open: false,
 };
 
+/**
+  슬라이스
+  @method setCode : 마켓 코드 저장
+  @method setRate : 등락율 저장
+  @method setPrevPrice : 전날 종가 저장
+  @method setCurrPrice : 현재가 저장
+  @method setOpen : 모달 오픈 저장
+ */
 const chartSlice = createSlice({
   name: 'chartSlice',
   initialState,
