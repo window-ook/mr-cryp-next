@@ -1,6 +1,5 @@
 import { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { throttle } from 'lodash';
 import {
   setCode,
   setRate,
