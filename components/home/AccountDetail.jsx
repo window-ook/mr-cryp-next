@@ -8,6 +8,9 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+/** 보유비중
+  @prop percentage : 총 자산 중 비율
+ */
 function HoldingRatio({ percentage }) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -17,6 +20,11 @@ function HoldingRatio({ percentage }) {
   );
 }
 
+/** 보유수량
+  @prop balance : 계좌 데이터
+  @prop currency : 통화
+  @prop price : 현재가
+ */
 function HoldingAmount({ balance, currency, price }) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

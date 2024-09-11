@@ -65,7 +65,12 @@ function VideoCard({ initialVideos }) {
     <Grid container spacing={2}>
       {videos.map(video => (
         <Grid item xs={12} sm={6} key={video.id}>
-          <Box sx={{ width: '100%', pt: 3 }}>
+          <Box
+            sx={{
+              width: '100%',
+              transform: 'translateY(20px)',
+            }}
+          >
             <IFrame
               src={`https://www.youtube.com/embed/${video.id}`}
               title={video.snippet.title}
@@ -96,7 +101,12 @@ function VideoCard({ initialVideos }) {
 
 export default function Videos({ initialVideos }) {
   return (
-    <Box sx={{ mb: 10, mr: 4 }}>
+    <Box
+      sx={{
+        mb: 5,
+        transform: 'translateX(-5px)',
+      }}
+    >
       <SubTitle>TREND 🔥</SubTitle>
       <DescriptionTypo>
         코인에 대한 실시간 트렌드를 확인해보세요!

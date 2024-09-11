@@ -1,12 +1,10 @@
 import axios from 'axios';
 import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
-import { throttle } from 'lodash';
 import { globalColors } from '@/globalColors';
 import { DescriptionTypo, NGTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -34,20 +32,13 @@ export async function getServerSideProps() {
   };
 }
 
-const OrderTable = memo(function OrderTable({
-  orderbookData,
-  isConnected,
-  handleDisconnect,
-}) {
+const OrderTable = memo(function OrderTable({ orderbookData, isConnected }) {
   return (
     <>
       <Box display="flex" alignItems="center" gap={4}>
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-        <Button onClick={handleDisconnect}>
-          <DescriptionTypo>연결종료</DescriptionTypo>
-        </Button>
       </Box>
       {orderbookData && isConnected ? (
         <TableContainer
@@ -108,7 +99,7 @@ const OrderTable = memo(function OrderTable({
                 ))}
               {[...orderbookData.orderbook_units].map((element, index) => (
                 <TableRow key={`${element.bid_price}${index}`}>
-                  <TableCell>-</TableCell>
+                  <TableCell sx={{ textAlign: 'right' }}>-</TableCell>
                   <TableCell>
                     <PriceTypo align="center" fontSize={12}>
                       {Number(element.bid_price).toLocaleString()}
@@ -131,6 +122,12 @@ const OrderTable = memo(function OrderTable({
   );
 });
 
+/** 
+ * 실시간 오더북
+  @description marketCodes: [{market, korean_name, english_name}]
+  @description orderbookData : 오더북 데이터
+  @description currentCode : 현재 선택한 코드
+*/
 function Orderbook({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -138,33 +135,27 @@ function Orderbook({ marketCodes }) {
   const [currentCode, setCurrentCode] = useState(
     marketCodes.length > 0 ? marketCodes[0].market : 'KRW-BTC',
   );
-  const [wsInstance, setWsInstance] = useState(null);
 
   useEffect(() => {
     if (currentCode) {
-      setIsLoading(false);
-      const ws = new WebSocket(
-        `ws://localhost:3001/api/orderbook/${currentCode}`,
-      );
+      const fetchOrderbookData = async () => {
+        try {
+          const response = await axios.get(`/api/orderbook/${currentCode}`);
+          const data = response.data;
+          setOrderbookData(data);
+        } catch (error) {
+          console.error('실시간 오더북 데이터 다운로드 에러: ', error);
+        } finally {
+          setIsLoading(false);
+          setIsConnected(true);
+        }
+      };
 
-      ws.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        setOrderbookData(data);
-        setIsConnected(true);
-      }, 2000);
-
-      setWsInstance(ws);
-
-      return () => ws.close();
+      fetchOrderbookData();
+      const interval = setInterval(fetchOrderbookData, 3000);
+      return () => clearInterval(interval);
     }
   }, [currentCode]);
-
-  const handleDisconnect = () => {
-    if (wsInstance) {
-      wsInstance.close();
-      setIsConnected(false);
-    }
-  };
 
   return (
     <Box
@@ -181,11 +172,7 @@ function Orderbook({ marketCodes }) {
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <OrderTable
-        orderbookData={orderbookData}
-        isConnected={isConnected}
-        handleDisconnect={handleDisconnect}
-      />
+      <OrderTable orderbookData={orderbookData} isConnected={isConnected} />
     </Box>
   );
 }

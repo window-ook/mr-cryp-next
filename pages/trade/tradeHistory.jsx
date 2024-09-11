@@ -1,7 +1,6 @@
 import axios from 'axios';
 import MarketCodeSelector from '@/components/Trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
-import { throttle } from 'lodash';
 import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
   Button,
@@ -40,20 +39,13 @@ export async function getServerSideProps() {
   };
 }
 
-const TradeTable = memo(function TradeTable({
-  isConnected,
-  tradeData,
-  handleDisconnect,
-}) {
+const TradeTable = memo(function TradeTable({ isConnected, tradeData }) {
   return (
     <>
       <Box display="flex" alignItems="center" gap={4}>
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-        <Button onClick={handleDisconnect}>
-          <DescriptionTypo>연결종료</DescriptionTypo>
-        </Button>
       </Box>
       <TableContainer
         component={Paper}
@@ -81,26 +73,23 @@ const TradeTable = memo(function TradeTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {tradeData
-                .slice()
-                .reverse()
-                .map((element, index) => (
-                  <TableRow key={`${index}${element.trade_time}`}>
-                    <TableCell align="center">{element.code}</TableCell>
-                    <TableCell align="center">
-                      {Number(element.sequential_id)}
-                    </TableCell>
-                    <TableCell align="center">
-                      {element.trade_date} {element.trade_time}
-                    </TableCell>
-                    <TableCell align="center">{element.ask_bid}</TableCell>
-                    <TableCell align="center">
-                      <PriceTypo fontSize={11}>
-                        {Number(element.prev_closing_price).toLocaleString()}
-                      </PriceTypo>
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {tradeData.slice().map((element, index) => (
+                <TableRow key={`${index}${element.trade_time}`}>
+                  <TableCell align="center">{element.market}</TableCell>
+                  <TableCell align="center">
+                    {Number(element.sequential_id)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {element.trade_date_utc} {element.trade_time_utc}
+                  </TableCell>
+                  <TableCell align="center">{element.ask_bid}</TableCell>
+                  <TableCell align="center">
+                    <PriceTypo fontSize={11}>
+                      {Number(element.prev_closing_price).toLocaleString()}
+                    </PriceTypo>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         ) : (
@@ -111,6 +100,12 @@ const TradeTable = memo(function TradeTable({
   );
 });
 
+/** 
+ * 실시간 거래 내역
+  @description marketCodes: [{market, korean_name, english_name}]
+  @description tradeData : 거래 내역 데이터
+  @description currentCode : 현재 선택한 코드
+*/
 function TradeHistory({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -118,32 +113,38 @@ function TradeHistory({ marketCodes }) {
   const [currentCode, setCurrentCode] = useState(
     marketCodes.length > 0 ? marketCodes[0].market : 'KRW-BTC',
   );
-  const [wsInstance, setWsInstance] = useState(null);
 
   useEffect(() => {
     if (currentCode) {
       setTradeData([]);
 
-      const ws = new WebSocket(`ws://localhost:3001/api/trade/${currentCode}`);
-      ws.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        setTradeData(prev => [...prev, data]);
-        setIsLoading(false);
-        setIsConnected(true);
-      }, 2000);
+      const fetchTradeData = async () => {
+        try {
+          const response = await axios.get(`/api/trade/${currentCode}`);
+          const data = response.data;
 
-      setWsInstance(ws);
+          setTradeData(prevTradeData => {
+            const newData = data.filter(
+              item =>
+                !prevTradeData.some(
+                  prevItem => prevItem.sequential_id === item.sequential_id,
+                ),
+            );
+            return [...prevTradeData, ...newData];
+          });
+        } catch (error) {
+          console.error('실시간 거래 내역 데이터 다운로드 에러: ', error);
+        } finally {
+          setIsLoading(false);
+          setIsConnected(true);
+        }
+      };
 
-      return () => ws.close();
+      fetchTradeData();
+      const interval = setInterval(fetchTradeData, 3000);
+      return () => clearInterval(interval);
     }
   }, [currentCode]);
-
-  const handleDisconnect = () => {
-    if (wsInstance) {
-      wsInstance.close();
-      setIsConnected(false);
-    }
-  };
 
   return (
     <Box
@@ -160,11 +161,7 @@ function TradeHistory({ marketCodes }) {
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <TradeTable
-        tradeData={tradeData}
-        isConnected={isConnected}
-        handleDisconnect={handleDisconnect}
-      />
+      <TradeTable tradeData={tradeData} isConnected={isConnected} />
     </Box>
   );
 }

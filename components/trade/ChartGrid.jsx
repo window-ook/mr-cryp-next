@@ -110,6 +110,10 @@ const initialOptions = {
   },
 };
 
+/**
+  실시간 차트
+  @returns candles : 캔들 데이터로 차트 시각화
+ */
 export default function ChartGrid() {
   const [options, setOptions] = useState(initialOptions);
   const [candles, setCandles] = useState([]);

@@ -24,7 +24,7 @@ const cardStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   height: '100%',
-  transform: 'translateY(12px)',
+  transform: 'translateY(20px)',
   backgroundColor: globalColors.vanilla['200'],
 };
 
@@ -85,6 +85,7 @@ export default function Articles({ initialArticles }) {
           const description = article.description
             .replace(/<b>|<\/b>/g, '')
             .replace(/&quot;/g, '');
+
           return (
             <Grid item xs={12} sm={6} key={article.link}>
               <Card key={article.link} sx={cardStyle}>

@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
 import {
   TableContainer,
   Table,
@@ -53,50 +53,47 @@ const TradeTable = function TradeTable({ tradeData }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tradeData
-              .slice()
-              .reverse()
-              .map(data => (
-                <TableRow key={`${data.sequential_id}+${data.trade_timestamp}`}>
-                  <TableCell align="center">
-                    <NGTypo fontSize={12}>
-                      {timestampToTime(data.trade_timestamp)}
-                    </NGTypo>
-                  </TableCell>
-                  <TableCell align="center">
-                    <NGTypo fontSize={12}>
-                      {Number(data.trade_price).toLocaleString()}원
-                    </NGTypo>
-                  </TableCell>
-                  <TableCell align="center">
-                    <PriceTypo
-                      fontSize={12}
-                      color={
-                        data.ask_bid === 'ASK'
-                          ? globalColors.color_pos['400']
-                          : globalColors.color_neg['400']
-                      }
-                    >
-                      {data.trade_volume}
-                    </PriceTypo>
-                  </TableCell>
-                  <TableCell align="center">
-                    <PriceTypo
-                      fontSize={12}
-                      color={
-                        data.ask_bid === 'ASK'
-                          ? globalColors.color_pos['400']
-                          : globalColors.color_neg['400']
-                      }
-                    >
-                      {Math.round(
-                        data.trade_volume * data.trade_price,
-                      ).toLocaleString()}
-                      원
-                    </PriceTypo>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {tradeData.slice().map(data => (
+              <TableRow key={data.sequential_id * Math.random()}>
+                <TableCell align="center">
+                  <NGTypo fontSize={12}>
+                    {timestampToTime(data.timestamp)}
+                  </NGTypo>
+                </TableCell>
+                <TableCell align="center">
+                  <NGTypo fontSize={12}>
+                    {Number(data.trade_price).toLocaleString()}원
+                  </NGTypo>
+                </TableCell>
+                <TableCell align="center">
+                  <PriceTypo
+                    fontSize={12}
+                    color={
+                      data.ask_bid === 'ASK'
+                        ? globalColors.color_pos['400']
+                        : globalColors.color_neg['400']
+                    }
+                  >
+                    {data.trade_volume}
+                  </PriceTypo>
+                </TableCell>
+                <TableCell align="center">
+                  <PriceTypo
+                    fontSize={12}
+                    color={
+                      data.ask_bid === 'ASK'
+                        ? globalColors.color_pos['400']
+                        : globalColors.color_neg['400']
+                    }
+                  >
+                    {Math.round(
+                      data.trade_volume * data.trade_price,
+                    ).toLocaleString()}
+                    원
+                  </PriceTypo>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       )}
@@ -104,6 +101,11 @@ const TradeTable = function TradeTable({ tradeData }) {
   );
 };
 
+/** 
+ * 실시간 거래 내역
+  @description tradeData : 거래 내역 데이터
+  @description code : 리스트에서 선택한 마켓 코드
+*/
 function TradeHistoryGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [tradeData, setTradeData] = useState([]);
@@ -112,18 +114,31 @@ function TradeHistoryGrid() {
   useEffect(() => {
     if (code) {
       setTradeData([]);
-      setIsLoading(false);
 
-      const ws = new WebSocket(`ws://localhost:3001/api/trade/${code}`);
+      const fetchTradeData = async () => {
+        try {
+          const response = await axios.get(`/api/trade/${code}`);
+          const data = response.data;
 
-      ws.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        setTradeData(prevTradeData => [...prevTradeData, data]);
-      }, 2000);
+          setTradeData(prevTradeData => {
+            const newData = data.filter(
+              item =>
+                !prevTradeData.some(
+                  prevItem => prevItem.sequential_id === item.sequential_id,
+                ),
+            );
+            return [...prevTradeData, ...newData];
+          });
+        } catch (error) {
+          console.error('실시간 거래 내역 데이터 다운로드 에러: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-      ws.onopen = () => setIsLoading(false);
-
-      return () => ws.close();
+      fetchTradeData();
+      const interval = setInterval(fetchTradeData, 3000);
+      return () => clearInterval(interval);
     }
   }, [code]);
 

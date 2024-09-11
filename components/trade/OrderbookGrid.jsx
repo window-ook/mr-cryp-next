@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { memo, useEffect, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
 import {
   Box,
   Table,
@@ -226,6 +226,11 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   );
 });
 
+/** 
+ * 실시간 오더북
+  @description orderbookData : 오더북 데이터
+  @description code : 리스트에서 선택한 마켓 코드
+*/
 function OrderbookGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [orderbookData, setOrderbookData] = useState([]);
@@ -233,16 +238,21 @@ function OrderbookGrid() {
 
   useEffect(() => {
     if (code) {
-      setIsLoading(false);
+      const fetchOrderbookData = async () => {
+        try {
+          const response = await axios.get(`/api/orderbook/${code}`);
+          const data = response.data;
+          setOrderbookData(data);
+        } catch (error) {
+          console.error('실시간 오더북 데이터 다운로드 에러: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-      const ws = new WebSocket(`ws://localhost:3001/api/orderbook/${code}`);
-
-      ws.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        setOrderbookData(data);
-      }, 2000);
-
-      return () => ws.close();
+      fetchOrderbookData();
+      const interval = setInterval(fetchOrderbookData, 3000);
+      return () => clearInterval(interval);
     }
   }, [code]);
 

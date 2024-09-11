@@ -1,8 +1,8 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import { Box, Divider, LinearProgress } from '@mui/material';
-import { throttle } from 'lodash';
 import { useSelector } from 'react-redux';
 
 const subColumnStyle = {
@@ -70,7 +70,7 @@ function SubIndicators({ label, value, valueStyle }) {
    */
 export default function MarketDetailGrid({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [ticker, setTicker] = useState({});
+  const [ticker, setTicker] = useState([]);
   const code = useSelector(state => state.chart.code);
   const marketCodeMap = {};
   marketCodes.forEach(item => {
@@ -79,15 +79,21 @@ export default function MarketDetailGrid({ marketCodes }) {
 
   useEffect(() => {
     if (code) {
-      setIsLoading(false);
-      const wsTicker = new WebSocket(`ws://localhost:3001/api/ticker/${code}`);
+      const fetchTicker = async () => {
+        try {
+          const response = await axios.get(`/api/tickers?codes=${code}`);
+          const data = await response.data;
+          setTicker(...data);
+        } catch (error) {
+          console.error('마켓 디테일 다운로드 오류: ', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-      wsTicker.onmessage = throttle(event => {
-        const data = JSON.parse(event.data);
-        setTicker(data);
-      }, 2000);
-
-      return () => wsTicker.close();
+      fetchTicker();
+      const interval = setInterval(fetchTicker, 3000);
+      return () => clearInterval(interval);
     }
   }, [code]);
 
@@ -119,10 +125,10 @@ export default function MarketDetailGrid({ marketCodes }) {
         alignItems="flex-end"
       >
         <NGTypo fontSize={20} fontWeight={'bold'}>
-          {marketCodeMap[ticker.code]}
+          {marketCodeMap[ticker.market]}
         </NGTypo>
         <NGTypo fontSize={15} align="right">
-          {ticker.code}
+          {ticker.market}
         </NGTypo>
       </Box>
       <Divider />
