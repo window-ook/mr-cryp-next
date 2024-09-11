@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Information from '@/components/Vision/Information';
-import Videos from '@/components/Vision/Videos';
-import Articles from '@/components/Vision/Articles';
+import Information from '@/components/vision/Information';
+import Videos from '@/components/vision/Videos';
+import Articles from '@/components/vision/Articles';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
@@ -49,7 +49,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Vision({ initialVideos, initialArticles }) {
+export default function vision({ initialVideos, initialArticles }) {
   return (
     <Box
       sx={{
