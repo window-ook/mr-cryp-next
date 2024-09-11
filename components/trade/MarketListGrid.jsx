@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -155,7 +156,7 @@ const RealTimePriceTable = function RealTimePriceTable({
 };
 
 /** 
- * 실시간 가격
+ * 실시간 마켓 코드 정보
   @description marketCodes: [{market, korean_name, english_name}]
   @description krwCodes: KRW로 시작하는 마켓 코드들
   @description tickers: KRW 마켓 코드들의 실시간 호가 정보
@@ -176,8 +177,8 @@ function MarketListGrid({ marketCodes }) {
       const fetchTickers = async () => {
         try {
           const codesString = filtered.join(',');
-          const response = await fetch(`/api/tickers?codes=${codesString}`);
-          const data = await response.json();
+          const response = await axios.get(`/api/tickers?codes=${codesString}`);
+          const data = await response.data;
           setTickers(data);
         } catch (error) {
           console.error('마켓 리스트 다운로드 오류: ', error);
@@ -187,7 +188,7 @@ function MarketListGrid({ marketCodes }) {
       };
 
       fetchTickers();
-      const interval = setInterval(fetchTickers, 2000);
+      const interval = setInterval(fetchTickers, 3000);
       return () => clearInterval(interval);
     }
   }, [marketCodes]);
