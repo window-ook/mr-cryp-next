@@ -21,7 +21,7 @@ export async function getServerSideProps() {
           maxResults: 12,
           type: 'video',
           q: '코인 추천',
-          key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
+          key: process.env.NEXT_YOUTUBE_DATA_API_KEY,
         },
       },
     );
