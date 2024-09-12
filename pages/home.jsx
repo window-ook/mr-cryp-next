@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 import { InforTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let balance = [];
   try {
     const response = await axios.get(`/data/balance.json`);
