@@ -7,10 +7,9 @@ import { InforTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 
 export async function getStaticProps() {
-  const domain = process.env.NEXT_PUBLIC_API_URL;
   let balance = [];
   try {
-    const response = await axios.get(`${domain}/data/balance.json`);
+    const response = await axios.get(`/data/balance.json`);
     balance = response.data;
   } catch (error) {
     console.log('계좌 현황 다운로드 중 에러 발생 : ', error);
