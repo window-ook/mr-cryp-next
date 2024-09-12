@@ -8,6 +8,7 @@ import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
 
 // 유튜브, 네이버 API 서버사이드 페칭 및 렌더링
 export async function getServerSideProps() {
+  const domain = process.env.NEXT_PUBLIC_API_URL;
   let videos = [];
   let articles = [];
 
@@ -33,7 +34,7 @@ export async function getServerSideProps() {
   }
 
   try {
-    const articleResponse = await axios.get('http://localhost:3000/api/naver', {
+    const articleResponse = await axios.get(`${domain}/api/naver`, {
       params: { keyword: '비트코인' },
     });
     articles = articleResponse.data;
