@@ -23,10 +23,11 @@ const headStyle = {
 };
 
 export async function getServerSideProps() {
+  const domain = process.env.NEXT_PUBLIC_API_URL;
   let marketCodes = [];
 
   try {
-    const response = await axios.get('http://localhost:3000/api/marketCodes');
+    const response = await axios.get(`${domain}/api/marketCodes`);
     marketCodes = response.data.marketCodes.slice(0, 200);
   } catch (error) {
     console.error(error);
