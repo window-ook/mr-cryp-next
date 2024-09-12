@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import AccountBox from '@/components/home/AccountBox';
+import AccountDetail from '@/components/home/AccountDetail';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { InforTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import AccountBox from '@/components/home/AccountBox';
-import AccountDetail from '@/components/home/AccountDetail';
 
 export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;

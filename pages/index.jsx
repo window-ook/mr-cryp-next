@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
+const defaultTheme = createTheme();
+
 function Copyright(props) {
   return (
     <NGTypo variant="body2" color="text.secondary" align="center" {...props}>
@@ -27,9 +29,6 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
-
-// '/' 페이지
 function SignIn() {
   const router = useRouter();
 
@@ -143,7 +142,6 @@ function SignIn() {
                 textDecoration: 'none',
                 textShadow: globalColors.shadow_text,
                 mr: 2,
-
                 '@media (max-width: 900px)': {
                   fontSize: 24,
                 },

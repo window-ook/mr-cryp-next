@@ -13,7 +13,7 @@ export default async function handler(req, res) {
           maxResults: 12,
           type: 'video',
           q: keyword,
-          key: process.env.NEXT_YOUTUBE_DATA_API_KEY,
+          key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
         },
       },
     );
