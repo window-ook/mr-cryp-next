@@ -14,7 +14,7 @@ export default function NotFound() {
       }}
     >
       <DescriptionTypo>제작되지 않은 페이지입니다</DescriptionTypo>
-      <Link to={-1}>
+      <Link href={-1}>
         <NGTypo>이전 페이지</NGTypo>
       </Link>
     </Box>
