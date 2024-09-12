@@ -6,7 +6,6 @@ import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
 
-// 유튜브, 네이버 API 서버사이드 페칭 및 렌더링
 export async function getServerSideProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
   let videos = [];
@@ -21,7 +20,7 @@ export async function getServerSideProps() {
           maxResults: 12,
           type: 'video',
           q: '코인 추천',
-          key: process.env.NEXT_YOUTUBE_DATA_API_KEY,
+          key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
         },
       },
     );
@@ -50,7 +49,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function vision({ initialVideos, initialArticles }) {
+export default function Vision({ initialVideos, initialArticles }) {
   return (
     <Box
       sx={{

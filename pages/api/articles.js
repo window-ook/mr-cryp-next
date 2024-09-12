@@ -17,8 +17,8 @@ export default async function handler(req, res) {
           sort: 'sim',
         },
         headers: {
-          'X-Naver-Client-Id': process.env.NEXT_NAVER_CLIENT_ID,
-          'X-Naver-Client-Secret': process.env.NEXT_NAVER_CLIENT_SECRET,
+          'X-Naver-Client-Id': process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+          'X-Naver-Client-Secret': process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET,
           Accept: '*/*',
         },
       },
