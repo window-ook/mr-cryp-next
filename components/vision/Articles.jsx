@@ -77,7 +77,7 @@ export default function Articles({ initialArticles }) {
     <div>
       <SubTitle>TODAY NEWS</SubTitle>
       <DescriptionTypo>오늘은 어떤 뉴스가 올라왔을까요?</DescriptionTypo>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
         {articles.map(article => {
           const title = article.title
             .replace(/<b>|<\/b>/g, '')
