@@ -131,25 +131,17 @@ export default function Articles({ initialArticles }) {
                       <LinkIcon sx={{ color: globalColors.skyblue['500'] }} />
                     </IconButton>
                   </Tooltip>
-                  <Snackbar
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={handleClose}
-                  >
-                    <Alert
-                      onClose={handleClose}
-                      severity="success"
-                      variant="filled"
-                    >
-                      링크가 클립보드에 복사되었습니다
-                    </Alert>
-                  </Snackbar>
                 </CardActions>
               </Card>
             </Grid>
           );
         })}
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" variant="filled">
+          링크가 클립보드에 복사되었습니다
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

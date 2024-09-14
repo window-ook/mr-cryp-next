@@ -1,6 +1,6 @@
-import WebSocket from 'ws';
+import axios from 'axios';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { code } = req.query;
 
   if (!code) {
@@ -8,26 +8,15 @@ export default function handler(req, res) {
     return;
   }
 
-  const wsOrderbook = new WebSocket('wss://api.upbit.com/websocket/v1');
-
-  wsOrderbook.on('open', () => {
-    wsOrderbook.send(
-      JSON.stringify([
-        { ticket: 'test' },
-        { type: 'orderbook', codes: [code] },
-        {
-          format: 'DEFAULT',
-        },
-      ]),
+  try {
+    const response = await axios.get(
+      `https://api.upbit.com/v1/orderbook?markets=${code}&level=0`,
     );
-  });
-
-  wsOrderbook.on('message', data => {
-    const orderbookData = JSON.parse(data);
-    res.status(200).json(orderbookData);
-  });
-
-  wsOrderbook.on('error', error => {
-    res.status(500).json({ error: '웹소켓 데이터 다운로드 실패', error });
-  });
+    const data = await response.data;
+    res.status(200).json(data);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: '실시간 거래 내역을 가져오는 데에 실패했습니다.' });
+  }
 }

@@ -143,7 +143,7 @@ function Orderbook({ marketCodes }) {
         try {
           const response = await axios.get(`/api/orderbook/${currentCode}`);
           const data = response.data;
-          setOrderbookData(data);
+          setOrderbookData(...data);
         } catch (error) {
           console.error('실시간 오더북 데이터 다운로드 에러: ', error);
         } finally {

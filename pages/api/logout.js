@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-/** 카카오 로그아웃 
-- 액세스 토큰 전달
-*/
+/** 카카오 로그아웃 */
 const logoutKakao = async () => {
   try {
     await axios.post(
