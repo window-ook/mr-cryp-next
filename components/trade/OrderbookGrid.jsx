@@ -242,7 +242,7 @@ function OrderbookGrid() {
         try {
           const response = await axios.get(`/api/orderbook/${code}`);
           const data = response.data;
-          setOrderbookData(data);
+          setOrderbookData(...data);
         } catch (error) {
           console.error('실시간 오더북 데이터 다운로드 에러: ', error);
         } finally {

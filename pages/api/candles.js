@@ -1,10 +1,12 @@
 import Upbit from '@/lib/upbit';
 
-/** lib/upbit.js에 정의된 업비트 오픈 API 서버사이드 호출
+/** 
+  lib/upbit.js에 정의된 업비트 오픈 API 서버사이드 호출
   @returns candleMinutes : 분봉
   @returns candleDays : 일봉
   @returns candleWeeks : 주봉
-  @returns candleMonths : 월봉 */
+  @returns candleMonths : 월봉 
+  */
 export default async function handler(req, res) {
   const { type, ticker, count, unit } = req.query;
   const upbit = new Upbit();
