@@ -33,7 +33,7 @@ export default function ButtonKakao() {
         onClick={handleLogin}
       >
         <Image
-          src="/images/logo_kakao.png"
+          src="/images/logo_kakao.webp"
           alt="카카오 로고"
           width="20"
           height="20"
