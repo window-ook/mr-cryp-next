@@ -90,7 +90,7 @@ function SignIn() {
               onClick={handleLogin}
             >
               <Image
-                src="/images/logo_google.png"
+                src="/images/logo_google.webp"
                 alt="구글 로고"
                 width="20"
                 height="20"
@@ -121,7 +121,7 @@ function SignIn() {
           >
             <Box
               component="img"
-              src="/images/logo_mustache.png"
+              src="/images/logo_mustache.webp"
               width={450}
               height={150}
               sx={{

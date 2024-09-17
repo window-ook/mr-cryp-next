@@ -63,7 +63,7 @@ export default function Home({ balance }) {
           >
             <ResponsiveImage
               priority
-              src="/images/logo_mustache.png"
+              src="/images/logo_mustache.webp"
               alt="logo"
               width={420}
               height={140}
