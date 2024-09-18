@@ -1,6 +1,6 @@
 # 📈 미스터 크립 
 
-![프로젝트 썸네일](./public/images/logo_mustache.webp)
+![프로젝트 썸네일](./public/images/readme/thumbnail.webp)
 
 ## 📋 목차
 
