@@ -59,14 +59,14 @@ https://mr-cryp.vercel.app
 비로그인 상태에서 타 페이지의 접근을 막기 위한 **Protected Route** 처리도 적용했습니다.(액세스 토큰 조회)<br>
 
 ### 홈
-![홈]https://github.com/user-attachments/assets/a09fd3a8-d39a-4a9f-9769-c8f82ccf2bad
+![홈 화면](./public/images/readme/page_home.gif)
 
 로그인 후 처음 접속하는 페이지입니다.<br>
 홈에서는 내 계좌현황을 파이 차트로 비율에 따라 한 눈에 확인할 수 있고,<br>
 원화(현금)와 마켓별 상세 잔고 현황을 리스트로 확인할 수 있습니다.<br>
 
 ### 비전
-![비전]https://github.com/user-attachments/assets/4c1ba787-7c3b-4523-b630-e698e6c7ed7a
+![비전](./public/images/readme/page_vision.gif)
 
 가상화폐에 대한 기본적인 정보와 투자 방법에 대한 영상,<br>
 유튜브에서 '코인'을 키워드로 검색한 최신 검색 결과 영상,<br>
@@ -94,7 +94,7 @@ REST API -> QUOTATION API의 실시간 체결 데이터를 호출하여<br>
 마켓 코드 셀렉터로 원하는 마켓 코드를 선택할 수 있습니다.<br>
 
 ### 실시간 차트
-![실시간 차트](https://github.com/user-attachments/assets/05ebe605-cc18-48d5-8cc0-78c2a4c674be)
+![실시간 차트](./public/images/readme/page_trade_chart.gif)
 ![주문하기 모달](./public/images/readme/page_trade_chart_order.gif)
 
 REST API -> QUOTATION API의 종목 중 KRW로 시작하는 종목들의 데이터로<br>
