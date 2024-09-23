@@ -7,7 +7,6 @@ import { Box } from '@mui/system';
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
 
 export async function getServerSideProps() {
-  const domain = process.env.NEXT_PUBLIC_API_URL;
   let videos = [];
   let articles = [];
 
@@ -33,9 +32,12 @@ export async function getServerSideProps() {
   }
 
   try {
-    const articleResponse = await axios.get(`${domain}/api/naver`, {
-      params: { keyword: '비트코인' },
-    });
+    const articleResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/naver`,
+      {
+        params: { keyword: '비트코인' },
+      },
+    );
     articles = articleResponse.data;
   } catch (error) {
     console.error('네이버 API 호출 중 에러 발생:', error);

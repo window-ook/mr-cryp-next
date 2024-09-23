@@ -39,6 +39,7 @@ function SignIn() {
       })
       .catch(console.error);
   };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -155,4 +156,7 @@ function SignIn() {
     </ThemeProvider>
   );
 }
-export default SignIn;
+
+export default function Root() {
+  return <SignIn />;
+}

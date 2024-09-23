@@ -6,7 +6,7 @@ import {
   setRate,
   setPrevPrice,
   setCurrPrice,
-} from '@/redux/chartSlice';
+} from '@/utils/redux/chartSlice';
 import {
   DescriptionTypo,
   NGTypo,

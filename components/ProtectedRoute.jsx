@@ -3,12 +3,11 @@ import { useRouter } from 'next/router';
 import { Snackbar, Alert } from '@mui/material';
 
 export default function ProtectedRoute({ children }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const accessToken =
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-
-  const router = useRouter();
 
   useEffect(() => {
     if (!accessToken) {

@@ -17,78 +17,22 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['대시보드', '비전', '거래'];
-const settings = ['프로필 정보', '로그아웃'];
-const subMenus = ['실시간 오더북', '실시간 거래 내역', '차트'];
-
-export default function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [activePage, setActivePage] = useState('대시보드');
-  const [activeSubMenu, setActiveSubMenu] = useState('');
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const activePage = localStorage.getItem('activePage');
-    if (activePage) setActivePage(activePage);
-  }, []);
-
-  const handleLogout = () => {
-    try {
-      const socialType = localStorage.getItem('socialType');
-      if (socialType === 'Google') {
-        logoutGoogle();
-        router.push('/');
-      } else if (socialType === 'Kakao') {
-        logoutKakao();
-        router.push('/');
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.error('로그아웃 에러');
-    }
-  };
-
-  /** 로그아웃 혹은 프로필 정보 모달 열기 */
-  const handleCloseUserMenu = action => {
-    setAnchorElUser(null);
-    if (action === '로그아웃') handleLogout();
-    if (action === '프로필 정보') {
-      handleOpen();
-    }
-  };
-
-  /** 페이지 메뉴 토글 */
-  const handleCloseNavMenu = page => {
-    setAnchorElNav(null);
-    setActivePage(page);
-    localStorage.setItem('activePage', page);
-    if (page === '대시보드') router.push('/home');
-    if (page === '거래') router.push('/trade');
-    if (page === '비전') router.push('/vision');
-  };
-
-  /** 서브메뉴 토글 */
-  const handleToggleSubMenu = subMenu => {
-    setActiveSubMenu(subMenu);
-    if (subMenu === '실시간 거래 내역') router.push('/trade/tradeHistory');
-    if (subMenu === '실시간 오더북') router.push('/trade/orderbook');
-    if (subMenu === '차트') router.push('/trade/chart');
-  };
-
-  /** 반응형 xs 메뉴바 클릭 -> 드롭다운 */
-  const handleOpenNavMenu = event => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  /** 유저 프로필 사진 클릭 -> 드롭다운 */
-  const handleOpenUserMenu = event => {
-    setAnchorElUser(event.currentTarget);
-  };
+function ResponsiveAppBarUI({
+  handleOpenNavMenu,
+  handleCloseNavMenu,
+  handleOpenUserMenu,
+  handleCloseUserMenu,
+  handleClose,
+  handleToggleSubMenu,
+  activePage,
+  activeSubMenu,
+  anchorElNav,
+  anchorElUser,
+  open,
+}) {
+  const pages = ['홈', '비전', '거래'];
+  const settings = ['프로필 정보', '로그아웃'];
+  const subMenus = ['실시간 오더북', '실시간 거래 내역', '차트'];
 
   return (
     <AppBar
@@ -311,4 +255,90 @@ export default function ResponsiveAppBar() {
       <User open={open} handleClose={handleClose} />
     </AppBar>
   );
+}
+
+export default function ResponsiveAppBar() {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [activePage, setActivePage] = useState('홈');
+  const [activeSubMenu, setActiveSubMenu] = useState('');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const activePage = localStorage.getItem('activePage');
+    if (activePage) setActivePage(activePage);
+  }, []);
+
+  const handleLogout = () => {
+    try {
+      const socialType = localStorage.getItem('socialType');
+      if (socialType === 'Google') {
+        logoutGoogle();
+        router.push('/');
+      } else if (socialType === 'Kakao') {
+        logoutKakao();
+        router.push('/');
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error('로그아웃 에러');
+    }
+  };
+
+  /** 로그아웃 혹은 프로필 정보 모달 열기 */
+  const handleCloseUserMenu = action => {
+    setAnchorElUser(null);
+    if (action === '로그아웃') handleLogout();
+    if (action === '프로필 정보') {
+      handleOpen();
+    }
+  };
+
+  /** 페이지 메뉴 토글 */
+  const handleCloseNavMenu = page => {
+    setAnchorElNav(null);
+    setActivePage(page);
+    localStorage.setItem('activePage', page);
+    if (page === '홈') router.push('/home');
+    if (page === '거래') router.push('/trade');
+    if (page === '비전') router.push('/vision');
+  };
+
+  /** 서브메뉴 토글 */
+  const handleToggleSubMenu = subMenu => {
+    setActiveSubMenu(subMenu);
+    if (subMenu === '실시간 거래 내역') router.push('/trade/tradeHistory');
+    if (subMenu === '실시간 오더북') router.push('/trade/orderbook');
+    if (subMenu === '차트') router.push('/trade/chart');
+  };
+
+  /** 반응형 xs 메뉴바 클릭 -> 드롭다운 */
+  const handleOpenNavMenu = event => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  /** 유저 프로필 사진 클릭 -> 드롭다운 */
+  const handleOpenUserMenu = event => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const props = {
+    handleOpenNavMenu,
+    handleCloseNavMenu,
+    handleOpenUserMenu,
+    handleCloseUserMenu,
+    handleClose,
+    handleToggleSubMenu,
+    activePage,
+    activeSubMenu,
+    anchorElNav,
+    anchorElUser,
+    open,
+  };
+
+  return <ResponsiveAppBarUI {...props} />;
 }

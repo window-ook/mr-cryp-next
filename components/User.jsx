@@ -14,6 +14,7 @@ export default function User({ open, handleClose }) {
       setSocialType(localStorage.getItem('socialType'));
     }
   }, []);
+
   return (
     <Modal
       open={open}

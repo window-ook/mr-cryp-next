@@ -12,12 +12,12 @@ import {
   Snackbar,
   Alert,
   Tooltip,
-  LinearProgress,
 } from '@mui/material';
 import axios from 'axios';
 import ArticleIcon from '@mui/icons-material/Article';
 import LinkIcon from '@mui/icons-material/Link';
 import IosShareIcon from '@mui/icons-material/IosShare';
+import PendingSkeleton from './PendingSkeleton';
 
 const cardStyle = {
   display: 'flex',
@@ -28,51 +28,7 @@ const cardStyle = {
   backgroundColor: globalColors.vanilla['200'],
 };
 
-export default function Articles({ initialArticles }) {
-  const [open, setOpen] = useState(false);
-  const {
-    data: articles = initialArticles,
-    error,
-    isFetching,
-  } = useQuery({
-    queryKey: ['articles'],
-    queryFn: async () => {
-      const response = await axios.get('/api/articles', {
-        params: { keyword: '비트코인' },
-      });
-      return response.data;
-    },
-    staleTime: 1000 * 60 * 10,
-  });
-
-  if (isFetching) {
-    return <LinearProgress color="primary" />;
-  }
-
-  if (error) {
-    return (
-      <Alert severity="error">
-        네이버 기사 다운로드 중 에러가 발생했습니다.
-      </Alert>
-    );
-  }
-
-  const handleOpen = async link => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setOpen(true);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleClose = reason => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
-
+function ArticlesUI({ articles, open, handleOpen, handleClose }) {
   return (
     <div>
       <SubTitle>TODAY NEWS</SubTitle>
@@ -143,5 +99,61 @@ export default function Articles({ initialArticles }) {
         </Alert>
       </Snackbar>
     </div>
+  );
+}
+
+export default function Articles({ initialArticles }) {
+  const [open, setOpen] = useState(false);
+  const {
+    data: articles = initialArticles,
+    error,
+    isPending,
+  } = useQuery({
+    queryKey: ['articles'],
+    queryFn: async () => {
+      const response = await axios.get('/api/articles', {
+        params: { keyword: '비트코인' },
+      });
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isPending) {
+    <PendingSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error">
+        네이버 기사 다운로드 중 에러가 발생했습니다.
+      </Alert>
+    );
+  }
+
+  const handleOpen = async link => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleClose = reason => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  return (
+    <ArticlesUI
+      articles={articles}
+      open={open}
+      handleOpen={handleOpen}
+      handleClose={handleClose}
+    />
   );
 }
