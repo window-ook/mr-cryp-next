@@ -10,6 +10,7 @@ import Upbit from '@/lib/upbit';
 export default async function handler(req, res) {
   const { type, ticker, count, unit } = req.query;
   const upbit = new Upbit();
+
   try {
     let data;
     switch (type) {

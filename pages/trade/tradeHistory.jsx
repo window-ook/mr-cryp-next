@@ -3,7 +3,6 @@ import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 import { memo, useEffect, useState } from 'react';
 import { DescriptionTypo, PriceTypo, SubTitle } from '@/defaultTheme';
 import {
-  Button,
   TableContainer,
   Table,
   TableBody,

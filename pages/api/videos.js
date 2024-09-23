@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-/** 유튜브 데이터 API 호출 */
 export default async function handler(req, res) {
   const { keyword } = req.query;
 

@@ -54,11 +54,9 @@ export default function KakaoAuth() {
 
       const data = response.data;
       const accessToken = data.access_token;
-      const expires_in = data.expires_in;
 
       localStorage.setItem('socialType', 'Kakao');
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('expires_in', expires_in);
 
       return accessToken;
     } catch (error) {

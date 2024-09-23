@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-/** 카카오 로그아웃 */
-const logoutKakao = async () => {
+export default async function logoutKakao() {
   try {
     await axios.post(
       'https://kapi.kakao.com/v1/user/logout',
@@ -20,11 +19,8 @@ const logoutKakao = async () => {
     localStorage.removeItem('imgUrl');
     localStorage.removeItem('nickname');
     localStorage.removeItem('activePage');
-    localStorage.removeItem('expires_in');
     console.log('카카오 로그아웃');
   } catch (error) {
     console.error('카카오 로그아웃 오류 : ', error);
   }
-};
-
-export default logoutKakao;
+}

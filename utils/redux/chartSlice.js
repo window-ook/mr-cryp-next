@@ -9,7 +9,6 @@ const initialState = {
 };
 
 /**
-  슬라이스
   @method setCode : 마켓 코드 저장
   @method setRate : 등락율 저장
   @method setPrevPrice : 전날 종가 저장

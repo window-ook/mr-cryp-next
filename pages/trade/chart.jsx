@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setOpen } from '@/redux/chartSlice';
+import { setOpen } from '@/utils/redux/chartSlice';
 import { Box, Grid, Button } from '@mui/material';
 import { DescriptionTypo, theme } from '@/defaultTheme';
 import axios from 'axios';
@@ -42,15 +42,8 @@ export async function getServerSideProps() {
 
 export default function Chart({ marketCodes }) {
   const dispatch = useDispatch();
-  const handleOpen = () => {
-    console.log('Opening modal');
-    dispatch(setOpen(true));
-  }; // 모달 open
-  const handleClose = () => {
-    console.log('Closing modal');
-    dispatch(setOpen(false)); // 모달 close
-  };
-
+  const handleOpen = () => dispatch(setOpen(true));
+  const handleClose = () => dispatch(setOpen(false));
   return (
     <Box>
       <Grid

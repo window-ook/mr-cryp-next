@@ -23,7 +23,6 @@ https://mr-cryp.vercel.app
 <div>
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white">
     <img src="https://img.shields.io/badge/React.js-61DAFB?style=flat-square&logo=react&logoColor=black">
-    <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
 </div><br/>
 <div>
     <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=reactquery&logoColor=white">
@@ -156,4 +155,5 @@ CORS 에러를 해결하고, 초기 렌더링시 많은 데이터 페칭이 일�
 ## 🌱 개선 사항 업데이트
 ### 다음 업데이트시 추가될 사항 (v1.1)
 - 네이버 로그인 추가
+- Next-auth 추가
 - 마켓 리스트에 검색 기능 추가

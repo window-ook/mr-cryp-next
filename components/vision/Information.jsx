@@ -1,19 +1,6 @@
 import { memo } from 'react';
 import Grid from '@mui/material/Grid';
-
-function IFrame({ src, title }) {
-  return (
-    <Grid item xs={12} sm={4}>
-      <iframe
-        width="100%"
-        height="315"
-        src={src}
-        allowFullScreen
-        title={title}
-      ></iframe>
-    </Grid>
-  );
-}
+import IframeUI from './IframeUI';
 
 const Information = () => {
   const information = [
@@ -37,7 +24,9 @@ const Information = () => {
   return (
     <Grid container spacing={2} sx={{ py: 2, px: 3 }}>
       {information.map(item => (
-        <IFrame key={item.id} src={item.src} title={item.title} />
+        <Grid key={item.id} item xs={12} sm={4}>
+          <IframeUI src={item.src} height={315} title={item.title} />
+        </Grid>
       ))}
     </Grid>
   );
