@@ -13,11 +13,10 @@ export default function KakaoAuth() {
 
       if (authCancel) {
         try {
-          console.log('약관 동의 중 취소');
-          window.alert('시작화면으로 돌아갑니다');
+          window.alert('약관에 동의하지 않아 홈으로 돌아갑니다.');
           router.push('/');
         } catch (error) {
-          console.log('취소 에러 : ', error);
+          console.log('약관 비동의 에러: ', error);
         }
       }
       try {
@@ -27,7 +26,7 @@ export default function KakaoAuth() {
           router.push('/home');
         }
       } catch (error) {
-        console.error('로그인 에러 : ', error);
+        console.error('로그인 에러: ', error);
       }
     };
 
@@ -60,7 +59,7 @@ export default function KakaoAuth() {
 
       return accessToken;
     } catch (error) {
-      console.error('액세스 토큰 가져오기 실패: ', error);
+      console.error('액세스 토큰 에러: ', error);
     }
   };
 
@@ -82,7 +81,7 @@ export default function KakaoAuth() {
       localStorage.setItem('imgUrl', imgUrl);
       localStorage.setItem('nickname', nickname);
     } catch (error) {
-      console.error('유저 데이터 가져오기 실패: ', error);
+      console.error('유저 데이터 에러: ', error);
     }
   };
 

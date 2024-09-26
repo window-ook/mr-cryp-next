@@ -1,10 +1,3 @@
-import * as React from 'react';
-import { useRouter } from 'next/router';
-import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
-import { loginGoogle } from '@/pages/api/firebase';
-import { Link } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image';
 import ButtonKakao from '@/components/ButtonKakao';
 import Avatar from '@mui/material/Avatar';
@@ -14,6 +7,12 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useRouter } from 'next/router';
+import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
+import { loginGoogle } from '@/pages/api/firebase';
+import { Link } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
@@ -21,7 +20,7 @@ function Copyright(props) {
   return (
     <NGTypo variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyrights All reserved © '}
-      <Link color="inherit" href="https://github.com/devkoow">
+      <Link color="inherit" href="https://github.com/window-ook/mr-cryp-next">
         Mr.Cryp
       </Link>{' '}
       {new Date().getFullYear()}
@@ -29,7 +28,7 @@ function Copyright(props) {
   );
 }
 
-function SignIn() {
+export default function Root() {
   const router = useRouter();
 
   const handleLogin = () => {
@@ -155,8 +154,4 @@ function SignIn() {
       </Grid>
     </ThemeProvider>
   );
-}
-
-export default function Root() {
-  return <SignIn />;
 }

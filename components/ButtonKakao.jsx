@@ -1,6 +1,6 @@
-import { NGTypo } from '@/defaultTheme';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
+import { NGTypo } from '@/defaultTheme';
 
 export default function ButtonKakao() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;

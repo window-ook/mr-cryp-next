@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Information from '@/components/vision/Information';
-import Videos from '@/components/vision/Videos';
-import Articles from '@/components/vision/Articles';
+import Videos from '@/components/vision/video/Videos';
+import Articles from '@/components/vision/article/Articles';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
@@ -28,7 +28,7 @@ export async function getServerSideProps() {
       id: item.id.videoId,
     }));
   } catch (error) {
-    console.log('유튜브 API 호출 중 에러 발생:', error);
+    console.log('유튜브 API 에러:', error);
   }
 
   try {
@@ -40,7 +40,7 @@ export async function getServerSideProps() {
     );
     articles = articleResponse.data;
   } catch (error) {
-    console.error('네이버 API 호출 중 에러 발생:', error);
+    console.error('네이버 API 에러:', error);
   }
 
   return {

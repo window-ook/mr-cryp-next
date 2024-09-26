@@ -13,9 +13,9 @@ export default function NotFound() {
         alignItems: 'center',
       }}
     >
-      <DescriptionTypo>제작되지 않은 페이지입니다</DescriptionTypo>
+      <DescriptionTypo>제작되지 않은 페이지입니다.</DescriptionTypo>
       <Link href={-1}>
-        <NGTypo>이전 페이지</NGTypo>
+        <NGTypo>돌아가기</NGTypo>
       </Link>
     </Box>
   );

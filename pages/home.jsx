@@ -28,7 +28,7 @@ export async function getServerSideProps() {
     );
     balance = response.data;
   } catch (error) {
-    console.log('계좌 현황 다운로드 중 에러 발생 : ', error);
+    console.log('계좌 현황 다운로드 에러: ', error);
   }
 
   return {
