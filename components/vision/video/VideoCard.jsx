@@ -1,4 +1,4 @@
-export default function IframeUI({ src, height, title }) {
+export default function VideoCard({ src, height, title }) {
   return (
     <iframe
       width="100%"

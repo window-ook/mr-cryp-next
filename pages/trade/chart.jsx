@@ -1,14 +1,14 @@
+import axios from 'axios';
+import dynamic from 'next/dynamic';
+import MarketListGrid from '@/components/trade/marketList/MarketListGrid';
+import MarketDetailGrid from '@/components/trade/marketDetail/MarketDetailGrid';
+import OrderModal from '@/components/trade/modal/OrderModal';
+import TradeHistoryGrid from '@/components/trade/tradeHistory/TradeHistoryGrid';
+import OrderbookGrid from '@/components/trade/orderbook/OrderbookGrid';
 import { useDispatch } from 'react-redux';
 import { setOpen } from '@/utils/redux/chartSlice';
 import { Box, Grid, Button } from '@mui/material';
 import { DescriptionTypo, theme } from '@/defaultTheme';
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import MarketListGrid from '@/components/trade/MarketListGrid';
-import MarketDetailGrid from '@/components/trade/MarketDetailGrid';
-import OrderModal from '@/components/trade/OrderModal';
-import TradeHistoryGrid from '@/components/trade/TradeHistoryGrid';
-import OrderbookGrid from '@/components/trade/OrderbookGrid';
 
 const DynamicChart = dynamic(() => import('@/components/trade/ChartGrid'), {
   ssr: false,

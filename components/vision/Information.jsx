@@ -1,6 +1,6 @@
-import { memo } from 'react';
 import Grid from '@mui/material/Grid';
-import IframeUI from './IframeUI';
+import VideoCard from './video/VideoCard';
+import { memo } from 'react';
 
 const Information = () => {
   const information = [
@@ -25,7 +25,7 @@ const Information = () => {
     <Grid container spacing={2} sx={{ py: 2, px: 3 }}>
       {information.map(item => (
         <Grid key={item.id} item xs={12} sm={4}>
-          <IframeUI src={item.src} height={315} title={item.title} />
+          <VideoCard src={item.src} height={315} title={item.title} />
         </Grid>
       ))}
     </Grid>

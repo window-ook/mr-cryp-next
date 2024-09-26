@@ -1,6 +1,6 @@
 # 📈 미스터 크립 
 
-![프로젝트 썸네일](./public/images/readme/thumbnail.webp)
+![프로젝트 썸네일](./public/images/readme/mycryp_thumbnail.webp)
 
 ## 📋 목차
 
@@ -40,12 +40,12 @@ https://mr-cryp.vercel.app
     <img src="https://img.shields.io/badge/Google Oauth-4285F4?style=flat-square&logo=google&logoColor=white">
 </div><br/>
 <div>
-    <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
-</div><br/>
-<div>
     <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white">
     <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
     <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black">
+</div><br/>
+<div>
+    <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
 </div><br/>
 
 ## ℹ️ 페이지 소개
@@ -112,7 +112,7 @@ REST API -> QUOTATION API의 종목 중 KRW로 시작하는 종목들의 데이�
 그 중 '프로필 정보'를 클릭하면 현재 로그인된 계정의 프로필 사진과 닉네임, 플랫폼의 정보가 표시됩니다.<br>
 
 ## 🧱 아키텍처
-(다이어그램 삽입하기)
+![아키텍처](./public/images/readme/mrcryp_architecture.webp)
 
 
 ## 📌 기술 사용 근거
@@ -146,11 +146,11 @@ MUI는 이미 잘 만들어진 디자인과 애니메이션을 가진 UI 컴포�
 
 ### Next.js
 미스터 크립은 원래 리액트로만 만들어진 프로젝트였습니다.<br>
-그래서 리액트와 use-upbit-api라는 라이브러리를 사용하여 업비트의 웹소켓 API를 사용하여<br>
-실시간 오더북, 실시간 거래내역, 실시간 가격, 캔들 데이터 등을 받아 유저가 보기 쉬운 정보로 보여주었습니다.<br>
-하지만 배포 후 CORS 에러가 발생하는 것을 알게 되었고 github.io에서도 동일한 것을 알았습니다.<br>
-이를 해결하기 위해 use-upbit-api를 사용하는 방식을 포기하고, Next를 사용하여 서버사이드 API 호출 및 렌더링을 사용하여<br>
-CORS 에러를 해결하고, 초기 렌더링시 많은 데이터 페칭이 일어나는 미스터 크립의 서비스 특성에 맞게 마이그레이션했습니다.
+기존엔 use-upbit-api라는 라이브러리를 사용하여 업비트의 웹소켓 API를 호출하여<br>
+실시간 오더북, 실시간 거래내역, 실시간 가격, 캔들 데이터 등을 받아 시각화된 정보로 보여주었습니다.<br>
+하지만 서비스 배포 후 CORS 에러가 발생하는 것을 알게 되었고 이를 해결하기 위해서 <br>
+use-upbit-api를 사용하는 방식을 포기하고 NextJS의 API 라우트를 사용하여<br>
+서버사이드에서 REST API 호출 및 렌더링을 하는 방법으로 CORS 에러를 해결하였습니다.<br>
 
 ## 🌱 개선 사항 업데이트
 ### 다음 업데이트시 추가될 사항 (v1.1)

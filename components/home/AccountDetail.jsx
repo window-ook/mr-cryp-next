@@ -1,3 +1,4 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { theme, NGTypo } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
@@ -6,7 +7,6 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 /** 보유비중
   @prop percentage : 총 자산 중 비율

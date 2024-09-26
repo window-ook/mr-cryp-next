@@ -1,9 +1,6 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import { Box, Divider, LinearProgress } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { Box, Divider } from '@mui/material';
 
 const subColumnStyle = {
   display: 'flex',
@@ -62,52 +59,7 @@ function SubIndicators({ label, value, valueStyle }) {
   );
 }
 
-/** 
- * 실시간 마켓 정보
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description krwCodes: KRW로 시작하는 마켓 코드들
-  @description tickers: KRW 마켓 코드들의 실시간 호가 정보
-   */
-export default function MarketDetailGrid({ marketCodes }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [ticker, setTicker] = useState([]);
-  const code = useSelector(state => state.chart.code);
-  const marketCodeMap = {};
-  marketCodes.forEach(item => {
-    marketCodeMap[item.market] = item.korean_name;
-  });
-
-  useEffect(() => {
-    if (code) {
-      const fetchTicker = async () => {
-        try {
-          const response = await axios.get(`/api/tickers?codes=${code}`);
-          const data = await response.data;
-          setTicker(...data);
-        } catch (error) {
-          console.error('마켓 디테일 다운로드 오류: ', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchTicker();
-      const interval = setInterval(fetchTicker, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [code]);
-
-  const numColor =
-    ticker && ticker.signed_change_rate === 0
-      ? 'black'
-      : ticker && ticker.signed_change_rate > 0
-        ? globalColors.color_pos['400']
-        : globalColors.color_neg['400'];
-
-  if (isLoading) {
-    return <LinearProgress color="primary" />;
-  }
-
+export default function MarketDetailTable({ marketCodeMap, ticker, numColor }) {
   return (
     <Box
       sx={{
