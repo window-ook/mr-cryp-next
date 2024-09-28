@@ -22,10 +22,9 @@ const auth = getAuth();
 export async function loginGoogle() {
   return signInWithPopup(auth, provider).then(result => {
     const user = result.user;
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const accessToken = credential.accessToken;
-    localStorage.setItem('socialType', 'Google');
-    localStorage.setItem('accessToken', accessToken);
+    // const credential = GoogleAuthProvider.credentialFromResult(result);
+    // const accessToken = credential.accessToken;
+    localStorage.setItem('socialType', 'google');
     localStorage.setItem('userId', user.uid);
     localStorage.setItem('nickname', user.displayName);
     localStorage.setItem('imgUrl', user.photoURL);
@@ -38,7 +37,6 @@ export async function logoutGoogle() {
   try {
     await signOut(auth);
     localStorage.removeItem('socialType');
-    localStorage.removeItem('accessToken');
     localStorage.removeItem('userId');
     localStorage.removeItem('nickname');
     localStorage.removeItem('imgUrl');

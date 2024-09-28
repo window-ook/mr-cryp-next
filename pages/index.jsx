@@ -1,18 +1,16 @@
-import Image from 'next/image';
-import ButtonKakao from '@/components/ButtonKakao';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import SocialButton from '@/components/SocialButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useRouter } from 'next/router';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import { loginGoogle } from '@/pages/api/firebase';
 import { Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const defaultTheme = createTheme();
 
@@ -29,15 +27,24 @@ function Copyright(props) {
 }
 
 export default function Root() {
+  const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+  const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+  const NAVER_API_KEY = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+  const NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
   const router = useRouter();
 
-  const handleLogin = () => {
-    loginGoogle()
-      .then(() => {
-        router.push('/home');
-      })
-      .catch(console.error);
-  };
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userId = localStorage.getItem('userId');
+
+      if (userId) {
+        alert('이미 로그인 되어있습니다.');
+        setTimeout(() => {
+          router.push('/home');
+        }, 1000);
+      }
+    }
+  }, [router]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -74,30 +81,21 @@ export default function Root() {
             >
               로그인
             </DescriptionTypo>
-            <Button
-              variant="contained"
-              sx={{
-                mt: 3,
-                px: 3,
-                gap: 1,
-                display: 'flex',
-                alignItems: 'center',
-                '&:hover': {
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
-                },
-              }}
-              onClick={handleLogin}
-            >
-              <Image
-                src="/images/logo_google.webp"
-                alt="구글 로고"
-                width="20"
-                height="20"
-              />
-              <NGTypo>구글 로그인</NGTypo>
-            </Button>
-            <ButtonKakao />
+            <SocialButton platform={'google'} />
+            <SocialButton
+              REST_API_KEY={KAKAO_API_KEY}
+              REDIRECT_URI={KAKAO_REDIRECT_URI}
+              platform={'kakao'}
+              bgColor={'#fddc3f'}
+              fontColor={'#000000'}
+            />
+            <SocialButton
+              REST_API_KEY={NAVER_API_KEY}
+              REDIRECT_URI={NAVER_REDIRECT_URI}
+              platform={'naver'}
+              bgColor={'#00c73d'}
+              fontColor={'#fff'}
+            />
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Grid>
