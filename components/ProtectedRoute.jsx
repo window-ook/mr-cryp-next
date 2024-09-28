@@ -6,18 +6,18 @@ export default function ProtectedRoute({ children }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const accessToken =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+  const userId =
+    typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!userId) {
       setOpen(true);
       setMessage('로그인을 해주세요');
       setTimeout(() => {
         router.push('/');
       }, 2000);
     }
-  }, [accessToken, router]);
+  }, [userId, router]);
 
   const handleClose = reason => {
     if (reason === 'clickaway') {

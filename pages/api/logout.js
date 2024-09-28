@@ -13,7 +13,6 @@ export default async function logoutKakao() {
       },
     );
 
-    localStorage.removeItem('accessToken');
     localStorage.removeItem('socialType');
     localStorage.removeItem('userId');
     localStorage.removeItem('imgUrl');
