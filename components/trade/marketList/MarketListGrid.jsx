@@ -1,5 +1,5 @@
 import axios from 'axios';
-import RealTimePriceTable from './RealtimePriceTable';
+import MarketListTable from './MarketListTable';
 import { memo, useEffect, useState } from 'react';
 import { LinearProgress } from '@mui/material';
 
@@ -45,6 +45,6 @@ function MarketListGrid({ marketCodes }) {
     return <LinearProgress color="primary" />;
   }
 
-  return <RealTimePriceTable tickers={tickers} marketCodeMap={marketCodeMap} />;
+  return <MarketListTable tickers={tickers} marketCodeMap={marketCodeMap} />;
 }
 export default memo(MarketListGrid);
