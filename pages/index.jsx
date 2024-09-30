@@ -12,6 +12,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+export async function getServerSideProps() {
+  const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;
+  const NAVER_CLIENT_ID = process.env.NEXT_NAVER_CLIENT_ID;
+
+  return {
+    props: {
+      KAKAO_CLIENT_ID,
+      NAVER_CLIENT_ID,
+    },
+  };
+}
+
 const defaultTheme = createTheme();
 
 function Copyright(props) {
@@ -26,10 +38,8 @@ function Copyright(props) {
   );
 }
 
-export default function Root() {
-  const KAKAO_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
-  const NAVER_API_KEY = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
   const NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
   const router = useRouter();
 
@@ -83,14 +93,14 @@ export default function Root() {
             </DescriptionTypo>
             <SocialButton platform={'google'} />
             <SocialButton
-              REST_API_KEY={KAKAO_API_KEY}
+              CLIENT_ID={KAKAO_CLIENT_ID}
               REDIRECT_URI={KAKAO_REDIRECT_URI}
               platform={'kakao'}
               bgColor={'#fddc3f'}
               fontColor={'#000000'}
             />
             <SocialButton
-              REST_API_KEY={NAVER_API_KEY}
+              CLIENT_ID={NAVER_CLIENT_ID}
               REDIRECT_URI={NAVER_REDIRECT_URI}
               platform={'naver'}
               bgColor={'#00c73d'}
