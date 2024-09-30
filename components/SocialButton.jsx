@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/router';
 import { NGTypo } from '@/defaultTheme';
-import { loginGoogle } from '@/pages/api/firebase';
+import { loginGoogle } from '@/utils/firebase';
 
 export default function SocialButton({
   REST_API_KEY,
@@ -15,8 +15,9 @@ export default function SocialButton({
   const STATE = crypto.randomUUID();
   const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const NAVER_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${REST_API_KEY}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
-  const handleLogin = () => {
-    if (platform === 'google') loginGoogle().then(() => router.push('/home'));
+  const handleLogin = async () => {
+    if (platform === 'google')
+      await loginGoogle().then(() => router.push('/home'));
     if (platform === 'kakao') window.location.href = KAKAO_URL;
     if (platform === 'naver') window.location.href = NAVER_URL;
   };

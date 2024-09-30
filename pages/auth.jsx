@@ -8,25 +8,15 @@ export default function KakaoAuth() {
   useEffect(() => {
     const getAuthToken = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const authCancel = urlParams.get('error'); // 약관 동의 X
-      const authCode = urlParams.get('code'); // 약관 동의 O
+      const authCancel = urlParams.get('error');
+      const authCode = urlParams.get('code');
 
-      if (authCancel) {
-        try {
-          window.alert('약관에 동의하지 않아 홈으로 돌아갑니다.');
-          router.push('/');
-        } catch (error) {
-          console.log('약관 비동의 에러: ', error);
-        }
-      }
-      try {
-        if (authCode) {
-          const accessToken = await fetchAccessToken(authCode);
-          await getUserData(accessToken);
-          router.push('/home');
-        }
-      } catch (error) {
-        console.error('로그인 에러: ', error);
+      if (authCancel) router.push('/');
+
+      if (authCode) {
+        const accessToken = await fetchAccessToken(authCode);
+        await getUserData(accessToken);
+        router.push('/home');
       }
     };
 
@@ -54,8 +44,8 @@ export default function KakaoAuth() {
       const data = response.data;
       const accessToken = data.access_token;
 
-      localStorage.setItem('socialType', 'kakao');
-      // localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('socialType', 'Kakao');
+      localStorage.setItem('accessToken', accessToken);
 
       return accessToken;
     } catch (error) {
