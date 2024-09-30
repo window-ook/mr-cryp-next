@@ -1,9 +1,54 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-export default function KakaoAuth() {
+export async function getServerSideProps() {
+  const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;
+  const KAKAO_CLIENT_SECRET = process.env.NEXT_KAKAO_CLIENT_SECRET;
+
+  return {
+    props: {
+      KAKAO_CLIENT_ID,
+      KAKAO_CLIENT_SECRET,
+    },
+  };
+}
+
+export default function KakaoAuth({ KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET }) {
   const router = useRouter();
+
+  const fetchAccessToken = useCallback(
+    async authCode => {
+      try {
+        const response = await axios.post(
+          'https://kauth.kakao.com/oauth/token',
+          new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: KAKAO_CLIENT_ID,
+            redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
+            code: authCode,
+            client_secret: KAKAO_CLIENT_SECRET,
+          }),
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+          },
+        );
+
+        const data = response.data;
+        const accessToken = data.access_token;
+
+        localStorage.setItem('socialType', 'Kakao');
+        localStorage.setItem('accessToken', accessToken);
+
+        return accessToken;
+      } catch (error) {
+        console.error('액세스 토큰 에러: ', error);
+      }
+    },
+    [KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET],
+  );
 
   useEffect(() => {
     const getAuthToken = async () => {
@@ -21,37 +66,7 @@ export default function KakaoAuth() {
     };
 
     getAuthToken();
-  }, [router]);
-
-  const fetchAccessToken = async authCode => {
-    try {
-      const response = await axios.post(
-        'https://kauth.kakao.com/oauth/token',
-        new URLSearchParams({
-          grant_type: 'authorization_code',
-          client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
-          redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
-          code: authCode,
-          client_secret: process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET_KEY,
-        }),
-        {
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-          },
-        },
-      );
-
-      const data = response.data;
-      const accessToken = data.access_token;
-
-      localStorage.setItem('socialType', 'Kakao');
-      localStorage.setItem('accessToken', accessToken);
-
-      return accessToken;
-    } catch (error) {
-      console.error('액세스 토큰 에러: ', error);
-    }
-  };
+  }, [router, fetchAccessToken]);
 
   const getUserData = async accessToken => {
     try {

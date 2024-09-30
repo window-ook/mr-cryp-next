@@ -5,7 +5,7 @@ import { NGTypo } from '@/defaultTheme';
 import { loginGoogle } from '@/utils/firebase';
 
 export default function SocialButton({
-  REST_API_KEY,
+  CLIENT_ID,
   REDIRECT_URI,
   platform,
   bgColor,
@@ -13,8 +13,8 @@ export default function SocialButton({
 }) {
   const router = useRouter();
   const STATE = crypto.randomUUID();
-  const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  const NAVER_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${REST_API_KEY}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
+  const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const NAVER_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
   const handleLogin = async () => {
     if (platform === 'google')
       await loginGoogle().then(() => router.push('/home'));
