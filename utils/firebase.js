@@ -22,13 +22,13 @@ const auth = getAuth();
 export async function loginGoogle() {
   return signInWithPopup(auth, provider).then(result => {
     const user = result.user;
-    // const credential = GoogleAuthProvider.credentialFromResult(result);
-    // const accessToken = credential.accessToken;
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+    localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('socialType', 'google');
     localStorage.setItem('userId', user.uid);
     localStorage.setItem('nickname', user.displayName);
     localStorage.setItem('imgUrl', user.photoURL);
-    console.log('구글 로그인');
     return user;
   });
 }
@@ -36,12 +36,6 @@ export async function loginGoogle() {
 export async function logoutGoogle() {
   try {
     await signOut(auth);
-    localStorage.removeItem('socialType');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('nickname');
-    localStorage.removeItem('imgUrl');
-    localStorage.removeItem('activePage');
-    console.log('구글 로그아웃');
   } catch (error) {
     console.error('구글 로그아웃 오류:', error);
   }

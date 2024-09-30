@@ -1,8 +1,8 @@
-import logoutKakao from '@/pages/api/logout';
+import axios from 'axios';
 import NavBarUI from './NavbarUI';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { logoutGoogle } from '@/pages/api/firebase';
+import { logoutGoogle } from '@/utils/firebase';
 
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -19,18 +19,34 @@ export default function NavBar() {
     if (activePage) setActivePage(activePage);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
       const socialType = localStorage.getItem('socialType');
+
       if (socialType === 'Google') {
         logoutGoogle();
-        router.push('/');
-      } else if (socialType === 'Kakao') {
-        logoutKakao();
-        router.push('/');
-      } else {
-        return;
       }
+
+      if (socialType === 'Kakao') {
+        await axios.post(
+          'https://kapi.kakao.com/v1/user/logout',
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          },
+        );
+      }
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('socialType');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('imgUrl');
+      localStorage.removeItem('nickname');
+      localStorage.removeItem('activePage');
+      router.push('/');
     } catch (error) {
       console.error('로그아웃 에러');
     }
