@@ -1,6 +1,6 @@
 # 📈 미스터 크립 
 
-![프로젝트 썸네일](./public/images/readme/mrcryp_thumbnail.webp)
+![mrcryp_thumbnail](https://github.com/user-attachments/assets/72b35cab-e9e0-4df8-925e-142fd67b381e)
 
 ## 📋 목차
 
@@ -23,34 +23,35 @@ https://mr-cryp.vercel.app
 <div>
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white">
     <img src="https://img.shields.io/badge/React.js-61DAFB?style=flat-square&logo=react&logoColor=black">
-</div><br/>
+</div>
 <div>
     <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=reactquery&logoColor=white">
     <img src="https://img.shields.io/badge/Redux Toolkit-764ABC?style=flat-square&logo=redux&logoColor=white">
-</div><br/>
+</div>
 <div>
     <img src="https://img.shields.io/badge/MUI-007FFF?style=flat-square&logo=mui&logoColor=white">
     <img src="https://img.shields.io/badge/highcharts-68BC71?style=flat-square&logo=highcharts&logoColor=white">
-</div><br/>
+</div>
 <div>
     <img src="https://img.shields.io/badge/Upbit API-0052CC?style=flat-square&logo=upbit&logoColor=white">
     <img src="https://img.shields.io/badge/Youtube API-FF0000?style=flat-square&logo=youtube&logoColor=white">
     <img src="https://img.shields.io/badge/Naver API-03C75A?style=flat-square&logo=naver&logoColor=white">
     <img src="https://img.shields.io/badge/Kakao Oauth-FFCD00?style=flat-square&logo=kakao&logoColor=white">
     <img src="https://img.shields.io/badge/Google Oauth-4285F4?style=flat-square&logo=google&logoColor=white">
-</div><br/>
+</div>
 <div>
     <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white">
     <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
     <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black">
-</div><br/>
+</div>
 <div>
     <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
 </div><br/>
 
 ## ℹ️ 페이지 소개
 ### 초기 화면
-![초기 화면](./public/images/readme/page_root.webp)
+
+![page_root](https://github.com/user-attachments/assets/aca74e2f-8b45-4c92-ac3c-4d8537e5bfa6)
 ![ProtectedRoute](./public/images/readme/protected_route.gif)
 
 로그인을 해야만 미스터 크립의 서비스를 이용할 수 있습니다.<br>
