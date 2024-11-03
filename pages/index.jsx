@@ -46,12 +46,9 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const userId = localStorage.getItem('userId');
-
       if (userId) {
         alert('이미 로그인 되어있습니다.');
-        setTimeout(() => {
-          router.push('/home');
-        }, 1000);
+        router.push('/home');
       }
     }
   }, [router]);

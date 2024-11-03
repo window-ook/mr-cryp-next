@@ -1,10 +1,10 @@
+import NavBar from '@/components/Navbar';
 import React from 'react';
-import ResponsiveAppBar from '@/components/Navbar';
 
 export default function Layout({ children }) {
   return (
     <div>
-      <ResponsiveAppBar />
+      <NavBar />
       <main>{children}</main>
     </div>
   );

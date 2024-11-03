@@ -22,6 +22,7 @@ export default function NavBar() {
   const handleLogout = async () => {
     try {
       const socialType = localStorage.getItem('socialType');
+      const accessToken = localStorage.getItem('accessToken');
 
       if (socialType === 'Google') {
         logoutGoogle();
