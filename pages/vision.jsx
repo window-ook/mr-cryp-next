@@ -1,10 +1,19 @@
+import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
+import { Grid } from '@mui/material';
+import { Box, styled } from '@mui/system';
 import axios from 'axios';
 import Information from '@/components/vision/Information';
 import Videos from '@/components/vision/video/Videos';
-import Articles from '@/components/vision/article/Articles';
-import { Grid } from '@mui/material';
-import { Box } from '@mui/system';
-import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
+import Articles from '@/components/vision/articles/Articles';
+
+const ContentsBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  borderRadius: '1rem',
+  display: 'flex',
+  flexDirection: { xs: 'column', md: 'row' },
+  border: `0.25rem solid ${theme.palette.primary.main}`,
+  padding: '1rem',
+}));
 
 export async function getServerSideProps() {
   let videos = [];
@@ -23,6 +32,7 @@ export async function getServerSideProps() {
         },
       },
     );
+
     videos = videoResponse.data.items.map(item => ({
       ...item,
       id: item.id.videoId,
@@ -63,23 +73,16 @@ export default function Vision({ initialVideos, initialArticles }) {
     >
       <Grid container spacing={2} width="80%">
         <Grid item xs={12} md={12}>
-          <SubTitle>가상자산 관련 정보</SubTitle>
-          <DescriptionTypo>
-            코인에 대한 정보와 크립토 서비스 이용 방법을 확인하세요 😊
-          </DescriptionTypo>
+          <Box sx={{ pl: 3 }}>
+            <SubTitle>가상자산 관련 정보</SubTitle>
+            <DescriptionTypo>
+              코인에 대한 정보와 크립토 서비스 이용 방법을 확인하세요 😊
+            </DescriptionTypo>
+          </Box>
           <Information />
         </Grid>
         <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              border: `3px solid ${theme.palette.primary.main}`,
-              borderRadius: 2,
-              padding: 2,
-              width: '100%',
-            }}
-          >
+          <ContentsBox sx={{ boxShadow: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <Videos initialVideos={initialVideos} />
@@ -88,7 +91,7 @@ export default function Vision({ initialVideos, initialArticles }) {
                 <Articles initialArticles={initialArticles} />
               </Grid>
             </Grid>
-          </Box>
+          </ContentsBox>
         </Grid>
       </Grid>
     </Box>

@@ -1,6 +1,3 @@
-import ArticleIcon from '@mui/icons-material/Article';
-import LinkIcon from '@mui/icons-material/Link';
-import IosShareIcon from '@mui/icons-material/IosShare';
 import { theme, DescriptionTypo, NGTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
@@ -14,15 +11,22 @@ import {
   Alert,
   Tooltip,
 } from '@mui/material';
+import { styled } from '@mui/system';
+import ArticleIcon from '@mui/icons-material/Article';
+import LinkIcon from '@mui/icons-material/Link';
+import IosShareIcon from '@mui/icons-material/IosShare';
 
-const cardStyle = {
+const ArticledCard = styled(Card)(({ theme }) => ({
+  height: '100%',
+  border: '0.5rem solid',
+  borderColor: theme.palette.primary.dark,
+  backgroundColor: globalColors.white,
   display: 'flex',
   flexDirection: 'column',
+  gap: '0.8rem',
   justifyContent: 'space-between',
-  height: '100%',
   transform: 'translateY(20px)',
-  backgroundColor: globalColors.vanilla['200'],
-};
+}));
 
 export default function ArticlesUI({
   articles,
@@ -38,14 +42,15 @@ export default function ArticlesUI({
         {articles.map(article => {
           const title = article.title
             .replace(/<b>|<\/b>/g, '')
-            .replace(/&quot;/g, '');
+            .replace(/&quot;/g, '')
+            .slice(0, 20);
           const description = article.description
             .replace(/<b>|<\/b>/g, '')
             .replace(/&quot;/g, '');
 
           return (
             <Grid item xs={12} sm={6} key={article.link}>
-              <Card key={article.link} sx={cardStyle}>
+              <ArticledCard key={article.link} sx={{ boxShadow: 2 }}>
                 <CardHeader
                   avatar={<ArticleIcon sx={{ fontSize: 30 }} />}
                   title={
@@ -89,7 +94,7 @@ export default function ArticlesUI({
                     </IconButton>
                   </Tooltip>
                 </CardActions>
-              </Card>
+              </ArticledCard>
             </Grid>
           );
         })}

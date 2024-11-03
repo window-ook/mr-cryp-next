@@ -1,6 +1,6 @@
-import VideoCard from './VideoCard';
 import { SubTitle, DescriptionTypo, NGTypo } from '@/defaultTheme';
 import { Grid, Box } from '@mui/material';
+import VideoCard from './VideoCard';
 
 export default function VideoCards({ videos, theme }) {
   return (
@@ -23,7 +23,7 @@ export default function VideoCards({ videos, theme }) {
                 transform: 'translateY(20px)',
               }}
             >
-              <Box sx={{ width: '100%', height: 230 }}>
+              <Box sx={{ width: '100%', height: 180 }}>
                 <VideoCard
                   src={`https://www.youtube.com/embed/${video.id}`}
                   height={'100%'}
@@ -32,7 +32,12 @@ export default function VideoCards({ videos, theme }) {
               </Box>
               <Box sx={{ pr: 2, pt: 2 }}>
                 <NGTypo gutterBottom variant="body2" fontWeight={'bold'}>
-                  {video.snippet.title.replace(/"/g, '').replace(/'/g, '')}
+                  {video.snippet.title
+                    .replace(/&quot;/g, '')
+                    .replace(/&#39;/g, '')
+                    .replace(/"/g, '')
+                    .replace(/'/g, '')
+                    .slice(0, 25) + '...'}
                 </NGTypo>
                 <NGTypo
                   display="block"

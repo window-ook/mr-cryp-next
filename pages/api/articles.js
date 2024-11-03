@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       {
         params: {
           query: encoded,
-          display: 16,
+          display: 12,
           start: 1,
           sort: 'sim',
         },
