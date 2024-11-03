@@ -1,4 +1,3 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { theme, NGTypo } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
@@ -7,41 +6,10 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
+import HoldingRatio from './HoldingRatio';
+import HoldingAmount from './HoldingAmount';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-/** 보유비중
-  @prop percentage : 총 자산 중 비율
- */
-function HoldingRatio({ percentage }) {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <NGTypo>보유비중</NGTypo>
-      <NGTypo fontWeight={'bold'}>{percentage.toFixed(2)}%</NGTypo>
-    </Box>
-  );
-}
-
-/** 보유수량
-  @prop balance : 계좌 데이터
-  @prop currency : 통화
-  @prop price : 현재가
- */
-function HoldingAmount({ balance, currency, price }) {
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <NGTypo>보유수량(평가금액)</NGTypo>
-      <NGTypo fontWeight={'bold'}>
-        {balance && currency ? `${balance} ${currency}` : null}
-      </NGTypo>
-      <NGTypo fontWeight={'bold'}>
-        {parseFloat(parseFloat(price) * balance).toLocaleString()} KRW
-      </NGTypo>
-    </Box>
-  );
-}
-
-/** 계좌 현황 상세 리스트
-  @prop balance : 계좌 데이터
- */
 export default function AccountDetail({ balance }) {
   const totalBalance = balance.reduce(
     (sum, item) => sum + parseFloat(item.balance) * item.avg_buy_price,
