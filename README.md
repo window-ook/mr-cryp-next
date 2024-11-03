@@ -168,4 +168,4 @@ use-upbit-api를 사용하는 방식을 포기하고 NextJS의 API 라우트를 
 
 ## 🌱 업데이트 예정
 
-Firebase Authentication을 사용한 소셜 로그인<br/>
+sx props를 styled 설정으로 변경하여 
