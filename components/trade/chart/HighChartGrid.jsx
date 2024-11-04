@@ -1,11 +1,11 @@
-import axios from 'axios';
-import indicators from 'highcharts/indicators/indicators';
-import Highcharts from 'highcharts/highstock';
-import HighchartsReact from 'highcharts-react-official';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
 import { Box } from '@mui/material';
+import axios from 'axios';
+import indicators from 'highcharts/indicators/indicators';
+import Highcharts from 'highcharts/highstock';
+import HighchartsReact from 'highcharts-react-official';
 
 indicators(Highcharts);
 Highcharts.setOptions({
@@ -114,7 +114,7 @@ const initialOptions = {
   실시간 차트
   @returns candles : 캔들 데이터로 차트 시각화
  */
-export default function ChartGrid() {
+export default function HighChartGrid() {
   const [options, setOptions] = useState(initialOptions);
   const [candles, setCandles] = useState([]);
   const code = useSelector(state => state.chart.code);

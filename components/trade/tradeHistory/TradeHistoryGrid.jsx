@@ -1,8 +1,8 @@
-import axios from 'axios';
-import TradeTable from './TradeTable';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
+import axios from 'axios';
+import TradeTable from './TradeTable';
 
 /** 
  * 실시간 거래 내역

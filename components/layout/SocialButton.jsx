@@ -1,8 +1,20 @@
+import { useRouter } from 'next/router';
+import { loginGoogle } from '@/utils/firebase';
+import { styled } from '@mui/system';
+import { NGTypo } from '@/defaultTheme';
 import Image from 'next/image';
 import Button from '@mui/material/Button';
-import { useRouter } from 'next/router';
-import { NGTypo } from '@/defaultTheme';
-import { loginGoogle } from '@/utils/firebase';
+
+const StyledButton = styled(Button)(() => ({
+  marginTop: '1rem',
+  gap: '1rem',
+  display: 'flex',
+  alignItems: 'center',
+  '&:hover': {
+    backgroundColor: '#ffffff',
+    color: '#000000',
+  },
+}));
 
 export default function SocialButton({
   CLIENT_ID,
@@ -23,20 +35,12 @@ export default function SocialButton({
   };
 
   return (
-    <Button
+    <StyledButton
       variant="contained"
       sx={{
-        mt: 3,
-        gap: 1,
         backgroundColor: bgColor,
         color: fontColor,
-        display: 'flex',
-        alignItems: 'center',
         px: platform === 'google' ? 3 : undefined,
-        '&:hover': {
-          backgroundColor: '#ffffff',
-          color: '#000000',
-        },
       }}
       onClick={handleLogin}
     >
@@ -54,6 +58,6 @@ export default function SocialButton({
             : '구글'}{' '}
         로그인
       </NGTypo>
-    </Button>
+    </StyledButton>
   );
 }

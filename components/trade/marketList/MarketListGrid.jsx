@@ -1,7 +1,7 @@
-import axios from 'axios';
-import MarketListTable from './MarketListTable';
 import { memo, useEffect, useState } from 'react';
 import { LinearProgress } from '@mui/material';
+import axios from 'axios';
+import MarketListTable from './MarketListTable';
 
 /** 
  * 실시간 마켓 코드 정보

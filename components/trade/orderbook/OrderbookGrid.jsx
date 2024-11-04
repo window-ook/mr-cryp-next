@@ -1,8 +1,8 @@
-import axios from 'axios';
-import OrderbookTable from './OrderbookTable';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
+import axios from 'axios';
+import OrderbookTable from './OrderbookTable';
 
 /** 
  * 실시간 오더북

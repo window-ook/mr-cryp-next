@@ -1,6 +1,5 @@
-import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 import { memo } from 'react';
-import { DescriptionTypo, NGTypo, PriceTypo } from '@/defaultTheme';
+import { DescriptionTypo, NGTypo, PriceTypo, theme } from '@/defaultTheme';
 import {
   Box,
   Paper,
@@ -14,6 +13,7 @@ import {
 } from '@mui/material';
 import { SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 
 function OrderTableAlone({
   orderbookData,
@@ -29,9 +29,23 @@ function OrderTableAlone({
       flexDirection="column"
       alignItems="center"
       gap={1}
-      sx={{ marginBottom: 10 }}
+      sx={{
+        mb: '2rem',
+        mt: '2rem',
+        [theme.breakpoints.down('md')]: {
+          mb: '5rem',
+        },
+      }}
     >
-      <SubTitle>실시간 오더북</SubTitle>
+      <SubTitle
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            mb: '1rem',
+          },
+        }}
+      >
+        실시간 오더북
+      </SubTitle>
       <MarketCodeSelector
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}

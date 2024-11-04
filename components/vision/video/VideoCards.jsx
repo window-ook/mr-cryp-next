@@ -7,10 +7,19 @@ export default function VideoCards({ videos, theme }) {
     <Box
       sx={{
         mb: 5,
-        transform: 'translateX(-5px)',
+        transform: 'translateX(-0.313rem)',
       }}
     >
-      <SubTitle>TREND 🔥</SubTitle>
+      <SubTitle
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            mt: '1rem',
+            mb: '1rem',
+          },
+        }}
+      >
+        TREND 🔥
+      </SubTitle>
       <DescriptionTypo>
         코인에 대한 실시간 트렌드를 확인해보세요!
       </DescriptionTypo>
@@ -20,10 +29,10 @@ export default function VideoCards({ videos, theme }) {
             <Box
               sx={{
                 width: '100%',
-                transform: 'translateY(20px)',
+                transform: 'translateY(1.25rem)',
               }}
             >
-              <Box sx={{ width: '100%', height: 180 }}>
+              <Box sx={{ width: '100%', height: '11.25rem' }}>
                 <VideoCard
                   src={`https://www.youtube.com/embed/${video.id}`}
                   height={'100%'}

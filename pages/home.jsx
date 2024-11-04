@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Box, styled } from '@mui/system';
 import { DescriptionTypo, SubTitle } from '@/defaultTheme';
 import axios from 'axios';
@@ -5,18 +6,18 @@ import AccountMarketFlow from '@/components/home/AccountMarketFlow';
 import AccountBalanceFlow from '@/components/home/AccountBalanceFlow';
 import AccountDetailTable from '@/components/home/AccountDetailTable';
 import AccountDetailPie from '@/components/home/AccountDetailPie';
-import { useEffect, useState } from 'react';
 
 const HomeBox = styled(Box)(() => ({
   width: '80%',
   height: '100%',
-  margin: 'auto auto 2rem auto',
+  margin: '4rem auto 4rem auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '4rem',
   '@media (max-width:1075px)': {
     flexDirection: 'column',
+    width: '40%',
   },
 }));
 
@@ -55,9 +56,9 @@ export default function Home({ balance }) {
       if (width > 1400) {
         setFlowSize({ width: 600, height: 300 });
       } else if (width > 1350) {
-        setFlowSize({ width: 500, height: 250 });
-      } else if (width > 1075) {
         setFlowSize({ width: 400, height: 200 });
+      } else if (width > 450) {
+        setFlowSize({ width: 300, height: 150 });
       }
     };
 
@@ -75,7 +76,7 @@ export default function Home({ balance }) {
   return (
     <HomeBox>
       <Box>
-        <SubTitle>내 보유 자산</SubTitle>
+        <SubTitle sx={{ mb: '1.25rem' }}>내 보유 자산</SubTitle>
         <AccountDetailPie balance={balance} />
         <AccountDetailTable balance={balance} />
       </Box>

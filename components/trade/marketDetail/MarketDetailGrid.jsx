@@ -1,9 +1,9 @@
-import axios from 'axios';
-import MarketDetailTable from './MarketDetailTable';
 import { useEffect, useState } from 'react';
 import { globalColors } from '@/globalColors';
 import { LinearProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import MarketDetailTable from './MarketDetailTable';
 
 /** 
  * 실시간 마켓 정보

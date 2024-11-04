@@ -1,6 +1,7 @@
-import { globalColors } from '@/globalColors';
-import { createTheme, TableCell, Typography } from '@mui/material';
+import { createTheme, TableCell, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
+import { globalColors } from '@/globalColors';
+
 /**
   * 프로젝트의 테마 설정을 정의하는 객체입니다.
   @description 컬러 팔레트, 기본 컴포넌트 세팅
@@ -83,9 +84,9 @@ export let theme = createTheme({
       styleOverrides: {
         root: {
           alignItems: 'center',
-          fontSize: 12,
+          fontSize: '0.75rem',
           whiteSpace: 'nowrap',
-          padding: 2,
+          padding: '0.125rem',
           verticalAlign: 'middle',
         },
         head: {
@@ -97,48 +98,19 @@ export let theme = createTheme({
 });
 
 /**
- * 홈 안내 타이포그래피 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const InforTypo = styled(Typography)(() => ({
-  fontSize: 48,
-  fontWeight: 'bold',
-  color: globalColors.white,
-  fontFamily: 'CWDangamAsac-Bold',
-  textShadow: globalColors.shadow_text,
-  textAlign: 'center',
-  '@media (max-width:1200px)': {
-    fontSize: 32,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:900px)': {
-    fontSize: 24,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:600px)': {
-    fontSize: 18,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:450px)': {
-    fontSize: 15,
-    lineHeight: 1.2,
-  },
-}));
-
-/**
  * 공통 서브 타이틀 스타일을 정의하는 컴포넌트입니다.
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const SubTitle = styled(Typography)(() => ({
-  fontSize: 32,
+  fontSize: '2rem',
   fontFamily: 'NEXON Lv1 Gothic OTF',
   fontWeight: 'bold',
   color: globalColors.white,
   textShadow: globalColors.shadow_text,
-  marginBottom: 2,
+  marginBottom: '0.125rem',
   '@media (max-width:900px)': {
-    fontSize: 24,
-    lineHeight: 1.2,
+    fontSize: '1.5rem',
+    lineHeight: '0.075rem',
   },
 }));
 
@@ -170,33 +142,13 @@ export const PriceTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 네비게이션바 타이포그래피 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const NavTypo = styled(Typography)(() => ({
-  fontFamily: 'SBAggroB',
-  fontWeight: 500,
-}));
-
-/**
- * 네비게이션바 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * 초기 화면, 네브바의 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const LogoTypo = styled(Typography)(() => ({
   fontFamily: 'SBAggroB',
   fontWeight: 'bold',
   fontStyle: 'italic',
-}));
-
-/**
- * 주문하기 모달 타이포그래피 (모바일용) 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const MobModalTypo = styled(Typography)(() => ({
-  fontFamily: 'NEXON Lv1 Gothic OTF',
-  '@media (max-width:500px)': {
-    fontSize: '13px',
-  },
 }));
 
 /**
@@ -209,4 +161,14 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: 100,
+}));
+
+/**
+ * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').BoxProps>}
+ */
+export const FlexCenterBox = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 }));

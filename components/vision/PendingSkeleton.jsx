@@ -5,7 +5,7 @@ export default function PendingSkeleton() {
     <Grid container spacing={2}>
       {Array.from(new Array(4)).map((_, index) => (
         <Grid item xs={12} md={6} key={index}>
-          <Box sx={{ width: 300, mt: 3 }}>
+          <Box sx={{ width: '18.75rem', mt: '0.188rem' }}>
             <Skeleton variant="rectangular" width={210} height={130} />
             <Box sx={{ pt: 0.5 }}>
               <Skeleton />

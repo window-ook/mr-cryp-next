@@ -1,6 +1,46 @@
 import { useEffect, useState } from 'react';
 import { Avatar, Box, Modal } from '@mui/material';
-import { NGTypo } from '@/defaultTheme';
+import { NGTypo, theme } from '@/defaultTheme';
+import { styled } from '@mui/system';
+
+const ModalBox = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '31.25rem',
+  '@media (max-width:1000px)': {
+    width: '80%',
+  },
+  backgroundColor: '#fff',
+  border: '0.25rem solid',
+  borderColor: `${theme.palette.primary.main}`,
+  padding: '2rem 4rem 2rem 4rem',
+  boxShadow: '1rem',
+}));
+
+const ProfileImage = styled(Avatar)(() => ({
+  width: '8rem',
+  height: '8rem',
+  '&:hover': { opacity: 0.5, transition: 'opacity 0.3s ease' },
+  '@media (max-width:450px)': {
+    width: '4rem',
+    height: '4rem',
+  },
+  '@media (max-width:175px)': {
+    display: 'none',
+  },
+}));
+
+const ProfileBox = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center ',
+  marginRight: '0.3rem',
+  gap: '0.25rem',
+}));
 
 export default function UserModal({ open, handleClose }) {
   const [imgUrl, setImgUrl] = useState('');
@@ -22,55 +62,15 @@ export default function UserModal({ open, handleClose }) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 500,
-          '@media (max-width:1000px)': {
-            width: '80%',
-          },
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-        <Avatar
-          alt="프로필 이미지"
-          src={imgUrl}
-          sx={{
-            width: '100px',
-            height: '100px',
-            '&:hover': { opacity: 0.5, transition: 'opacity 0.3s ease' },
-            '@media (max-width:450px)': {
-              width: '60px',
-              height: '60px',
-            },
-            '@media (max-width:175px)': {
-              display: 'none',
-            },
-          }}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center ',
-            marginRight: 5,
-            gap: 4,
-          }}
-        >
+      <ModalBox>
+        <ProfileImage alt="프로필 이미지" src={imgUrl} />
+        <ProfileBox>
           <NGTypo
             fontSize={24}
             fontWeight={'bold'}
             sx={{
               '@media (max-width:450px)': {
-                fontSize: 16,
+                fontSize: '1rem',
               },
             }}
           >
@@ -89,8 +89,8 @@ export default function UserModal({ open, handleClose }) {
                 ? '카카오 로그인'
                 : '네이버 로그인'}
           </NGTypo>
-        </Box>
-      </Box>
+        </ProfileBox>
+      </ModalBox>
     </Modal>
   );
 }
