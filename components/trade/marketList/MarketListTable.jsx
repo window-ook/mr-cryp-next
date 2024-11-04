@@ -1,4 +1,3 @@
-import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -25,6 +24,25 @@ import {
   TextField,
   InputAdornment,
 } from '@mui/material';
+import { styled } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
+
+const StyledTableContainer = styled(TableContainer)(() => ({
+  maxWidth: '100%',
+  height: 'calc(900px - 55px)',
+  overflow: 'auto',
+  margin: 0,
+  padding: 0,
+  backgroundColor: globalColors.white,
+}));
+
+const StyledRow = styled(TableRow)(() => ({
+  '&:hover': {
+    backgroundColor: '#aeb0af',
+    cursor: 'pointer',
+    transition: 'background-color ease duration-300',
+  },
+}));
 
 export default function MarketListTable({ marketCodeMap, tickers }) {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -67,16 +85,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
         }}
         sx={{ bgcolor: 'white', borderRadius: 1 }}
       />
-      <TableContainer
-        sx={{
-          maxWidth: '100%',
-          height: 'calc(900px - 55px)',
-          overflow: 'auto',
-          margin: 0,
-          padding: 0,
-          backgroundColor: globalColors.white,
-        }}
-      >
+      <StyledTableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -97,7 +106,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
           <TableBody>
             {filteredTickers &&
               filteredTickers.map(ticker => (
-                <TableRow
+                <StyledRow
                   key={`${ticker.acc_trade_price} + ${ticker.signed_change_rate}`}
                   onClick={() => {
                     handleRowClick(
@@ -106,12 +115,6 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                       ticker.prev_closing_price,
                       ticker.trade_price,
                     );
-                  }}
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: '#aeb0af',
-                      cursor: 'pointer',
-                    },
                   }}
                 >
                   <TableCell>
@@ -127,26 +130,8 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                       {ticker.code || ticker.market}
                     </NGTypo>
                   </TableCell>
-                  <TableCell align="right">
-                    <PriceTypo
-                      fontSize={11}
-                      fontWeight={'bold'}
-                      sx={{
-                        color:
-                          ticker.signed_change_rate > 0
-                            ? globalColors.color_pos['400']
-                            : ticker.signed_change_rate < 0
-                              ? globalColors.color_neg['400']
-                              : 'black',
-                      }}
-                    >
-                      {ticker.trade_price !== undefined &&
-                      ticker.trade_price !== null
-                        ? ticker.trade_price.toLocaleString()
-                        : 0}
-                    </PriceTypo>
-                  </TableCell>
                   <TableCell
+                    align="right"
                     sx={{
                       color:
                         ticker.signed_change_rate > 0
@@ -155,7 +140,24 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                             ? globalColors.color_neg['400']
                             : 'black',
                     }}
+                  >
+                    <PriceTypo fontSize={11} fontWeight={'bold'}>
+                      {ticker.trade_price !== undefined &&
+                      ticker.trade_price !== null
+                        ? ticker.trade_price.toLocaleString()
+                        : 0}
+                    </PriceTypo>
+                  </TableCell>
+                  <TableCell
                     align="right"
+                    sx={{
+                      color:
+                        ticker.signed_change_rate > 0
+                          ? globalColors.color_pos['400']
+                          : ticker.signed_change_rate < 0
+                            ? globalColors.color_neg['400']
+                            : 'black',
+                    }}
                   >
                     <Box display="flex" flexDirection="column">
                       <PriceTypo fontSize={10} fontWeight={'bold'}>
@@ -176,11 +178,11 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                       <NGTypo fontSize={10}>백만</NGTypo>
                     </Box>
                   </TableCell>
-                </TableRow>
+                </StyledRow>
               ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
     </>
   );
 }

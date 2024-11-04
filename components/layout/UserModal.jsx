@@ -10,7 +10,7 @@ const ModalBox = styled(Box)(() => ({
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: '31.25rem',
   '@media (max-width:1000px)': {
     width: '80%',
   },
@@ -70,7 +70,7 @@ export default function UserModal({ open, handleClose }) {
             fontWeight={'bold'}
             sx={{
               '@media (max-width:450px)': {
-                fontSize: 16,
+                fontSize: '1rem',
               },
             }}
           >

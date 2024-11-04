@@ -1,4 +1,4 @@
-import { createTheme, TableCell, Typography } from '@mui/material';
+import { createTheme, TableCell, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { globalColors } from '@/globalColors';
 
@@ -84,9 +84,9 @@ export let theme = createTheme({
       styleOverrides: {
         root: {
           alignItems: 'center',
-          fontSize: 12,
+          fontSize: '0.75rem',
           whiteSpace: 'nowrap',
-          padding: 2,
+          padding: '0.125rem',
           verticalAlign: 'middle',
         },
         head: {
@@ -102,15 +102,15 @@ export let theme = createTheme({
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const SubTitle = styled(Typography)(() => ({
-  fontSize: 32,
+  fontSize: '2rem',
   fontFamily: 'NEXON Lv1 Gothic OTF',
   fontWeight: 'bold',
   color: globalColors.white,
   textShadow: globalColors.shadow_text,
-  marginBottom: 2,
+  marginBottom: '0.125rem',
   '@media (max-width:900px)': {
-    fontSize: 24,
-    lineHeight: 1.2,
+    fontSize: '1.5rem',
+    lineHeight: '0.075rem',
   },
 }));
 
@@ -161,4 +161,14 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: 100,
+}));
+
+/**
+ * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').BoxProps>}
+ */
+export const FlexCenterBox = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 }));

@@ -1,6 +1,6 @@
+import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import TradeTableAlone from '@/components/trade/tradeHistory/TradeTableAlone';
-import { memo, useEffect, useState } from 'react';
 
 export async function getServerSideProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;

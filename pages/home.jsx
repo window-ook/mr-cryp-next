@@ -10,7 +10,7 @@ import AccountDetailPie from '@/components/home/AccountDetailPie';
 const HomeBox = styled(Box)(() => ({
   width: '80%',
   height: '100%',
-  margin: 'auto auto 2rem auto',
+  margin: '4rem auto 4rem auto',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -76,7 +76,7 @@ export default function Home({ balance }) {
   return (
     <HomeBox>
       <Box>
-        <SubTitle>내 보유 자산</SubTitle>
+        <SubTitle sx={{ mb: '1.25rem' }}>내 보유 자산</SubTitle>
         <AccountDetailPie balance={balance} />
         <AccountDetailTable balance={balance} />
       </Box>

@@ -1,7 +1,6 @@
-import RestoreIcon from '@mui/icons-material/Restore';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { NGTypo, theme } from '@/defaultTheme';
+import { FlexCenterBox, NGTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
   Alert,
@@ -16,31 +15,33 @@ import {
 } from '@mui/material';
 import { TabPanel } from '@mui/lab';
 import { styled } from '@mui/system';
+import RestoreIcon from '@mui/icons-material/Restore';
 
-const MobModalTypo = styled(Typography)(() => ({
+const MobileModalTypo = styled(Typography)(() => ({
   fontFamily: 'NEXON Lv1 Gothic OTF',
   '@media (max-width:500px)': {
-    fontSize: '13px',
+    fontSize: '0.813rem',
   },
 }));
 
-const textFieldStyle = {
-  width: 150,
+const StyledTextField = styled(TextField)(() => ({
+  width: '9.375rem',
   '@media (max-width:500px)': {
-    width: 80,
+    width: '5rem',
   },
-};
+}));
 
-const flexCenter = {
+const InformationBox = styled(Box)(() => ({
   display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-};
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  gap: 3,
+}));
 
-const resetStyle = {
-  width: '100px',
+const ResetButton = styled(Button)(() => ({
+  width: '6.25rem',
   '@media (max-width:500px)': {
-    width: 80,
+    width: '5rem',
   },
   color: theme.palette.primary.main,
   backgroundColor: globalColors.white_retro,
@@ -48,7 +49,7 @@ const resetStyle = {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.light,
   },
-};
+}));
 
 export default function OrderPanel({ value, addOrder, askablePrice }) {
   const code = useSelector(state => state.chart.code);
@@ -164,13 +165,13 @@ export default function OrderPanel({ value, addOrder, askablePrice }) {
               },
             }}
           >
-            <Box sx={{ ...flexCenter, flexDirection: 'column' }}>
-              <Box sx={{ ...flexCenter, gap: 2 }}>
-                <MobModalTypo>지정가</MobModalTypo>
-                <MobModalTypo>시장가</MobModalTypo>
-                <MobModalTypo>예약-지정가</MobModalTypo>
-              </Box>
-              <Box sx={{ ...flexCenter, gap: 2 }}>
+            <FlexCenterBox sx={{ flexDirection: 'column' }}>
+              <FlexCenterBox sx={{ gap: 2 }}>
+                <MobileModalTypo>지정가</MobileModalTypo>
+                <MobileModalTypo>시장가</MobileModalTypo>
+                <MobileModalTypo>예약-지정가</MobileModalTypo>
+              </FlexCenterBox>
+              <FlexCenterBox sx={{ gap: 2 }}>
                 <Radio
                   checked={selectedValue === 'a'}
                   onChange={handleRadio}
@@ -192,13 +193,12 @@ export default function OrderPanel({ value, addOrder, askablePrice }) {
                   name="radio-buttons"
                   inputProps={{ 'aria-label': '예약-지정가' }}
                 />
-              </Box>
-            </Box>
+              </FlexCenterBox>
+            </FlexCenterBox>
           </Box>
           {/* 데스크탑 주문유형 */}
-          <Box
+          <FlexCenterBox
             sx={{
-              ...flexCenter,
               gap: 2,
               '@media (max-width:500px)': {
                 display: 'none',
@@ -206,7 +206,7 @@ export default function OrderPanel({ value, addOrder, askablePrice }) {
             }}
           >
             <NGTypo>주문유형</NGTypo>
-            <Box sx={flexCenter}>
+            <FlexCenterBox>
               <Radio
                 checked={selectedValue === 'a'}
                 onChange={handleRadio}
@@ -231,98 +231,82 @@ export default function OrderPanel({ value, addOrder, askablePrice }) {
                 inputProps={{ 'aria-label': '예약-지정가' }}
               />
               <NGTypo>예약-지정가</NGTypo>
-            </Box>
-          </Box>
+            </FlexCenterBox>
+          </FlexCenterBox>
           {/* 주문가능 금액 */}
-          <Box sx={flexCenter}>
-            <MobModalTypo>주문가능</MobModalTypo>
-            <MobModalTypo>
+          <FlexCenterBox>
+            <MobileModalTypo>주문가능</MobileModalTypo>
+            <MobileModalTypo>
               {value === '1'
                 ? parseFloat(bidableCash).toLocaleString()
                 : parseFloat(askablePrice).toLocaleString()}{' '}
               KRW
-            </MobModalTypo>
-          </Box>
+            </MobileModalTypo>
+          </FlexCenterBox>
           {/* 매수가격 / 매도가격 */}
-          <Box sx={flexCenter}>
+          <FlexCenterBox>
             <Box>
-              <MobModalTypo>
+              <MobileModalTypo>
                 {value === '1' ? '매수가격' : '매도가격'}
-              </MobModalTypo>
-              <MobModalTypo>(KRW)</MobModalTypo>
+              </MobileModalTypo>
+              <MobileModalTypo>(KRW)</MobileModalTypo>
             </Box>
-            <Box sx={flexCenter}>
-              <TextField
-                value={price}
-                sx={textFieldStyle}
-                onChange={handlePriceChange}
-              />
+            <FlexCenterBox>
+              <StyledTextField value={price} onChange={handlePriceChange} />
               <IconButton onClick={handlePriceDecrement}>-</IconButton>
               <IconButton onClick={handlePriceIncrement}>+</IconButton>
-            </Box>
-          </Box>
+            </FlexCenterBox>
+          </FlexCenterBox>
           {/* 주문수량 */}
-          <Box sx={flexCenter}>
+          <FlexCenterBox>
             <Box>
-              <MobModalTypo>주문수량</MobModalTypo>
-              <MobModalTypo>({code})</MobModalTypo>
+              <MobileModalTypo>주문수량</MobileModalTypo>
+              <MobileModalTypo>({code})</MobileModalTypo>
             </Box>
-            <Box sx={flexCenter}>
-              <TextField
-                value={balance}
-                sx={textFieldStyle}
-                onChange={handleBalanceChange}
-              />
+            <FlexCenterBox>
+              <StyledTextField value={balance} onChange={handleBalanceChange} />
               <IconButton onClick={handleBalanceDecrement}>-</IconButton>
               <IconButton onClick={handleBalanceIncrement}>+</IconButton>
-            </Box>
-          </Box>
+            </FlexCenterBox>
+          </FlexCenterBox>
           {/* 주문총액 */}
-          <Box sx={flexCenter}>
+          <FlexCenterBox>
             <Box>
-              <MobModalTypo>주문총액</MobModalTypo>
-              <MobModalTypo>(KRW)</MobModalTypo>
+              <MobileModalTypo>주문총액</MobileModalTypo>
+              <MobileModalTypo>(KRW)</MobileModalTypo>
             </Box>
             <TextField
               sx={{
-                width: 203,
+                width: '12.5rem',
                 '@media (max-width:500px)': {
-                  width: 120,
+                  width: '7.5rem',
                 },
               }}
               value={accPrice}
             />
-          </Box>
+          </FlexCenterBox>
           {/* 안내문 */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-end',
-              gap: 3,
-            }}
-          >
+          <InformationBox>
             <NGTypo fontSize={12}>최소주문 금액: 5,000 KRW</NGTypo>
             <NGTypo fontSize={12}>수수료(부가세 포함): 0.05%</NGTypo>
-          </Box>
+          </InformationBox>
           {/* 버튼 */}
-          <Box sx={flexCenter}>
+          <FlexCenterBox>
             <Tooltip title="초기화">
-              <Button
-                sx={resetStyle}
+              <ResetButton
                 onClick={() => {
                   handleReset();
                 }}
               >
                 <RestoreIcon />
-              </Button>
+              </ResetButton>
             </Tooltip>
             <Tooltip title="주문">
               <Button
                 sx={{
-                  width: '250px',
+                  width: '15.625rem',
                   '@media (max-width:500px)': {
-                    width: 80,
+                    width: '5rem',
                   },
                 }}
                 onClick={() => handleButtonClick()}
@@ -334,7 +318,7 @@ export default function OrderPanel({ value, addOrder, askablePrice }) {
                 )}
               </Button>
             </Tooltip>
-          </Box>
+          </FlexCenterBox>
           <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={success} variant="filled">
               {success === 'success'

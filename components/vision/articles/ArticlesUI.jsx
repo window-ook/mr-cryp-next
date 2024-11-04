@@ -25,7 +25,7 @@ const ArticledCard = styled(Card)(({ theme }) => ({
   flexDirection: 'column',
   gap: '0.8rem',
   justifyContent: 'space-between',
-  transform: 'translateY(20px)',
+  transform: 'translateY(1.25rem)',
 }));
 
 export default function ArticlesUI({
@@ -61,7 +61,7 @@ export default function ArticlesUI({
                 />
                 <CardContent
                   sx={{
-                    maxHeight: '100px',
+                    maxHeight: '6.25rem',
                     overflow: 'flow',
                     flexGrow: 1,
                   }}

@@ -10,8 +10,10 @@ export default function NavBar() {
   const [activePage, setActivePage] = useState('홈');
   const [activeSubMenu, setActiveSubMenu] = useState('');
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function NavBar() {
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           },
         );

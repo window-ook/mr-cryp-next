@@ -1,16 +1,10 @@
 module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-  },
   extends: ['next/core-web-vitals', 'plugin:prettier/recommended'],
   plugins: ['prettier'],
   rules: {
     'no-undef': 'error',
-
     'prettier/prettier': [
       'error',
-
       {
         singleQuote: true,
         semi: true,
@@ -21,5 +15,8 @@ module.exports = {
         arrowParens: 'avoid',
       },
     ],
+  },
+  env: {
+    es6: true,
   },
 };

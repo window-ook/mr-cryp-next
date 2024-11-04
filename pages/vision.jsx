@@ -6,7 +6,15 @@ import Information from '@/components/vision/Information';
 import Videos from '@/components/vision/video/Videos';
 import Articles from '@/components/vision/articles/Articles';
 
-const ContentsBox = styled(Box)(({ theme }) => ({
+const VisionBox = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '2rem',
+  marginBottom: '8rem',
+}));
+
+const ContentsBox = styled(Box)(() => ({
   width: '100%',
   borderRadius: '1rem',
   display: 'flex',
@@ -63,20 +71,22 @@ export async function getServerSideProps() {
 
 export default function Vision({ initialVideos, initialArticles }) {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 10,
-      }}
-    >
+    <VisionBox>
       <Grid container spacing={2} width="80%">
         <Grid item xs={12} md={12}>
           <Box sx={{ pl: 3 }}>
-            <SubTitle>가상자산 관련 정보</SubTitle>
+            <SubTitle
+              sx={{
+                mb: '0.5rem',
+                [theme.breakpoints.down('md')]: {
+                  mb: '1rem',
+                },
+              }}
+            >
+              가상자산 관련 정보
+            </SubTitle>
             <DescriptionTypo>
-              코인에 대한 정보와 크립토 서비스 이용 방법을 확인하세요 😊
+              코인에 대한 정보와 거래 서비스 이용 방법을 확인하세요 😊
             </DescriptionTypo>
           </Box>
           <Information />
@@ -94,6 +104,6 @@ export default function Vision({ initialVideos, initialArticles }) {
           </ContentsBox>
         </Grid>
       </Grid>
-    </Box>
+    </VisionBox>
   );
 }

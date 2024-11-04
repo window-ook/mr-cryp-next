@@ -11,20 +11,32 @@ import {
   TableRow,
   LinearProgress,
 } from '@mui/material';
+import { styled } from '@mui/system';
 import { StyledTableCell, PriceTypo, DescriptionTypo } from '@/defaultTheme';
 
-const boxStyle = {
-  height: '11px',
+const HeadCell = styled(StyledTableCell)(() => ({
+  padding: '0.7rem',
+  width: '33%',
+  textAlign: 'center',
+}));
+
+const HeadBox = styled(Box)(() => ({
+  height: '0.75rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-};
+}));
 
-const cellStyle = {
-  padding: 0.7,
-  width: '33%',
-  align: 'center',
-};
+const HeadTypo = styled(DescriptionTypo)(() => ({
+  fontSize: '0.75rem',
+}));
+
+const AmountBar = styled(Box)(() => ({
+  height: '0.938rem',
+  position: 'absolute',
+  maxWidth: '100%',
+  opacity: 0.5,
+}));
 
 const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   const rate = useSelector(state => state.chart.rate);
@@ -82,21 +94,21 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
           <Table display="flex" stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>매도 물량</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>가격</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>매수 물량</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
+                <HeadCell>
+                  <HeadBox>
+                    <HeadTypo>매도 물량</HeadTypo>
+                  </HeadBox>
+                </HeadCell>
+                <HeadCell>
+                  <HeadBox>
+                    <HeadTypo>가격</HeadTypo>
+                  </HeadBox>
+                </HeadCell>
+                <HeadCell>
+                  <HeadBox>
+                    <HeadTypo>매수 물량</HeadTypo>
+                  </HeadBox>
+                </HeadCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -112,7 +124,7 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                       <Box
                         sx={{
                           position: 'relative',
-                          height: '15px',
+                          height: '0.9rem',
                         }}
                       >
                         <PriceTypo
@@ -124,15 +136,11 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                         >
                           {Number(element.ask_size).toFixed(4)}
                         </PriceTypo>
-                        <Box
+                        <AmountBar
                           sx={{
-                            position: 'absolute',
-                            right: 0,
-                            height: '15px',
-                            width: `${(element.ask_size / askMaxSize) * 100}%`,
-                            maxWidth: '100%',
                             backgroundColor: globalColors.color_ask['500'],
-                            opacity: 0.5,
+                            width: `${(element.ask_size / askMaxSize) * 100}%`,
+                            right: 0,
                           }}
                         />
                       </Box>
@@ -190,7 +198,7 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                     <Box
                       sx={{
                         position: 'relative',
-                        height: '15px',
+                        height: '0.938rem',
                       }}
                     >
                       <PriceTypo
@@ -202,15 +210,10 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                       >
                         {Number(element.bid_size).toFixed(4)}
                       </PriceTypo>
-                      <Box
+                      <AmountBar
                         sx={{
-                          position: 'absolute',
-                          left: 0,
-                          height: '15px',
                           width: `${(element.bid_size / bidMaxSize) * 100}%`,
-                          maxWidth: '100%',
                           backgroundColor: globalColors.color_bid['500'],
-                          opacity: 0.5,
                         }}
                       />
                     </Box>

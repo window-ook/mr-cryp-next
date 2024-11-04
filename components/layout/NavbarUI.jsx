@@ -155,7 +155,7 @@ export default function NavBarUI({
   return (
     <AppBar
       position="static"
-      sx={{ top: 0, left: 0, right: 0, marginBottom: 4 }}
+      sx={{ top: 0, left: 0, right: 0, marginBottom: '0.25rem' }}
     >
       <Container maxWidth="xl">
         <Toolbar

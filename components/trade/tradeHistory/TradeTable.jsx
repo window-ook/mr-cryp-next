@@ -12,7 +12,22 @@ import {
   PriceTypo,
   StyledTableCell,
 } from '@/defaultTheme';
+import { styled } from '@mui/system';
 import { globalColors } from '@/globalColors';
+
+const HeadTypo = styled(DescriptionTypo)(() => ({
+  fontSize: '1.25rem',
+  '@media (max-width:900px)': {
+    fontSize: '0.688rem',
+  },
+}));
+
+const StyledTableContainer = styled(TableContainer)(() => ({
+  maxWidth: '62.5rem',
+  height: '25rem',
+  overflow: 'auto',
+  backgroundColor: globalColors.white,
+}));
 
 export default function TradeTable({ tradeData }) {
   const timestampToTime = timestamp => {
@@ -22,29 +37,22 @@ export default function TradeTable({ tradeData }) {
   };
 
   return (
-    <TableContainer
-      sx={{
-        maxWidth: 1000,
-        height: 400,
-        overflow: 'auto',
-        backgroundColor: globalColors.white,
-      }}
-    >
+    <StyledTableContainer>
       {tradeData && (
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="center">
-                <DescriptionTypo fontSize={12}>체결 시간</DescriptionTypo>
+                <HeadTypo>체결 시간</HeadTypo>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <DescriptionTypo fontSize={12}>체결 가격</DescriptionTypo>
+                <HeadTypo>체결 가격</HeadTypo>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <DescriptionTypo fontSize={12}>체결량</DescriptionTypo>
+                <HeadTypo>체결량</HeadTypo>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <DescriptionTypo fontSize={12}>체결금액</DescriptionTypo>
+                <HeadTypo>체결금액</HeadTypo>
               </StyledTableCell>
             </TableRow>
           </TableHead>
@@ -93,6 +101,6 @@ export default function TradeTable({ tradeData }) {
           </TableBody>
         </Table>
       )}
-    </TableContainer>
+    </StyledTableContainer>
   );
 }

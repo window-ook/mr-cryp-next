@@ -2,8 +2,26 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Modal, Tab } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
+import { styled } from '@mui/system';
+import { theme } from '@/defaultTheme';
 import OrderHistory from './OrderHistory';
 import OrderPanel from './OrderPanel';
+
+const ModalBox = styled(Box)(() => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  '@media (max-width:500px)': {
+    width: '18.75rem',
+  },
+  backgroundColor: '#fff',
+  border: '0.5rem solid',
+  borderColor: theme.palette.primary.main,
+  boxShadow: '1.5rem',
+  padding: '0.25rem',
+}));
 
 export default function OrderModal({ handleClose }) {
   const [value, setValue] = useState('1');
@@ -33,22 +51,7 @@ export default function OrderModal({ handleClose }) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 500,
-          '@media (max-width:500px)': {
-            width: '300px',
-          },
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
+      <ModalBox>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="매수 매도 주문">
@@ -69,7 +72,7 @@ export default function OrderModal({ handleClose }) {
           />
           <OrderHistory value="3" orders={orders} removeOrder={removeOrder} />
         </TabContext>
-      </Box>
+      </ModalBox>
     </Modal>
   );
 }

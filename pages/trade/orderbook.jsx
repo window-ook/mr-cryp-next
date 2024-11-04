@@ -1,6 +1,6 @@
+import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderbookTableAlone from '@/components/trade/orderbook/OrderbookTableAlone';
-import { memo, useEffect, useState } from 'react';
 
 export async function getServerSideProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;

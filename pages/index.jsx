@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import { Link } from '@mui/material';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
@@ -11,6 +12,34 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+const ButtonsBox = styled(Box)(() => ({
+  my: 8,
+  mx: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+}));
+
+const ImageBox = styled(Box)(() => ({
+  width: '28.125rem',
+  height: '9.375rem',
+  '@media (max-width: 900px)': {
+    width: '13.125rem',
+    height: '4.375rem',
+  },
+}));
+
+const StyledLogoTypo = styled(LogoTypo)(() => ({
+  letterSpacing: '.3rem',
+  color: theme.palette.secondary.main,
+  textDecoration: 'none',
+  textShadow: globalColors.shadow_text,
+  mr: 2,
+  '@media (max-width: 900px)': {
+    fontSize: '1.5rem',
+  },
+}));
 
 export async function getServerSideProps() {
   const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;
@@ -70,15 +99,7 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
+          <ButtonsBox>
             <Avatar sx={{ m: 1, backgroundColor: theme.palette.primary.main }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -104,7 +125,7 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
               fontColor={'#fff'}
             />
             <Copyright sx={{ mt: 5 }} />
-          </Box>
+          </ButtonsBox>
         </Grid>
         {/* 포스터 사이드 */}
         <Grid
@@ -124,36 +145,15 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
             justifyContent={'center'}
             height={'100vh'}
           >
-            <Box
-              component="img"
-              src="/images/logo_mustache.webp"
-              width={450}
-              height={150}
-              sx={{
-                '@media (max-width: 900px)': {
-                  width: 210,
-                  height: 70,
-                },
-              }}
-            />
-            <LogoTypo
+            <ImageBox component="img" src="/images/logo_mustache.webp" />
+            <StyledLogoTypo
               noWrap
               component="a"
               fontWeight="bold"
-              fontSize={'50px'}
-              sx={{
-                letterSpacing: '.3rem',
-                color: theme.palette.secondary.main,
-                textDecoration: 'none',
-                textShadow: globalColors.shadow_text,
-                mr: 2,
-                '@media (max-width: 900px)': {
-                  fontSize: 24,
-                },
-              }}
+              fontSize={'3.5rem'}
             >
               Mr.Cryp
-            </LogoTypo>
+            </StyledLogoTypo>
           </Box>
         </Grid>
       </Grid>

@@ -1,6 +1,6 @@
-import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 import { memo } from 'react';
-import { DescriptionTypo, PriceTypo } from '@/defaultTheme';
+import { DescriptionTypo, PriceTypo, theme } from '@/defaultTheme';
+import { styled } from '@mui/system';
 import {
   TableContainer,
   Table,
@@ -13,13 +13,14 @@ import {
   LinearProgress,
 } from '@mui/material';
 import { SubTitle } from '@/defaultTheme';
+import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 
-const headStyle = {
-  fontSize: 20,
+const HeadTypo = styled(DescriptionTypo)(() => ({
+  fontSize: '1.25rem',
   '@media (max-width:900px)': {
-    fontSize: 11,
+    fontSize: '0.688rem',
   },
-};
+}));
 
 function TradeTableAlone({
   isConnected,
@@ -35,9 +36,23 @@ function TradeTableAlone({
       flexDirection="column"
       alignItems="center"
       gap={1}
-      sx={{ marginBottom: 10 }}
+      sx={{
+        mb: '2rem',
+        mt: '2rem',
+        [theme.breakpoints.down('md')]: {
+          mb: '5rem',
+        },
+      }}
     >
-      <SubTitle>실시간 거래내역</SubTitle>
+      <SubTitle
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            mb: '1rem',
+          },
+        }}
+      >
+        실시간 거래내역
+      </SubTitle>
       <MarketCodeSelector
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
@@ -51,26 +66,26 @@ function TradeTableAlone({
       </Box>
       <TableContainer
         component={Paper}
-        sx={{ maxWidth: 1000, marginTop: '1rem' }}
+        sx={{ maxWidth: '62.5rem', marginTop: '1rem' }}
       >
         {tradeData && isConnected ? (
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell align="center">
-                  <DescriptionTypo sx={headStyle}>코인</DescriptionTypo>
+                  <HeadTypo>코인</HeadTypo>
                 </TableCell>
                 <TableCell align="center">
-                  <DescriptionTypo sx={headStyle}>체결 ID</DescriptionTypo>
+                  <HeadTypo>체결 ID</HeadTypo>
                 </TableCell>
                 <TableCell align="center">
-                  <DescriptionTypo sx={headStyle}>체결 시간</DescriptionTypo>
+                  <HeadTypo>체결 시간</HeadTypo>
                 </TableCell>
                 <TableCell align="center">
-                  <DescriptionTypo sx={headStyle}>ASK/BID</DescriptionTypo>
+                  <HeadTypo>ASK/BID</HeadTypo>
                 </TableCell>
                 <TableCell align="center">
-                  <DescriptionTypo sx={headStyle}>체결 가격</DescriptionTypo>
+                  <HeadTypo>체결 가격</HeadTypo>
                 </TableCell>
               </TableRow>
             </TableHead>

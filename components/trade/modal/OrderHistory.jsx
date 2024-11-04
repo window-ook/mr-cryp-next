@@ -1,6 +1,6 @@
 import { useState, Fragment } from 'react';
 import { TabPanel } from '@mui/lab';
-import { NGTypo, theme } from '@/defaultTheme';
+import { FlexCenterBox, NGTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
   Alert,
@@ -14,17 +14,20 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
+import { styled } from '@mui/system';
 
-const flexCenter = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-};
-
-const cellStyle = {
+const CellTypo = styled(NGTypo)(() => ({
   textAlign: 'center',
-  '@media (max-width: 500px)': { fontSize: '10px' },
-};
+  '@media (max-width: 500px)': { fontSize: '0.625rem' },
+}));
+
+const CancelButton = styled(Button)(() => ({
+  backgroundColor: globalColors.white_retro,
+  color: theme.palette.primary.light,
+  '&:hover': {
+    color: theme.palette.secondary.main,
+  },
+}));
 
 export default function OrderHistory({ value, orders, removeOrder }) {
   const [selectedValue, setSelectedValue] = useState('a');
@@ -57,7 +60,7 @@ export default function OrderHistory({ value, orders, removeOrder }) {
   return (
     <TabPanel value={value}>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Box sx={{ ...flexCenter, justifyContent: 'start' }}>
+        <FlexCenterBox sx={{ justifyContent: 'start' }}>
           <Radio
             checked={selectedValue === 'a'}
             onChange={handleRadio}
@@ -74,36 +77,36 @@ export default function OrderHistory({ value, orders, removeOrder }) {
             inputProps={{ 'aria-label': '체결' }}
           />
           <NGTypo>체결</NGTypo>
-        </Box>
+        </FlexCenterBox>
         <Box sx={{ overflowX: 'auto' }}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell rowSpan={2}>
-                  <NGTypo sx={cellStyle}>주문시간</NGTypo>
+                  <CellTypo>주문시간</CellTypo>
                 </TableCell>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>마켓명</NGTypo>
+                  <CellTypo>마켓명</CellTypo>
                 </TableCell>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>단위가격</NGTypo>
+                  <CellTypo>단위가격</CellTypo>
                 </TableCell>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>주문량</NGTypo>
+                  <CellTypo>주문량</CellTypo>
                 </TableCell>
                 <TableCell rowSpan={2}>
-                  <NGTypo sx={cellStyle}>취소</NGTypo>
+                  <CellTypo>취소</CellTypo>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>구분</NGTypo>
+                  <CellTypo>구분</CellTypo>
                 </TableCell>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>주문가격</NGTypo>
+                  <CellTypo>주문가격</CellTypo>
                 </TableCell>
                 <TableCell>
-                  <NGTypo sx={cellStyle}>미체결량</NGTypo>
+                  <CellTypo>미체결량</CellTypo>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -116,41 +119,31 @@ export default function OrderHistory({ value, orders, removeOrder }) {
                   <Fragment key={index}>
                     <TableRow>
                       <TableCell rowSpan={2}>
-                        <NGTypo sx={cellStyle}>
+                        <CellTypo>
                           {date}
                           <br />
                           {time}
-                        </NGTypo>
+                        </CellTypo>
                       </TableCell>
                       <TableCell>
-                        <NGTypo sx={cellStyle}>{order.marketName}</NGTypo>
+                        <CellTypo>{order.marketName}</CellTypo>
                       </TableCell>
                       <TableCell>
-                        <NGTypo sx={cellStyle}>{order.unitPrice}</NGTypo>
+                        <CellTypo>{order.unitPrice}</CellTypo>
                       </TableCell>
                       <TableCell>
-                        <NGTypo sx={cellStyle}>{order.orderQuantity}</NGTypo>
+                        <CellTypo>{order.orderQuantity}</CellTypo>
                       </TableCell>
                       <TableCell rowSpan={2}>
-                        <Button
-                          sx={{
-                            backgroundColor: globalColors.white_retro,
-                            color: theme.palette.primary.light,
-                            '&:hover': {
-                              color: theme.palette.secondary.main,
-                            },
-                          }}
-                          onClick={() => handleCancel(index)}
-                        >
+                        <CancelButton onClick={() => handleCancel(index)}>
                           취소
-                        </Button>
+                        </CancelButton>
                       </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>
-                        <NGTypo
+                        <CellTypo
                           sx={{
-                            ...cellStyle,
                             color:
                               order.type === '매도'
                                 ? globalColors.color_neg['400']
@@ -158,13 +151,13 @@ export default function OrderHistory({ value, orders, removeOrder }) {
                           }}
                         >
                           {order.type}
-                        </NGTypo>
+                        </CellTypo>
                       </TableCell>
                       <TableCell>
-                        <NGTypo sx={cellStyle}>{order.orderPrice}</NGTypo>
+                        <CellTypo>{order.orderPrice}</CellTypo>
                       </TableCell>
                       <TableCell>
-                        <NGTypo sx={cellStyle}>{order.unfilledQuantity}</NGTypo>
+                        <CellTypo>{order.unfilledQuantity}</CellTypo>
                       </TableCell>
                     </TableRow>
                   </Fragment>
