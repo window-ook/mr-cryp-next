@@ -1,16 +1,16 @@
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from '@mui/material';
+import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
+import { globalColors } from '@/globalColors';
 import Avatar from '@mui/material/Avatar';
-import SocialButton from '@/components/SocialButton';
+import SocialButton from '@/components/layout/SocialButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
-import { Link } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 export async function getServerSideProps() {
   const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;

@@ -1,9 +1,9 @@
-import axios from 'axios';
-import PendingSkeleton from '../PendingSkeleton';
-import ArticlesUI from './ArticlesUI';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Alert } from '@mui/material';
+import axios from 'axios';
+import PendingSkeleton from '../PendingSkeleton';
+import ArticlesUI from './ArticlesUI';
 
 export default function Articles({ initialArticles }) {
   const [open, setOpen] = useState(false);

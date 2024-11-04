@@ -1,10 +1,30 @@
+import { Box, styled } from '@mui/system';
+import { DescriptionTypo, SubTitle } from '@/defaultTheme';
 import axios from 'axios';
-import AccountBox from '@/components/home/AccountBox';
-import AccountDetail from '@/components/home/AccountDetail';
-import { Grid } from '@mui/material';
-import { Box } from '@mui/system';
-import { SubTitle } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
+import AccountMarketFlow from '@/components/home/AccountMarketFlow';
+import AccountBalanceFlow from '@/components/home/AccountBalanceFlow';
+import AccountDetailTable from '@/components/home/AccountDetailTable';
+import AccountDetailPie from '@/components/home/AccountDetailPie';
+import { useEffect, useState } from 'react';
+
+const HomeBox = styled(Box)(() => ({
+  width: '80%',
+  height: '100%',
+  margin: 'auto auto 2rem auto',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '4rem',
+  '@media (max-width:1075px)': {
+    flexDirection: 'column',
+  },
+}));
+
+const FlowBox = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 10,
+}));
 
 export async function getServerSideProps() {
   let balance = [];
@@ -26,48 +46,51 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ balance }) {
+  const [flowSize, setFlowSize] = useState({ width: 600, height: 300 });
+
+  useEffect(() => {
+    const updateChartSize = () => {
+      const width = window.innerWidth;
+
+      if (width > 1400) {
+        setFlowSize({ width: 600, height: 300 });
+      } else if (width > 1350) {
+        setFlowSize({ width: 500, height: 250 });
+      } else if (width > 1075) {
+        setFlowSize({ width: 400, height: 200 });
+      }
+    };
+
+    updateChartSize();
+    window.addEventListener('resize', updateChartSize);
+
+    return () => window.removeEventListener('resize', updateChartSize);
+  }, []);
+
+  const totalBalance = balance.reduce(
+    (sum, item) => sum + parseFloat(item.balance) * item.avg_buy_price,
+    0,
+  );
+
   return (
-    <Box
-      sx={{
-        width: '80%',
-        my: 5,
-        mx: 'auto',
-      }}
-    >
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12} marginBottom={4}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 'auto',
-              backgroundColor: globalColors.skyblue['300'],
-              overflow: 'hidden',
-              gap: '1rem',
-            }}
-          ></Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <SubTitle>내 계좌 현황</SubTitle>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              backgroundColor: globalColors.white,
-              borderRadius: '30px',
-              py: 5,
-              boxShadow: 4,
-            }}
-          >
-            <AccountBox balance={balance} />
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={6} sx={{ margin: 'auto' }}>
-          <AccountDetail balance={balance} />
-        </Grid>
-      </Grid>
-    </Box>
+    <HomeBox>
+      <Box>
+        <SubTitle>내 보유 자산</SubTitle>
+        <AccountDetailPie balance={balance} />
+        <AccountDetailTable balance={balance} />
+      </Box>
+      <FlowBox>
+        <div>
+          <DescriptionTypo>보유 자산 변동 (단위: 1000 KRW)</DescriptionTypo>
+          <AccountBalanceFlow totalBalance={totalBalance} flowSize={flowSize} />
+        </div>
+        <div>
+          <DescriptionTypo>
+            보유 코인 시세 변동 (단위: 1000 KRW)
+          </DescriptionTypo>
+          <AccountMarketFlow flowSize={flowSize} />
+        </div>
+      </FlowBox>
+    </HomeBox>
   );
 }

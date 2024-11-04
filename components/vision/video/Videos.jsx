@@ -1,9 +1,9 @@
-import axios from 'axios';
-import PendingSkeleton from '../PendingSkeleton';
-import VideoCards from './VideoCards';
 import { useQuery } from '@tanstack/react-query';
 import { Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
+import PendingSkeleton from '../PendingSkeleton';
+import VideoCards from './VideoCards';
 
 export default function Videos({ initialVideos }) {
   const theme = useTheme();
