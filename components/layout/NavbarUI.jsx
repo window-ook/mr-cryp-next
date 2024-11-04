@@ -1,4 +1,6 @@
-import User from '@/components/User';
+import { globalColors } from '@/globalColors';
+import { LogoTypo, NavTypo } from '@/defaultTheme';
+import UserModal from '@/components/layout/UserModal';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,8 +12,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { globalColors } from '@/globalColors';
-import { LogoTypo, NavTypo } from '@/defaultTheme';
 
 export default function NavBarUI({
   handleOpenNavMenu,
@@ -145,7 +145,7 @@ export default function NavBarUI({
           </Box>
           {/* 유저 메뉴 */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="내 프로필 / 로그아웃">
+            <Tooltip title="프로필 / 로그아웃">
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <NavTypo
                   onClick={handleOpenUserMenu}
@@ -166,7 +166,7 @@ export default function NavBarUI({
                     my: 4,
                   }}
                 >
-                  내 프로필
+                  프로필
                 </NavTypo>
               </Box>
             </Tooltip>
@@ -248,7 +248,7 @@ export default function NavBarUI({
           </Box>
         )}
       </Container>
-      <User open={open} handleClose={handleClose} />
+      <UserModal open={open} handleClose={handleClose} />
     </AppBar>
   );
 }

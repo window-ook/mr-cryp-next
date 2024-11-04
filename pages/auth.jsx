@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export async function getServerSideProps() {
   const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;
@@ -17,7 +17,7 @@ export async function getServerSideProps() {
 export default function KakaoAuth({ KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET }) {
   const router = useRouter();
 
-  const fetchAccessToken = useCallback(
+  const getAccessToken = useCallback(
     async authCode => {
       try {
         const response = await axios.post(
@@ -51,7 +51,7 @@ export default function KakaoAuth({ KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET }) {
   );
 
   useEffect(() => {
-    const getAuthToken = async () => {
+    const getAuthCode = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const authCancel = urlParams.get('error');
       const authCode = urlParams.get('code');
@@ -59,14 +59,14 @@ export default function KakaoAuth({ KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET }) {
       if (authCancel) router.push('/');
 
       if (authCode) {
-        const accessToken = await fetchAccessToken(authCode);
+        const accessToken = await getAccessToken(authCode);
         await getUserData(accessToken);
         router.push('/home');
       }
     };
 
-    getAuthToken();
-  }, [router, fetchAccessToken]);
+    getAuthCode();
+  }, [router, getAccessToken]);
 
   const getUserData = async accessToken => {
     try {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Avatar, Box, Modal } from '@mui/material';
 import { NGTypo } from '@/defaultTheme';
 
-export default function User({ open, handleClose }) {
+export default function UserModal({ open, handleClose }) {
   const [imgUrl, setImgUrl] = useState('');
   const [nickname, setNickname] = useState('');
   const [socialType, setSocialType] = useState('');
@@ -84,10 +84,10 @@ export default function User({ open, handleClose }) {
             }}
           >
             {socialType === 'Google'
-              ? '구글 계정'
+              ? '구글 로그인'
               : socialType === 'Kakao'
-                ? '카카오 계정'
-                : '로그인을 해주세요'}
+                ? '카카오 로그인'
+                : '네이버 로그인'}
           </NGTypo>
         </Box>
       </Box>

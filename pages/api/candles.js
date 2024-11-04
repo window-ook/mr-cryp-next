@@ -1,14 +1,15 @@
 import Upbit from '@/lib/upbit';
 
 /** 
-  lib/upbit.js에 정의된 업비트 오픈 API 서버사이드 호출
+  lib/upbit.js에 정의된 캔들 데이터 서버사이드 호출
   @returns candleMinutes : 분봉
   @returns candleDays : 일봉
+  @returns candleSpeicificDay : 특정 시간의 일봉
   @returns candleWeeks : 주봉
   @returns candleMonths : 월봉 
   */
 export default async function handler(req, res) {
-  const { type, ticker, count, unit } = req.query;
+  const { type, ticker, count, unit, to } = req.query;
   const upbit = new Upbit();
 
   try {
@@ -24,6 +25,9 @@ export default async function handler(req, res) {
         break;
       case 'days':
         data = await upbit.candleDays(ticker, count);
+        break;
+      case 'day':
+        data = await upbit.candleSpeicificDay(ticker, count, to);
         break;
       case 'weeks':
         data = await upbit.candleWeeks(ticker, count);
