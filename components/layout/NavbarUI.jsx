@@ -1,5 +1,6 @@
 import { globalColors } from '@/globalColors';
-import { LogoTypo, NavTypo } from '@/defaultTheme';
+import { LogoTypo } from '@/defaultTheme';
+import { styled, useMediaQuery } from '@mui/system';
 import UserModal from '@/components/layout/UserModal';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,6 +13,126 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+
+const NavTypo = styled(Typography)(() => ({
+  fontFamily: 'SBAggroB',
+  fontWeight: 500,
+}));
+
+const NavbarButton = styled(Button)(() => ({
+  margin: '1rem 0 1rem 1rem',
+  color: 'white',
+  display: 'block',
+  border: 'none',
+  boxShadow: 'none',
+}));
+
+const NavbarButtonTypo = styled(NavTypo)(({}) => ({
+  textShadow: globalColors.shadow_text,
+  fontSize: '2rem',
+  '@media (max-width:1100px)': {
+    fontSize: '1.5rem',
+  },
+}));
+
+const OverMdBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexGrow: 1,
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
+
+const OverMdLogoTypo = styled(LogoTypo)(({ theme }) => ({
+  display: 'flex',
+  flexGrow: 1,
+  marginRight: '0.5rem',
+  fontSize: '3rem',
+  fontWeight: 'bold',
+  letterSpacing: '.3rem',
+  color: 'inherit',
+  textShadow: globalColors.shadow_text,
+  textDecoration: 'none',
+
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+}));
+
+const UnderMdBox = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+}));
+
+const UnderMdLogoTypo = styled(LogoTypo)(({ theme }) => ({
+  display: 'flex',
+  flexGrow: 1,
+  fontSize: '2rem',
+  marginRight: '0.5rem',
+  letterSpacing: '.3rem',
+  color: 'inherit',
+  textShadow: globalColors.shadow_text,
+  textDecoration: 'none',
+
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+}));
+
+const SubNavbar = styled(Box)(({}) => ({
+  display: 'flex',
+  marginLeft: '18rem',
+  '@media (max-width:900px)': {
+    marginLeft: 0,
+    justifyContent: 'center',
+  },
+}));
+
+const SubNavbarButton = styled(Button)(({}) => ({
+  my: '0.5rem',
+  mr: '0.5rem',
+  display: 'block',
+  border: 'none',
+  boxShadow: 'none',
+}));
+
+const SubNavbarButtonTypo = styled(NavTypo)(({}) => ({
+  fontSize: '2rem',
+  textShadow: globalColors.shadow_text,
+  '&:hover': {
+    textShadow: 'none',
+  },
+  '@media (max-width:1100px)': {
+    fontSize: '1.5rem',
+  },
+  '@media (max-width:900px)': {
+    fontSize: '1rem',
+  },
+  '@media (max-width:450px)': {
+    fontSize: '0.875rem',
+  },
+}));
+
+const UserMenuTypo = styled(NavTypo)(({ theme }) => ({
+  padding: 0,
+  color: globalColors.white[400],
+  textShadow: globalColors.shadow_text,
+  marginY: '1rem',
+  fontSize: '2rem',
+
+  '&:hover': {
+    opacity: '50%',
+    cursor: 'pointer',
+    transition: 'opacity 0.3s ease',
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.125rem',
+    lineHeight: '1rem',
+  },
+}));
 
 export default function NavBarUI({
   handleOpenNavMenu,
@@ -26,152 +147,110 @@ export default function NavBarUI({
   anchorElUser,
   open,
 }) {
-  const pages = ['홈', '비전', '거래'];
+  const isOverMd = useMediaQuery('(min-width:900px)');
+  const NavbarMenu = ['홈', '비전', '거래'];
   const settings = ['프로필 정보', '로그아웃'];
-  const subMenus = ['실시간 오더북', '실시간 거래 내역', '차트'];
+  const subNavbarMenu = ['실시간 오더북', '실시간 거래 내역', '차트'];
 
   return (
     <AppBar
       position="static"
       sx={{ top: 0, left: 0, right: 0, marginBottom: 4 }}
     >
-      {/* 네비게이션바 */}
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          {/* md 로고 타이포 */}
-          <LogoTypo
-            noWrap
-            component="a"
-            fontWeight="bold"
-            fontSize={'50px'}
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-              textShadow: globalColors.shadow_text,
-              mr: 2,
-            }}
-          >
-            Mr.Cryp
-          </LogoTypo>
-          {/* xs 네브바 메뉴 : 아이콘으로 활성화 */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              sx={{
-                color: globalColors.white,
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map(page => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <NavTypo textAlign="center" fontSize={'18px'}>
-                    {page}
-                  </NavTypo>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          {/* xs 로고 타이포 */}
-          <LogoTypo
-            fontSize={'32px'}
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textShadow: globalColors.shadow_text,
-              textDecoration: 'none',
-              mr: 2,
-            }}
-          >
-            Mr.Cryp
-          </LogoTypo>
-          {/* md 네브바 메뉴 */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
-              <Button
-                key={page}
-                onClick={() => handleCloseNavMenu(page)}
-                sx={{
-                  my: 2,
-                  mr: 2,
-                  color: 'white',
-                  display: 'block',
-                  border: 'none',
-                  boxShadow: 'none',
-                }}
+        <Toolbar
+          disableGutters
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          {isOverMd ? (
+            <Box sx={{ display: 'flex' }}>
+              <OverMdLogoTypo
+                noWrap
+                component="a"
+                href="#app-bar-with-responsive-menu"
               >
-                <NavTypo
+                Mr.Cryp
+              </OverMdLogoTypo>
+              <OverMdBox>
+                {NavbarMenu.map(page => (
+                  <NavbarButton
+                    key={page}
+                    onClick={() => handleCloseNavMenu(page)}
+                  >
+                    <NavbarButtonTypo>{page}</NavbarButtonTypo>
+                  </NavbarButton>
+                ))}
+              </OverMdBox>
+            </Box>
+          ) : (
+            <Box
+              sx={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}
+            >
+              <UnderMdBox>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
                   sx={{
-                    textShadow: globalColors.shadow_text,
-                    fontSize: '32px',
-                    '@media (max-width:1100px)': {
-                      fontSize: '24px',
-                    },
+                    color: globalColors.white,
                   }}
                 >
-                  {page}
-                </NavTypo>
-              </Button>
-            ))}
-          </Box>
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: 'block', md: 'none' },
+                  }}
+                >
+                  {NavbarMenu.map(page => (
+                    <MenuItem
+                      key={page}
+                      onClick={() => handleCloseNavMenu(page)}
+                    >
+                      <NavTypo textAlign="center" fontSize={'1.5rem'}>
+                        {page}
+                      </NavTypo>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </UnderMdBox>
+              <UnderMdLogoTypo
+                noWrap
+                component="a"
+                href="#app-bar-with-responsive-menu"
+              >
+                Mr.Cryp
+              </UnderMdLogoTypo>
+            </Box>
+          )}
+
           {/* 유저 메뉴 */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="프로필 / 로그아웃">
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <NavTypo
-                  onClick={handleOpenUserMenu}
-                  fontSize={32}
-                  sx={{
-                    p: 0,
-                    color: globalColors.white['400'],
-                    textShadow: globalColors.shadow_text,
-                    '&:hover': {
-                      opacity: '50%',
-                      cursor: 'pointer',
-                      transition: 'opacity 0.3s ease',
-                    },
-                    '@media (max-width:900px)': {
-                      fontSize: 18,
-                      lineHeight: 1.2,
-                    },
-                    my: 4,
-                  }}
-                >
-                  프로필
-                </NavTypo>
+                <UserMenuTypo onClick={handleOpenUserMenu}>프로필</UserMenuTypo>
               </Box>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: '2.5rem' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -197,55 +276,22 @@ export default function NavBarUI({
             </Menu>
           </Box>
         </Toolbar>
-        {/* '거래' 하위 탭*/}
+
+        {/* 서브 네브바*/}
         {activePage === '거래' && (
-          <Box
-            sx={{
-              display: 'flex',
-              marginLeft: 37,
-              '@media (max-width:900px)': {
-                marginLeft: 0,
-                justifyContent: 'center',
-              },
-            }}
-          >
-            {subMenus.map(subMenu => (
-              <Button
-                key={subMenu}
-                onClick={() => handleToggleSubMenu(subMenu)}
+          <SubNavbar>
+            {subNavbarMenu.map(page => (
+              <SubNavbarButton
+                key={page}
+                onClick={() => handleToggleSubMenu(page)}
                 sx={{
-                  my: 2,
-                  mr: 2,
-                  color:
-                    activeSubMenu === subMenu ? 'secondary.light' : 'white',
-                  display: 'block',
-                  border: 'none',
-                  boxShadow: 'none',
+                  color: activeSubMenu === page ? 'secondary.light' : 'white',
                 }}
               >
-                <NavTypo
-                  fontSize={32}
-                  sx={{
-                    textShadow: globalColors.shadow_text,
-                    '&:hover': {
-                      textShadow: 'none',
-                    },
-                    '@media (max-width:1100px)': {
-                      fontSize: '24px',
-                    },
-                    '@media (max-width:900px)': {
-                      fontSize: '16px',
-                    },
-                    '@media (max-width:450px)': {
-                      fontSize: '14px',
-                    },
-                  }}
-                >
-                  {subMenu}
-                </NavTypo>
-              </Button>
+                <SubNavbarButtonTypo>{page}</SubNavbarButtonTypo>
+              </SubNavbarButton>
             ))}
-          </Box>
+          </SubNavbar>
         )}
       </Container>
       <UserModal open={open} handleClose={handleClose} />

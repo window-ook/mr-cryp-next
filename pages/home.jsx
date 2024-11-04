@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Box, styled } from '@mui/system';
 import { DescriptionTypo, SubTitle } from '@/defaultTheme';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import AccountMarketFlow from '@/components/home/AccountMarketFlow';
 import AccountBalanceFlow from '@/components/home/AccountBalanceFlow';
 import AccountDetailTable from '@/components/home/AccountDetailTable';
 import AccountDetailPie from '@/components/home/AccountDetailPie';
-import { useEffect, useState } from 'react';
 
 const HomeBox = styled(Box)(() => ({
   width: '80%',
@@ -17,6 +17,7 @@ const HomeBox = styled(Box)(() => ({
   gap: '4rem',
   '@media (max-width:1075px)': {
     flexDirection: 'column',
+    width: '40%',
   },
 }));
 
@@ -55,9 +56,9 @@ export default function Home({ balance }) {
       if (width > 1400) {
         setFlowSize({ width: 600, height: 300 });
       } else if (width > 1350) {
-        setFlowSize({ width: 500, height: 250 });
-      } else if (width > 1075) {
         setFlowSize({ width: 400, height: 200 });
+      } else if (width > 450) {
+        setFlowSize({ width: 300, height: 150 });
       }
     };
 

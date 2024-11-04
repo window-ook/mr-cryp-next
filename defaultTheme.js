@@ -1,6 +1,7 @@
-import { globalColors } from '@/globalColors';
 import { createTheme, TableCell, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { globalColors } from '@/globalColors';
+
 /**
   * 프로젝트의 테마 설정을 정의하는 객체입니다.
   @description 컬러 팔레트, 기본 컴포넌트 세팅
@@ -97,35 +98,6 @@ export let theme = createTheme({
 });
 
 /**
- * 홈 안내 타이포그래피 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const InforTypo = styled(Typography)(() => ({
-  fontSize: 48,
-  fontWeight: 'bold',
-  color: globalColors.white,
-  fontFamily: 'CWDangamAsac-Bold',
-  textShadow: globalColors.shadow_text,
-  textAlign: 'center',
-  '@media (max-width:1200px)': {
-    fontSize: 32,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:900px)': {
-    fontSize: 24,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:600px)': {
-    fontSize: 18,
-    lineHeight: 1.2,
-  },
-  '@media (max-width:450px)': {
-    fontSize: 15,
-    lineHeight: 1.2,
-  },
-}));
-
-/**
  * 공통 서브 타이틀 스타일을 정의하는 컴포넌트입니다.
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
@@ -170,33 +142,13 @@ export const PriceTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 네비게이션바 타이포그래피 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const NavTypo = styled(Typography)(() => ({
-  fontFamily: 'SBAggroB',
-  fontWeight: 500,
-}));
-
-/**
- * 네비게이션바 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * 초기 화면, 네브바의 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const LogoTypo = styled(Typography)(() => ({
   fontFamily: 'SBAggroB',
   fontWeight: 'bold',
   fontStyle: 'italic',
-}));
-
-/**
- * 주문하기 모달 타이포그래피 (모바일용) 스타일을 정의하는 컴포넌트입니다.
- * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
- */
-export const MobModalTypo = styled(Typography)(() => ({
-  fontFamily: 'NEXON Lv1 Gothic OTF',
-  '@media (max-width:500px)': {
-    fontSize: '13px',
-  },
 }));
 
 /**

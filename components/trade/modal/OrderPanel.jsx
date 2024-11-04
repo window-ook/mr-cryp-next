@@ -1,7 +1,7 @@
 import RestoreIcon from '@mui/icons-material/Restore';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { NGTypo, theme, MobModalTypo } from '@/defaultTheme';
+import { NGTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
   Alert,
@@ -12,8 +12,17 @@ import {
   Snackbar,
   TextField,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { TabPanel } from '@mui/lab';
+import { styled } from '@mui/system';
+
+const MobModalTypo = styled(Typography)(() => ({
+  fontFamily: 'NEXON Lv1 Gothic OTF',
+  '@media (max-width:500px)': {
+    fontSize: '13px',
+  },
+}));
 
 const textFieldStyle = {
   width: 150,
