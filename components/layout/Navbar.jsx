@@ -1,8 +1,8 @@
-import axios from 'axios';
-import NavBarUI from './NavbarUI';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { logoutGoogle } from '@/utils/firebase';
+import axios from 'axios';
+import NavBarUI from './NavbarUI';
 
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
