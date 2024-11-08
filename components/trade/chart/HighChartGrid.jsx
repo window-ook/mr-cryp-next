@@ -3,121 +3,133 @@ import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
 import { Box } from '@mui/material';
 import axios from 'axios';
-import indicators from 'highcharts/indicators/indicators';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import indicators from 'highcharts/indicators/indicators';
 
 indicators(Highcharts);
 Highcharts.setOptions({
   lang: {
-    thousandsSep: ',',
-    rangeSelectorZoom: '',
+    rangeSelectorZoom: '기간', // 범위 설렉터 설명
   },
   time: {
-    useUTC: false,
+    useUTC: false, // UTC 시간 사용 여부
   },
 });
 
 const initialOptions = {
   chart: {
-    width: 900,
+    maxWidth: 900,
     height: 400,
     zooming: {
-      mouseWheel: false,
+      mouseWheel: {
+        enabled: true, // 마우스 휠줌 가능
+        sensitivity: 1.3, // 감도
+      },
     },
   },
-  lang: {
-    thousandsSep: ',',
-  },
+
   accessibility: {
     enabled: false,
   },
+
   credits: {
-    enabled: false,
+    enabled: false, // 차트 우측 하단에 Highcharts.com 표시 여부
   },
+
   navigator: {
-    enabled: false,
+    enabled: true, // 구간을 선택할 수 있는 네비게이터 사용 여부
   },
+
   yAxis: [
     {
-      // y축 레이블
       labels: {
-        align: 'right',
-        x: -3,
-        // 값 표기 형식
+        align: 'right', // 정렬
+        x: -4, // 차트 우측으로부터의 거리
+        // y축 천 단위 구분 기호 설정
         formatter: function () {
           return Highcharts.numberFormat(Number(this.value), 0, '', ',');
         },
       },
-      height: '80%',
-      lineWidth: 2,
+      height: '80%', // y축 높이
+      lineWidth: 2, // y축 선 굵기
       // 마우스 포인터 위치를 나타내는 크로스헤어
       crosshair: {
         snap: false,
       },
     },
     {
-      // 볼륨 레이블
       labels: {
         align: 'right',
         x: -3,
       },
       top: '80%',
-      height: '20%',
+      height: '20%', // 레이블의 높이
       offset: 0,
-      lineWidth: 2,
+      lineWidth: 2, // 볼륨 선 굵기
     },
   ],
+
   plotOptions: {
     candlestick: {
-      color: globalColors.color_neg['400'],
-      upColor: globalColors.color_pos['400'],
+      color: globalColors.color_neg['400'], // 음봉
+      upColor: globalColors.color_pos['400'], // 양봉
     },
     sma: {
-      linkedTo: 'upbit',
-      lineWidth: 0.8,
-      zIndex: 1,
+      linkedTo: 'upbit', // 이동평균선 연결
+      lineWidth: 0.8, // 이동평균선 굵기
+      zIndex: 1, // 이동평균선 z-index
       marker: {
-        enabled: false,
+        enabled: false, // 마커 표시 여부
       },
-      enableMouseTracking: false,
+      enableMouseTracking: false, // 마우스 트래커 표시 여부
     },
   },
+
   tooltip: {
-    tooltip: {
-      formatter: function () {
-        const { point } = this;
-        const color =
-          point.close > point.open
-            ? globalColors.color_pos
-            : globalColors.color_neg;
-        return `
-          <span style="color:${color}">●</span> <b>${point.series.name}</b><br/>
-          시간: ${Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', point.x)}<br/>
-          시가: ${point.open}<br/>
-          고가: ${point.high}<br/>
-          저가: ${point.low}<br/>
-          종가: ${point.close}<br/>
-        `;
-      },
+    shared: true, // 여러 series를 한 번에 설정하는 옵션
+    formatter: function () {
+      let tooltipText = `<b>${Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x)}</b><br/><br/>`; // x축 기준 시간
+
+      this.points.forEach(point => {
+        if (point.series.type === 'candlestick') {
+          const color =
+            point?.point?.close > point?.point?.open
+              ? globalColors.color_pos
+              : globalColors.color_neg;
+
+          tooltipText += `
+            <span style="color:${color[400]}">●</span> <b>${point.series.name}</b><br/>
+            시가: ${Highcharts.numberFormat(point.point.open, 0, '.', ',')}<br/>
+            고가: ${Highcharts.numberFormat(point.point.high, 0, '.', ',')}<br/>
+            저가: ${Highcharts.numberFormat(point.point.low, 0, '.', ',')}<br/>
+            종가: ${Highcharts.numberFormat(point.point.close, 0, '.', ',')}<br/><br/>
+          `;
+        } else if (point.series.type === 'column') {
+          tooltipText += `<span style="color:${point.color}">●</span> <b>${point.series.name}</b><br/>${point.y}<br/>`;
+        }
+      });
+
+      return tooltipText;
     },
+
     style: {
-      fontSize: '10px',
+      fontSize: '0.75rem', // 툴팁의 폰트 크기
     },
+
     backgroundColor: globalColors.tooltip_bgColor,
-    borderWidth: 0,
+    borderRadius: 4,
+    borderWidth: 1,
     shadow: false,
   },
 };
 
-/**
-  실시간 차트
-  @returns candles : 캔들 데이터로 차트 시각화
- */
 export default function HighChartGrid() {
   const [options, setOptions] = useState(initialOptions);
   const [candles, setCandles] = useState([]);
+
   const code = useSelector(state => state.chart.code);
+
   const fetchCandles = useCallback(
     async type => {
       let fetchedCandles;
@@ -141,7 +153,7 @@ export default function HighChartGrid() {
   );
 
   useEffect(() => {
-    fetchCandles('1min');
+    fetchCandles('1min'); // 기본값 1분봉
   }, [fetchCandles]);
 
   const rangeSelector = useMemo(
@@ -207,18 +219,23 @@ export default function HighChartGrid() {
 
       setOptions(prevOptions => ({
         ...prevOptions,
+        // x 축
         xAxis: {
           min: minTimestamp,
           max: maxTimestamp,
         },
+        // 범위 셀렉터
         rangeSelector,
+        // 시리즈
         series: [
+          // 기간별 캔들스틱 차트
           {
             type: 'candlestick',
             name: code,
             id: 'upbit',
             data: ohlc,
           },
+          // 이동평균선 15
           {
             type: 'sma',
             params: {
@@ -226,6 +243,7 @@ export default function HighChartGrid() {
             },
             color: globalColors.sma_15,
           },
+          // 이동평균선 50
           {
             type: 'sma',
             params: {
@@ -233,6 +251,7 @@ export default function HighChartGrid() {
             },
             color: globalColors.sma_50,
           },
+          // 누적 거래량 막대 그래프
           {
             type: 'column',
             name: '누적 거래량',
