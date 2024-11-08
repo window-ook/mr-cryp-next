@@ -23,6 +23,7 @@ https://mr-cryp.vercel.app
 <div>
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white">
     <img src="https://img.shields.io/badge/React.js-61DAFB?style=flat-square&logo=react&logoColor=black">
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black">
 </div>
 <div>
     <img src="https://img.shields.io/badge/React Query-FF4154?style=flat-square&logo=reactquery&logoColor=white">
@@ -30,19 +31,15 @@ https://mr-cryp.vercel.app
 </div>
 <div>
     <img src="https://img.shields.io/badge/MUI-007FFF?style=flat-square&logo=mui&logoColor=white">
-    <img src="https://img.shields.io/badge/highcharts-68BC71?style=flat-square&logo=highcharts&logoColor=white">
+    <img src="https://img.shields.io/badge/Highcharts-405473?style=flat-square&logo=highcharts&logoColor=white">
 </div>
 <div>
     <img src="https://img.shields.io/badge/Upbit API-0052CC?style=flat-square&logo=upbit&logoColor=white">
     <img src="https://img.shields.io/badge/Youtube API-FF0000?style=flat-square&logo=youtube&logoColor=white">
     <img src="https://img.shields.io/badge/Naver API-03C75A?style=flat-square&logo=naver&logoColor=white">
-    <img src="https://img.shields.io/badge/Kakao Oauth-FFCD00?style=flat-square&logo=kakao&logoColor=white">
-    <img src="https://img.shields.io/badge/Google Oauth-4285F4?style=flat-square&logo=google&logoColor=white">
 </div>
 <div>
-    <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white">
     <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
-    <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black">
 </div>
 <div>
     <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
