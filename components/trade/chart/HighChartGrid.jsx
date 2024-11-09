@@ -34,7 +34,8 @@ const initialOptions = {
   },
 
   credits: {
-    enabled: false, // 차트 우측 하단에 Highcharts.com 표시 여부
+    enabled: true, // 차트 우측 하단에 Highcharts.com 표시 여부
+    text: 'Mr Cryp',
   },
 
   navigator: {
@@ -213,8 +214,8 @@ export default function HighChartGrid() {
         y: candle.candle_acc_trade_volume,
         color:
           candle.opening_price <= candle.trade_price
-            ? globalColors.skyblue['200']
-            : globalColors.hotpink['200'],
+            ? globalColors.hotpink['200']
+            : globalColors.skyblue['200'],
       }));
 
       setOptions(prevOptions => ({
