@@ -164,5 +164,3 @@ use-upbit-api를 사용하는 방식을 포기하고 NextJS의 API 라우트를 
 서버사이드에서 REST API 호출 및 렌더링을 하는 방법으로 CORS 에러를 해결하였습니다.<br>
 
 ## 🌱 업데이트 예정
-
-sx props를 styled 설정으로 변경하여 
