@@ -15,6 +15,13 @@ export default function Document() {
         <meta property="og:image" content="/image/og-image.webp" />
         <meta property="og:url" content="https://mr-cryp.vercel.app" />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="preload"
+          href="https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
       </Head>
       <body>
         <Main />
