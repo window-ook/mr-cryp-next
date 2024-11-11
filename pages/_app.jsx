@@ -1,13 +1,18 @@
 import '@/styles/globals.css';
-import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Provider } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Provider } from 'react-redux';
+import { useRouter } from 'next/router';
 import { wrapper } from '@/utils/redux/store';
 import { theme } from '@/defaultTheme';
 import Head from 'next/head';
-import Layout from '@/layouts/Layout';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import dynamic from 'next/dynamic';
+
+const Layout = dynamic(() => import('@/layouts/Layout'), { ssr: false });
+
+const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), {
+  ssr: false,
+});
 
 const queryClient = new QueryClient();
 
