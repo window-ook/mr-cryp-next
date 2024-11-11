@@ -27,29 +27,23 @@ const FlowBox = styled(Box)(() => ({
   gap: 10,
 }));
 
-export async function getServerSideProps() {
-  let balance = [];
-
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/data/balance.json`,
-    );
-    balance = response.data;
-  } catch (error) {
-    console.log('계좌 현황 다운로드 에러: ', error);
-  }
-
-  return {
-    props: {
-      balance,
-    },
-  };
-}
-
-export default function Home({ balance }) {
+export default function Home() {
+  const [balance, setBalance] = useState([]);
   const [flowSize, setFlowSize] = useState({ width: 600, height: 300 });
 
   useEffect(() => {
+    const getBalance = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/data/balance.json`,
+        );
+        let fetched = response.data;
+        setBalance(fetched);
+      } catch (error) {
+        console.log('계좌 현황 다운로드 에러: ', error);
+      }
+    };
+
     const updateChartSize = () => {
       const width = window.innerWidth;
 
@@ -62,6 +56,7 @@ export default function Home({ balance }) {
       }
     };
 
+    getBalance();
     updateChartSize();
     window.addEventListener('resize', updateChartSize);
 
