@@ -1,13 +1,15 @@
 {
   "name": "mr-cryp-next",
   "version": "0.1.0",
+  "sideEffects": false,
   "private": true,
   "scripts": {
     "dev": "next dev",
     "open-browser": "start http://localhost:3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

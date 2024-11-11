@@ -22,15 +22,6 @@ const ButtonsBox = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const ImageContainer = styled(Box)(() => ({
-  width: '28.125rem',
-  height: '15%',
-  '@media (max-width: 900px)': {
-    width: '13.125rem',
-    height: '8%',
-  },
-}));
-
 const StyledLogoTypo = styled(LogoTypo)(() => ({
   letterSpacing: '.3rem',
   color: theme.palette.secondary.main,
@@ -151,15 +142,19 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
             justifyContent={'center'}
             height={'100vh'}
           >
-            <ImageContainer sx={{ position: 'relative' }}>
-              <Image
-                alt="로고 이미지"
-                src="/images/logo_mustache.webp"
-                fill
-                sizes="(max-width: 900px) '13.125rem', '28.125rem'"
-                priority
-              />
-            </ImageContainer>
+            <Image
+              alt="로고 이미지"
+              src="/images/logo_mustache.webp"
+              width={450}
+              height={140}
+              priority
+              style={{
+                width: '80%',
+                height: 'auto',
+                objectFit: 'contain',
+              }}
+              sizes="(max-width: 900px) 210px, 450px"
+            />
             <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3.5rem'}>
               Mr.Cryp
             </StyledLogoTypo>
