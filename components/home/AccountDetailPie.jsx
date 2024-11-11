@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
-import { PieChart } from '@mui/x-charts/PieChart';
 import { theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import { Box, styled } from '@mui/system';
+import dynamic from 'next/dynamic';
+
+const PieChart = dynamic(
+  () => import('@mui/x-charts/PieChart').then(mod => mod.PieChart),
+  { ssr: false },
+);
 
 const AccountChartBox = styled(Box)(() => ({
   display: 'flex',

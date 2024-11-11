@@ -153,10 +153,11 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
           >
             <ImageContainer sx={{ position: 'relative' }}>
               <Image
-                alt="로고 이미지 입니다 | logo image"
+                alt="로고 이미지"
                 src="/images/logo_mustache.webp"
                 fill
                 sizes="(max-width: 900px) '13.125rem', '28.125rem'"
+                priority
               />
             </ImageContainer>
             <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3.5rem'}>

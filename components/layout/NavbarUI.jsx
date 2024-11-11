@@ -119,8 +119,8 @@ const UserMenuTypo = styled(NavTypo)(({ theme }) => ({
   padding: 0,
   color: globalColors.white[400],
   textShadow: globalColors.shadow_text,
-  marginY: '1rem',
   fontSize: '2rem',
+  minHeight: '1.5rem',
 
   '&:hover': {
     opacity: '50%',
@@ -131,6 +131,7 @@ const UserMenuTypo = styled(NavTypo)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     fontSize: '1.125rem',
     lineHeight: '1rem',
+    minHeight: '1rem',
   },
 }));
 
