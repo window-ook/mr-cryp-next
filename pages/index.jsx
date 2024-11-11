@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import { Link } from '@mui/material';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-
 import Avatar from '@mui/material/Avatar';
 import SocialButton from '@/components/layout/SocialButton';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +12,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Image from 'next/image';
+import Head from 'next/head';
 
 const ButtonsBox = styled(Box)(() => ({
   my: 8,
@@ -55,8 +54,6 @@ export async function getServerSideProps() {
   };
 }
 
-const defaultTheme = createTheme();
-
 function Copyright(props) {
   return (
     <NGTypo variant="body2" color="text.secondary" align="center" {...props}>
@@ -85,7 +82,22 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
   }, [router]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <main>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="windowook" />
+        <meta name="description" content="미스터 크립 : 크립토 비서" />
+        <meta
+          name="keywords"
+          content="미스터 크립, 미스터크립, mr cryp, mr-cyrp"
+        />
+        <meta property="og:title" content="미스터 크립" />
+        <meta property="og:description" content="미스터 크립 : 크립토 비서" />
+        <meta property="og:image" content="/image/og-image.webp" />
+        <meta property="og:url" content="https://mr-cryp.vercel.app" />
+        <link rel="icon" href="/favicon.ico" />
+        <title>미스터 크립 | Mr.cryp</title>
+      </Head>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         {/* 로그인 폼 */}
@@ -111,7 +123,11 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
             >
               로그인
             </DescriptionTypo>
-            <SocialButton platform={'google'} />
+            <SocialButton
+              platform={'google'}
+              bgColor={'#094eed'}
+              fontColor={'#fff'}
+            />
             <SocialButton
               CLIENT_ID={KAKAO_CLIENT_ID}
               REDIRECT_URI={KAKAO_REDIRECT_URI}
@@ -161,6 +177,6 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </main>
   );
 }
