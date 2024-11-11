@@ -24,11 +24,11 @@ const ButtonsBox = styled(Box)(() => ({
 }));
 
 const ImageContainer = styled(Box)(() => ({
-  maxWidth: '28.125rem',
-  width: '100%',
+  width: '28.125rem',
+  height: '15%',
   '@media (max-width: 900px)': {
     width: '13.125rem',
-    height: '4.375rem',
+    height: '8%',
   },
 }));
 
@@ -147,13 +147,12 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
             justifyContent={'center'}
             height={'100vh'}
           >
-            <ImageContainer>
+            <ImageContainer sx={{ position: 'relative' }}>
               <Image
                 alt="/images/logo_mustache.webp"
                 src="/images/logo_mustache.webp"
-                layout="responsive"
-                width={450}
-                height={140}
+                fill
+                sizes="(max-width: 900px) '13.125rem', '28.125rem'"
               />
             </ImageContainer>
             <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3.5rem'}>
