@@ -1,5 +1,10 @@
 import { theme } from '@/defaultTheme';
-import { LineChart } from '@mui/x-charts';
+import dynamic from 'next/dynamic';
+
+const LineChart = dynamic(
+  () => import('@mui/x-charts/LineChart').then(mod => mod.LineChart),
+  { ssr: false },
+);
 
 export default function AccountBalanceFlow({ totalBalance, flowSize }) {
   const history = [4500, 5681, 5998, 7100, 8502];
