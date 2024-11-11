@@ -43,6 +43,7 @@ function MyApp({ Component, pageProps }) {
             <meta property="og:image" content="/image/og-image.webp" />
             <meta property="og:url" content="https://mr-cryp.vercel.app" />
             <link rel="icon" href="/favicon.ico" />
+            <title>미스터 크립 | Mr.cryp</title>
           </Head>
           {isSignIn || isKakaoRedirecting || isNaverRedirecting ? (
             <Component {...pageProps} />

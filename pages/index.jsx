@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import { Link } from '@mui/material';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+
 import Avatar from '@mui/material/Avatar';
 import SocialButton from '@/components/layout/SocialButton';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +13,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Image from 'next/image';
 
 const ButtonsBox = styled(Box)(() => ({
   my: 8,
@@ -21,12 +23,12 @@ const ButtonsBox = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const ImageBox = styled(Box)(() => ({
+const ImageContainer = styled(Box)(() => ({
   width: '28.125rem',
-  height: '9.375rem',
+  height: '15%',
   '@media (max-width: 900px)': {
     width: '13.125rem',
-    height: '4.375rem',
+    height: '8%',
   },
 }));
 
@@ -145,13 +147,15 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
             justifyContent={'center'}
             height={'100vh'}
           >
-            <ImageBox component="img" src="/images/logo_mustache.webp" />
-            <StyledLogoTypo
-              noWrap
-              component="a"
-              fontWeight="bold"
-              fontSize={'3.5rem'}
-            >
+            <ImageContainer sx={{ position: 'relative' }}>
+              <Image
+                alt="/images/logo_mustache.webp"
+                src="/images/logo_mustache.webp"
+                fill
+                sizes="(max-width: 900px) '13.125rem', '28.125rem'"
+              />
+            </ImageContainer>
+            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3.5rem'}>
               Mr.Cryp
             </StyledLogoTypo>
           </Box>
