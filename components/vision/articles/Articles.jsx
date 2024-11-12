@@ -5,10 +5,10 @@ import axios from 'axios';
 import PendingSkeleton from '../PendingSkeleton';
 import ArticlesUI from './ArticlesUI';
 
-export default function Articles({ initialArticles }) {
+export default function Articles() {
   const [open, setOpen] = useState(false);
   const {
-    data: articles = initialArticles,
+    data: articles,
     error,
     isPending,
   } = useQuery({
@@ -17,6 +17,7 @@ export default function Articles({ initialArticles }) {
       const response = await axios.get('/api/articles', {
         params: { keyword: '코인' },
       });
+      console.log(response.data);
       return response.data;
     },
     refetchOnWindowFocus: false,

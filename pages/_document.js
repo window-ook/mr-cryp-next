@@ -22,7 +22,6 @@ export default function Document() {
           type="font/woff"
           crossOrigin="anonymous"
         />
-        <link rel="preload" as="image" href="/images/logo_mustache.webp" />
       </Head>
       <body>
         <Main />

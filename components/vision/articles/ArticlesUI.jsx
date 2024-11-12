@@ -78,7 +78,9 @@ export default function ArticlesUI({
                   <Tooltip title="기사로 이동">
                     <IconButton
                       aria-label="move"
-                      onClick={() => window.open(article.link, '_blank')}
+                      onClick={() =>
+                        window.open(article.originallink, '_blank')
+                      }
                     >
                       <IosShareIcon
                         sx={{ color: theme.palette.primary.dark }}
