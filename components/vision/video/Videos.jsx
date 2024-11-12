@@ -5,11 +5,11 @@ import axios from 'axios';
 import PendingSkeleton from '../PendingSkeleton';
 import VideoCards from './VideoCards';
 
-export default function Videos({ initialVideos }) {
+export default function Videos() {
   const theme = useTheme();
   const {
     isPending,
-    data: videos = initialVideos,
+    data: videos,
     error,
   } = useQuery({
     queryKey: ['videos'],
@@ -17,6 +17,7 @@ export default function Videos({ initialVideos }) {
       const response = await axios.get('/api/videos', {
         params: { keyword: '코인 추천' },
       });
+      console.log(response.data);
       return response.data;
     },
     refetchOnWindowFocus: false,

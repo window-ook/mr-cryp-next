@@ -23,53 +23,48 @@ const ContentsBox = styled(Box)(() => ({
   padding: '1rem',
 }));
 
-export async function getServerSideProps() {
-  let videos = [];
-  let articles = [];
+// export async function getServerSideProps() {
+//   try {
+//     const [videoResponse, articleResponse] = await Promise.all([
+//       axios.get('https://www.googleapis.com/youtube/v3/search', {
+//         params: {
+//           part: 'snippet',
+//           maxResults: 12,
+//           type: 'video',
+//           q: '코인',
+//           key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
+//         },
+//       }),
+//       axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/naver`, {
+//         params: { keyword: '코인' },
+//       }),
+//     ]);
 
-  try {
-    const videoResponse = await axios.get(
-      'https://www.googleapis.com/youtube/v3/search',
-      {
-        params: {
-          part: 'snippet',
-          maxResults: 12,
-          type: 'video',
-          q: '코인',
-          key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
-        },
-      },
-    );
+//     const videos = videoResponse.data.items.map(item => ({
+//       ...item,
+//       id: item.id.videoId,
+//     }));
+//     const articles = articleResponse.data;
 
-    videos = videoResponse.data.items.map(item => ({
-      ...item,
-      id: item.id.videoId,
-    }));
-  } catch (error) {
-    console.log('유튜브 API 에러:', error);
-  }
+//     return {
+//       props: {
+//         initialVideos: videos,
+//         initialArticles: articles,
+//       },
+//     };
+//   } catch (error) {
+//     console.error('API 호출 에러:', error);
 
-  try {
-    const articleResponse = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/naver`,
-      {
-        params: { keyword: '코인' },
-      },
-    );
-    articles = articleResponse.data;
-  } catch (error) {
-    console.error('네이버 API 에러:', error);
-  }
+//     return {
+//       props: {
+//         initialVideos: [],
+//         initialArticles: [],
+//       },
+//     };
+//   }
+// }
 
-  return {
-    props: {
-      initialVideos: videos,
-      initialArticles: articles,
-    },
-  };
-}
-
-export default function Vision({ initialVideos, initialArticles }) {
+export default function Vision() {
   return (
     <VisionBox>
       <Grid container spacing={2} width="80%">
@@ -95,10 +90,10 @@ export default function Vision({ initialVideos, initialArticles }) {
           <ContentsBox sx={{ boxShadow: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Videos initialVideos={initialVideos} />
+                <Videos />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Articles initialArticles={initialArticles} />
+                <Articles />
               </Grid>
             </Grid>
           </ContentsBox>

@@ -147,15 +147,15 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
               src="/images/logo_mustache.webp"
               width={450}
               height={140}
-              priority
+              priority={true}
               style={{
-                width: '80%',
+                width: '40%',
                 height: 'auto',
                 objectFit: 'contain',
               }}
-              sizes="(max-width: 900px) 210px, 450px"
+              // sizes="(max-width: 900px) 210px, 450px"
             />
-            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3.5rem'}>
+            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3rem'}>
               Mr.Cryp
             </StyledLogoTypo>
           </Box>
