@@ -1,26 +1,29 @@
-import { initializeApp, getApps } from 'firebase/app';
-import {
-  getAuth,
-  signInWithPopup,
-  signOut,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-} from 'firebase/auth';
+let auth; // 전역 변수로 선언하여 한 번만 초기화되도록
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-};
+export async function initializeFirebase() {
+  if (!auth) {
+    const { initializeApp, getApps } = await import('firebase/app');
+    const { getAuth, GoogleAuthProvider } = await import('firebase/auth');
 
-if (!getApps().length) initializeApp(firebaseConfig);
+    const firebaseConfig = {
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    };
 
-const provider = new GoogleAuthProvider();
-const auth = getAuth();
+    if (!getApps().length) initializeApp(firebaseConfig);
+
+    auth = getAuth();
+    auth.provider = new GoogleAuthProvider();
+  }
+}
 
 export async function loginGoogle() {
-  return signInWithPopup(auth, provider).then(result => {
+  await initializeFirebase(); // 초기화 함수 호출
+  const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth');
+
+  return signInWithPopup(auth, auth.provider).then(result => {
     const user = result.user;
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const accessToken = credential.accessToken;
@@ -34,6 +37,9 @@ export async function loginGoogle() {
 }
 
 export async function logoutGoogle() {
+  await initializeFirebase(); // 초기화 함수 호출
+  const { signOut } = await import('firebase/auth');
+
   try {
     await signOut(auth);
   } catch (error) {
@@ -41,7 +47,10 @@ export async function logoutGoogle() {
   }
 }
 
-export function onUserStateChange(callback) {
+export async function onUserStateChange(callback) {
+  await initializeFirebase(); // 초기화 함수 호출
+  const { onAuthStateChanged } = await import('firebase/auth');
+
   onAuthStateChanged(auth, user => {
     callback(user);
   });

@@ -1,7 +1,6 @@
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
 import { Grid } from '@mui/material';
 import { Box, styled } from '@mui/system';
-import axios from 'axios';
 import Information from '@/components/vision/Information';
 import Videos from '@/components/vision/video/Videos';
 import Articles from '@/components/vision/articles/Articles';
@@ -22,47 +21,6 @@ const ContentsBox = styled(Box)(() => ({
   border: `0.25rem solid ${theme.palette.primary.main}`,
   padding: '1rem',
 }));
-
-// export async function getServerSideProps() {
-//   try {
-//     const [videoResponse, articleResponse] = await Promise.all([
-//       axios.get('https://www.googleapis.com/youtube/v3/search', {
-//         params: {
-//           part: 'snippet',
-//           maxResults: 12,
-//           type: 'video',
-//           q: '코인',
-//           key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
-//         },
-//       }),
-//       axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/naver`, {
-//         params: { keyword: '코인' },
-//       }),
-//     ]);
-
-//     const videos = videoResponse.data.items.map(item => ({
-//       ...item,
-//       id: item.id.videoId,
-//     }));
-//     const articles = articleResponse.data;
-
-//     return {
-//       props: {
-//         initialVideos: videos,
-//         initialArticles: articles,
-//       },
-//     };
-//   } catch (error) {
-//     console.error('API 호출 에러:', error);
-
-//     return {
-//       props: {
-//         initialVideos: [],
-//         initialArticles: [],
-//       },
-//     };
-//   }
-// }
 
 export default function Vision() {
   return (
