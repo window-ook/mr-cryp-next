@@ -15,7 +15,7 @@ export default function Articles({ initialArticles }) {
     queryKey: ['articles'],
     queryFn: async () => {
       const response = await axios.get('/api/articles', {
-        params: { keyword: '비트코인' },
+        params: { keyword: '코인' },
       });
       return response.data;
     },
