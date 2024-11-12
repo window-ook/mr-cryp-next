@@ -6,25 +6,15 @@ import ArticleIcon from '@mui/icons-material/Article';
 import LinkIcon from '@mui/icons-material/Link';
 import IosShareIcon from '@mui/icons-material/IosShare';
 
-const Card = dynamic(() => import('@mui/material/Card'), { ssr: false });
-const CardHeader = dynamic(() => import('@mui/material/CardHeader'), {
-  ssr: false,
-});
-const CardContent = dynamic(() => import('@mui/material/CardContent'), {
-  ssr: false,
-});
-const CardActions = dynamic(() => import('@mui/material/CardActions'), {
-  ssr: false,
-});
-const IconButton = dynamic(() => import('@mui/material/IconButton'), {
-  ssr: false,
-});
-const Grid = dynamic(() => import('@mui/material/Grid'), { ssr: false });
-const Snackbar = dynamic(() => import('@mui/material/Snackbar'), {
-  ssr: false,
-});
-const Alert = dynamic(() => import('@mui/material/Alert'), { ssr: false });
-const Tooltip = dynamic(() => import('@mui/material/Tooltip'), { ssr: false });
+const Card = dynamic(() => import('@mui/material/Card'));
+const CardHeader = dynamic(() => import('@mui/material/CardHeader'));
+const CardContent = dynamic(() => import('@mui/material/CardContent'));
+const CardActions = dynamic(() => import('@mui/material/CardActions'));
+const IconButton = dynamic(() => import('@mui/material/IconButton'));
+const Grid = dynamic(() => import('@mui/material/Grid'));
+const Snackbar = dynamic(() => import('@mui/material/Snackbar'));
+const Alert = dynamic(() => import('@mui/material/Alert'));
+const Tooltip = dynamic(() => import('@mui/material/Tooltip'));
 
 const ArticledCard = styled(Card)(({ theme }) => ({
   height: '100%',
