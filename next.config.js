@@ -12,6 +12,22 @@ const nextConfig = {
     config.plugins.push(new CompressionPlugin());
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.youtube.com',
+        port: '',
+        pathname: '/embed/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        port: '',
+        pathname: '/vi/**',
+      },
+    ],
+  },
 };
 
 module.exports = withPlugins(

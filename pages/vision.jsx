@@ -35,7 +35,7 @@ export async function getServerSideProps() {
           part: 'snippet',
           maxResults: 12,
           type: 'video',
-          q: '코인 추천',
+          q: '코인',
           key: process.env.NEXT_PUBLIC_YOUTUBE_DATA_API_KEY,
         },
       },
@@ -53,7 +53,7 @@ export async function getServerSideProps() {
     const articleResponse = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/naver`,
       {
-        params: { keyword: '비트코인' },
+        params: { keyword: '코인' },
       },
     );
     articles = articleResponse.data;
