@@ -1,20 +1,20 @@
 import { theme, DescriptionTypo, NGTypo, SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  IconButton,
+  Grid,
+  Snackbar,
+  Alert,
+  Tooltip,
+} from '@mui/material';
 import { styled } from '@mui/system';
-import dynamic from 'next/dynamic';
 import ArticleIcon from '@mui/icons-material/Article';
 import LinkIcon from '@mui/icons-material/Link';
 import IosShareIcon from '@mui/icons-material/IosShare';
-
-const Card = dynamic(() => import('@mui/material/Card'));
-const CardHeader = dynamic(() => import('@mui/material/CardHeader'));
-const CardContent = dynamic(() => import('@mui/material/CardContent'));
-const CardActions = dynamic(() => import('@mui/material/CardActions'));
-const IconButton = dynamic(() => import('@mui/material/IconButton'));
-const Grid = dynamic(() => import('@mui/material/Grid'));
-const Snackbar = dynamic(() => import('@mui/material/Snackbar'));
-const Alert = dynamic(() => import('@mui/material/Alert'));
-const Tooltip = dynamic(() => import('@mui/material/Tooltip'));
 
 const ArticledCard = styled(Card)(({ theme }) => ({
   height: '100%',
