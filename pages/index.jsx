@@ -30,9 +30,8 @@ const LoginTypo = styled(DescriptionTypo)(() => ({
 
 const StyledLogoTypo = styled(LogoTypo)(() => ({
   letterSpacing: '.3rem',
-  color: theme.palette.secondary.main,
+  color: theme.palette.primary.main,
   textDecoration: 'none',
-  textShadow: globalColors.shadow_text,
   '@media (max-width: 900px)': {
     fontSize: '1.5rem',
   },
