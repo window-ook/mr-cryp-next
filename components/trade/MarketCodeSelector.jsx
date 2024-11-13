@@ -30,7 +30,7 @@ function MarketCodeSelector({
       alignItems="center"
       justifyContent="space-between"
     >
-      <DescriptionTypo sx={{ mb: 1 }}>마켓 코드</DescriptionTypo>
+      <DescriptionTypo fontSize={'1.5rem'}>마켓 코드</DescriptionTypo>
       <Select name="marketcode" onChange={handleMarketCode} value={currentCode}>
         {marketCodes
           ? marketCodes.map(code => (

@@ -153,18 +153,6 @@ export const LogoTypo = styled(Typography)(() => ({
 
 /**
  * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
- * @param {object} theme - MUI 테마 객체
- * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
- */
-export const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  position: 'sticky',
-  top: 0,
-  zIndex: 100,
-}));
-
-/**
- * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
  * @returns {import('@mui/system').StyledComponent<import('@mui/material').BoxProps>}
  */
 export const FlexCenterBox = styled(Box)(() => ({
@@ -183,6 +171,28 @@ export const TableContainer = styled(Box)(() => ({
   backgroundColor: globalColors.white,
   borderRadius: '0.5rem',
   overflow: 'hidden',
+  '@media (max-width:900px)': {
+    maxWidth: '50rem',
+    marginLeft: '1rem',
+    marginRight: '1rem',
+  },
+  '@media (max-width:600px)': {
+    maxWidth: '30rem',
+    marginLeft: '1rem',
+    marginRight: '1rem',
+  },
+}));
+
+/**
+ * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
+ * @param {object} theme - MUI 테마 객체
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
+ */
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  position: 'sticky',
+  top: 0,
+  zIndex: 100,
 }));
 
 /**
@@ -192,4 +202,16 @@ export const TableContainer = styled(Box)(() => ({
 export const AloneTableCell = styled(TableCell)(() => ({
   paddingLeft: '3rem',
   paddingRight: '3rem',
+  textAlign: 'center',
+}));
+
+/**
+ * 테이블 헤드 타이포그래피
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
+ */
+export const HeadTypo = styled(DescriptionTypo)(() => ({
+  fontSize: '1.25rem',
+  '@media (max-width:900px)': {
+    fontSize: '0.688rem',
+  },
 }));
