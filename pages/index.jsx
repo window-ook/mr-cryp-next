@@ -22,12 +22,18 @@ const ButtonsBox = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
+const LoginTypo = styled(DescriptionTypo)(() => ({
+  color: theme.palette.primary.main,
+  textShadow: 'none',
+  fontSize: '2rem',
+}));
+
 const StyledLogoTypo = styled(LogoTypo)(() => ({
   letterSpacing: '.3rem',
   color: theme.palette.secondary.main,
   textDecoration: 'none',
   textShadow: globalColors.shadow_text,
-  mr: 2,
+  fontSize: '4rem',
   '@media (max-width: 900px)': {
     fontSize: '1.5rem',
   },
@@ -93,15 +99,14 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
           justifyContent="center"
         >
           <ButtonsBox>
-            <Avatar sx={{ m: 1, backgroundColor: theme.palette.primary.main }}>
+            <Avatar
+              style={{
+                backgroundColor: theme.palette.primary.main,
+              }}
+            >
               <LockOutlinedIcon />
             </Avatar>
-            <DescriptionTypo
-              fontSize={30}
-              sx={{ color: theme.palette.primary.main, mb: 1 }}
-            >
-              로그인
-            </DescriptionTypo>
+            <LoginTypo>로그인</LoginTypo>
             <SocialButton
               platform={'google'}
               bgColor={'#094eed'}
@@ -137,19 +142,19 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
         >
           <Box
             display={'flex'}
-            flexDirection={'column'}
             alignItems={'center'}
             justifyContent={'center'}
             height={'100vh'}
+            gap={2}
           >
             <Image
               alt="로고 이미지"
               src="/images/logo_mustache.webp"
-              width={450}
-              height={140}
+              width={100}
+              height={30}
               priority={true}
               style={{
-                width: '40%',
+                width: '10%',
                 height: 'auto',
                 objectFit: 'contain',
               }}

@@ -27,6 +27,12 @@ const nextConfig = {
         pathname: '/vi/**',
       },
     ],
+    localPatterns: [
+      {
+        pathname: '/images/**',
+        search: '',
+      },
+    ],
   },
 };
 
