@@ -33,7 +33,6 @@ const StyledLogoTypo = styled(LogoTypo)(() => ({
   color: theme.palette.secondary.main,
   textDecoration: 'none',
   textShadow: globalColors.shadow_text,
-  fontSize: '4rem',
   '@media (max-width: 900px)': {
     fontSize: '1.5rem',
   },
@@ -159,7 +158,7 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
                 objectFit: 'contain',
               }}
             />
-            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3rem'}>
+            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'2.5rem'}>
               Mr.Cryp
             </StyledLogoTypo>
           </Box>
