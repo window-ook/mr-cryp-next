@@ -172,3 +172,24 @@ export const FlexCenterBox = styled(Box)(() => ({
   justifyContent: 'space-between',
   alignItems: 'center',
 }));
+
+/**
+ * 테이블 컨테이너
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').BoxProps>}
+ */
+export const TableContainer = styled(Box)(() => ({
+  maxWidth: '62.5rem',
+  marginTop: '1rem',
+  backgroundColor: globalColors.white,
+  borderRadius: '0.5rem',
+  overflow: 'hidden',
+}));
+
+/**
+ * 실시간 오더북, 실시간 거래내역의 테이블 셀
+ * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
+ */
+export const AloneTableCell = styled(TableCell)(() => ({
+  paddingLeft: '3rem',
+  paddingRight: '3rem',
+}));

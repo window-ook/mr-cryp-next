@@ -1,15 +1,6 @@
 import { memo, useEffect, useState } from 'react';
-import { LinearProgress } from '@mui/material';
 import axios from 'axios';
-import dynamic from 'next/dynamic';
-
-const TradeTableAlone = dynamic(
-  () => import('@/components/trade/tradeHistory/TradeTableAlone'),
-  {
-    ssr: false,
-    loading: () => <LinearProgress color="primary" />,
-  },
-);
+import TradeTableAlone from '@/components/trade/tradeHistory/TradeTableAlone';
 
 export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;

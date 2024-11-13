@@ -1,18 +1,21 @@
 import { memo } from 'react';
-import { DescriptionTypo, PriceTypo, theme } from '@/defaultTheme';
+import {
+  AloneTableCell,
+  DescriptionTypo,
+  PriceTypo,
+  SubTitle,
+  TableContainer,
+  theme,
+} from '@/defaultTheme';
 import { styled } from '@mui/system';
 import {
-  TableContainer,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
-  Paper,
   Box,
   LinearProgress,
 } from '@mui/material';
-import { SubTitle } from '@/defaultTheme';
 import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 
 const HeadTypo = styled(DescriptionTypo)(() => ({
@@ -64,47 +67,48 @@ function TradeTableAlone({
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
       </Box>
-      <TableContainer
-        component={Paper}
-        sx={{ maxWidth: '62.5rem', marginTop: '1rem' }}
-      >
+      <TableContainer>
         {tradeData && isConnected ? (
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">
+                <AloneTableCell align="center">
                   <HeadTypo>코인</HeadTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <HeadTypo>체결 ID</HeadTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <HeadTypo>체결 시간</HeadTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <HeadTypo>ASK/BID</HeadTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <HeadTypo>체결 가격</HeadTypo>
-                </TableCell>
+                </AloneTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {tradeData.slice().map((element, index) => (
                 <TableRow key={`${index}${element.trade_time}`}>
-                  <TableCell align="center">{element.market}</TableCell>
-                  <TableCell align="center">
+                  <AloneTableCell align="center">
+                    {element.market}
+                  </AloneTableCell>
+                  <AloneTableCell align="center">
                     {Number(element.sequential_id)}
-                  </TableCell>
-                  <TableCell align="center">
+                  </AloneTableCell>
+                  <AloneTableCell align="center">
                     {element.trade_date_utc} {element.trade_time_utc}
-                  </TableCell>
-                  <TableCell align="center">{element.ask_bid}</TableCell>
-                  <TableCell align="center">
+                  </AloneTableCell>
+                  <AloneTableCell align="center">
+                    {element.ask_bid}
+                  </AloneTableCell>
+                  <AloneTableCell align="center">
                     <PriceTypo fontSize={11}>
                       {Number(element.prev_closing_price).toLocaleString()}
                     </PriceTypo>
-                  </TableCell>
+                  </AloneTableCell>
                 </TableRow>
               ))}
             </TableBody>
