@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderbookTableAlone from '@/components/trade/orderbook/OrderbookTableAlone';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
   let marketCodes = [];
 
@@ -17,6 +17,7 @@ export async function getServerSideProps() {
     props: {
       marketCodes,
     },
+    revalidate: 60,
   };
 }
 

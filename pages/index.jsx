@@ -153,7 +153,6 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
                 height: 'auto',
                 objectFit: 'contain',
               }}
-              // sizes="(max-width: 900px) 210px, 450px"
             />
             <StyledLogoTypo noWrap fontWeight="bold" fontSize={'3rem'}>
               Mr.Cryp
