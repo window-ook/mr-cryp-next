@@ -1,19 +1,34 @@
 import { memo } from 'react';
-import { DescriptionTypo, NGTypo, PriceTypo, theme } from '@/defaultTheme';
+import {
+  AloneTableCell,
+  DescriptionTypo,
+  NGTypo,
+  PriceTypo,
+  TableContainer,
+  theme,
+} from '@/defaultTheme';
 import {
   Box,
   Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   LinearProgress,
 } from '@mui/material';
 import { SubTitle } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
+import { styled } from '@mui/system';
 import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
+
+const AskTableCell = styled(TableCell)(() => ({
+  paddingLeft: '3rem',
+}));
+
+const BidTableCell = styled(TableCell)(() => ({
+  paddingRight: '3rem',
+}));
 
 function OrderTableAlone({
   orderbookData,
@@ -85,15 +100,15 @@ function OrderTableAlone({
           <Table display="flex">
             <TableHead>
               <TableRow>
-                <TableCell align="center">
+                <AloneTableCell align="center">
                   <DescriptionTypo>매도 물량</DescriptionTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <DescriptionTypo>가격</DescriptionTypo>
-                </TableCell>
-                <TableCell align="center">
+                </AloneTableCell>
+                <AloneTableCell align="center">
                   <DescriptionTypo>매수 물량</DescriptionTypo>
-                </TableCell>
+                </AloneTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -101,34 +116,34 @@ function OrderTableAlone({
                 .reverse()
                 .map((element, index) => (
                   <TableRow key={`${element.ask_price}${index}`}>
-                    <TableCell
+                    <AskTableCell
                       sx={{ backgroundColor: globalColors.color_ask['200'] }}
                     >
                       <PriceTypo fontSize={12} align="right">
                         {Number(element.ask_size)}
                       </PriceTypo>
-                    </TableCell>
-                    <TableCell>
+                    </AskTableCell>
+                    <AskTableCell>
                       <PriceTypo align="center" fontSize={12}>
                         {Number(element.ask_price).toLocaleString()}
                       </PriceTypo>
-                    </TableCell>
-                    <TableCell>-</TableCell>
+                    </AskTableCell>
+                    <AskTableCell>-</AskTableCell>
                   </TableRow>
                 ))}
               {[...orderbookData.orderbook_units].map((element, index) => (
                 <TableRow key={`${element.bid_price}${index}`}>
-                  <TableCell sx={{ textAlign: 'right' }}>-</TableCell>
-                  <TableCell>
+                  <BidTableCell sx={{ textAlign: 'right' }}>-</BidTableCell>
+                  <BidTableCell>
                     <PriceTypo align="center" fontSize={12}>
                       {Number(element.bid_price).toLocaleString()}
                     </PriceTypo>
-                  </TableCell>
-                  <TableCell
+                  </BidTableCell>
+                  <BidTableCell
                     sx={{ backgroundColor: globalColors.color_bid['200'] }}
                   >
                     <PriceTypo fontSize={12}>{element.bid_size}</PriceTypo>
-                  </TableCell>
+                  </BidTableCell>
                 </TableRow>
               ))}
             </TableBody>
