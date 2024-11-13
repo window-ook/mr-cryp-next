@@ -1,29 +1,12 @@
 import { memo } from 'react';
 import {
-  AloneTableCell,
-  DescriptionTypo,
-  PriceTypo,
-  SubTitle,
   TableContainer,
+  DescriptionTypo,
   theme,
+  HeadTypo,
 } from '@/defaultTheme';
-import { styled } from '@mui/system';
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  Box,
-  LinearProgress,
-} from '@mui/material';
+import { Box, LinearProgress } from '@mui/material';
 import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
-
-const HeadTypo = styled(DescriptionTypo)(() => ({
-  fontSize: '1.25rem',
-  '@media (max-width:900px)': {
-    fontSize: '0.688rem',
-  },
-}));
 
 function TradeTableAlone({
   isConnected,
@@ -47,15 +30,6 @@ function TradeTableAlone({
         },
       }}
     >
-      <SubTitle
-        sx={{
-          [theme.breakpoints.down('md')]: {
-            mb: '1rem',
-          },
-        }}
-      >
-        실시간 거래내역
-      </SubTitle>
       <MarketCodeSelector
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
@@ -69,50 +43,42 @@ function TradeTableAlone({
       </Box>
       <TableContainer>
         {tradeData && isConnected ? (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <AloneTableCell align="center">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>
                   <HeadTypo>코인</HeadTypo>
-                </AloneTableCell>
-                <AloneTableCell align="center">
+                </th>
+                <th>
                   <HeadTypo>체결 ID</HeadTypo>
-                </AloneTableCell>
-                <AloneTableCell align="center">
-                  <HeadTypo>체결 시간</HeadTypo>
-                </AloneTableCell>
-                <AloneTableCell align="center">
+                </th>
+                <th>
+                  <HeadTypo>체결 시간(UTC)</HeadTypo>
+                </th>
+                <th>
                   <HeadTypo>ASK/BID</HeadTypo>
-                </AloneTableCell>
-                <AloneTableCell align="center">
+                </th>
+                <th>
                   <HeadTypo>체결 가격</HeadTypo>
-                </AloneTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tradeData.slice().map((element, index) => (
-                <TableRow key={`${index}${element.trade_time}`}>
-                  <AloneTableCell align="center">
-                    {element.market}
-                  </AloneTableCell>
-                  <AloneTableCell align="center">
-                    {Number(element.sequential_id)}
-                  </AloneTableCell>
-                  <AloneTableCell align="center">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tradeData.map((element, index) => (
+                <tr key={`${index}${element.trade_time}`}>
+                  <td className="td-center">{element.market}</td>
+                  <td className="td-center">{Number(element.sequential_id)}</td>
+                  <td className="td-center">
                     {element.trade_date_utc} {element.trade_time_utc}
-                  </AloneTableCell>
-                  <AloneTableCell align="center">
-                    {element.ask_bid}
-                  </AloneTableCell>
-                  <AloneTableCell align="center">
-                    <PriceTypo fontSize={11}>
-                      {Number(element.prev_closing_price).toLocaleString()}
-                    </PriceTypo>
-                  </AloneTableCell>
-                </TableRow>
+                  </td>
+                  <td className="td-center">{element.ask_bid}</td>
+                  <td className="td-center">
+                    {Number(element.prev_closing_price).toLocaleString()}
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         ) : (
           <LinearProgress color="primary" />
         )}

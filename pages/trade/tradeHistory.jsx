@@ -51,7 +51,12 @@ function TradeHistory({ marketCodes }) {
                   prevItem => prevItem.sequential_id === item.sequential_id,
                 ),
             );
-            return [...prevTradeData, ...newData];
+
+            const updatedTradeData = [...newData.reverse(), ...prevTradeData]
+              .slice(0, 20)
+              .reverse();
+
+            return updatedTradeData;
           });
         } catch (error) {
           console.error('실시간 거래 내역 데이터 다운로드 에러: ', error);
