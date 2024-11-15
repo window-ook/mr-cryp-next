@@ -38,9 +38,8 @@ const StyledTableContainer = styled(TableContainer)(() => ({
 
 const StyledRow = styled(TableRow)(() => ({
   '&:hover': {
-    backgroundColor: '#aeb0af',
+    backgroundColor: '#e1e3e1',
     cursor: 'pointer',
-    transition: 'background-color ease duration-300',
   },
 }));
 

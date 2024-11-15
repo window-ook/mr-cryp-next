@@ -5,11 +5,11 @@ import { Box, Grid, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
-import MarketListGrid from '@/components/trade/marketList/MarketListGrid';
-import MarketDetailGrid from '@/components/trade/marketDetail/MarketDetailGrid';
-import OrderModal from '@/components/trade/modal/OrderModal';
-import TradeHistoryGrid from '@/components/trade/tradeHistory/TradeHistoryGrid';
-import OrderbookGrid from '@/components/trade/orderbook/OrderbookGrid';
+import MarketListGrid from '@/components/trade/chart/marketList/MarketListGrid';
+import MarketDetailGrid from '@/components/trade/chart/marketDetail/MarketDetailGrid';
+import OrderModal from '@/components/trade/chart/modal/OrderModal';
+import TradeHistoryGrid from '@/components/trade/chart/tradeHistory/TradeHistoryGrid';
+import OrderbookGrid from '@/components/trade/chart/orderbook/OrderbookGrid';
 
 const ChartBox = styled(Box)(() => ({
   marginTop: '3rem',
@@ -46,7 +46,7 @@ function HighChartGrid() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
   let marketCodes = [];
 
@@ -61,6 +61,7 @@ export async function getServerSideProps() {
     props: {
       marketCodes,
     },
+    revalidate: 60 * 10,
   };
 }
 

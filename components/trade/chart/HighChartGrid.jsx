@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
-import { Box } from '@mui/material';
 import axios from 'axios';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
@@ -265,12 +264,12 @@ export default function HighChartGrid() {
   }, [candles, code, fetchCandles, rangeSelector]);
 
   return (
-    <Box>
+    <div>
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'stockChart'}
         options={options}
       />
-    </Box>
+    </div>
   );
 }
