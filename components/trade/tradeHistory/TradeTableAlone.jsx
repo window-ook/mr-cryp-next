@@ -43,22 +43,22 @@ function TradeTableAlone({
       </Box>
       <TableContainer>
         {tradeData && isConnected ? (
-          <table className="table">
-            <thead>
+          <table className="alone-table">
+            <thead className="alone-thead">
               <tr>
-                <th>
+                <th className="alone-table-th">
                   <HeadTypo>코인</HeadTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <HeadTypo>체결 ID</HeadTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <HeadTypo>체결 시간(UTC)</HeadTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <HeadTypo>ASK/BID</HeadTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <HeadTypo>체결 가격</HeadTypo>
                 </th>
               </tr>
@@ -66,13 +66,15 @@ function TradeTableAlone({
             <tbody>
               {tradeData.map((element, index) => (
                 <tr key={`${index}${element.trade_time}`}>
-                  <td className="td-center">{element.market}</td>
-                  <td className="td-center">{Number(element.sequential_id)}</td>
-                  <td className="td-center">
+                  <td className="alone-table-td center">{element.market}</td>
+                  <td className="alone-table-td center">
+                    {Number(element.sequential_id)}
+                  </td>
+                  <td className="alone-table-td center">
                     {element.trade_date_utc} {element.trade_time_utc}
                   </td>
-                  <td className="td-center">{element.ask_bid}</td>
-                  <td className="td-center">
+                  <td className="alone-table-td center">{element.ask_bid}</td>
+                  <td className="alone-table-td center">
                     {Number(element.prev_closing_price).toLocaleString()}
                   </td>
                 </tr>

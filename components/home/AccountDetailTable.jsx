@@ -1,7 +1,6 @@
 import { theme, NGTypo } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
 import {
-  Box,
   Table,
   TableBody,
   TableCell,
