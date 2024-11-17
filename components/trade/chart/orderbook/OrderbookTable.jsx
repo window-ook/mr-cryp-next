@@ -1,42 +1,8 @@
 import { useState, useCallback, useEffect, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  LinearProgress,
-} from '@mui/material';
-import { styled } from '@mui/system';
-import { StyledTableCell, PriceTypo, DescriptionTypo } from '@/defaultTheme';
-
-const HeadCell = styled(StyledTableCell)(() => ({
-  padding: '0.7rem',
-  width: '33%',
-  textAlign: 'center',
-}));
-
-const HeadBox = styled(Box)(() => ({
-  height: '0.75rem',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const HeadTypo = styled(DescriptionTypo)(() => ({
-  fontSize: '0.75rem',
-}));
-
-const AmountBar = styled(Box)(() => ({
-  height: '0.938rem',
-  position: 'absolute',
-  maxWidth: '100%',
-  opacity: 0.5,
-}));
+import { LinearProgress } from '@mui/material';
+import { PriceTypo, HeadTypo } from '@/defaultTheme';
 
 const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   const rate = useSelector(state => state.chart.rate);
@@ -83,50 +49,29 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
   return (
     <>
       {orderbookData.orderbook_units && (
-        <TableContainer
-          sx={{
-            height: 400,
-            margin: 0,
-            padding: 0,
-            backgroundColor: globalColors.white,
-          }}
-        >
-          <Table display="flex" stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <HeadCell>
-                  <HeadBox>
-                    <HeadTypo>매도 물량</HeadTypo>
-                  </HeadBox>
-                </HeadCell>
-                <HeadCell>
-                  <HeadBox>
-                    <HeadTypo>가격</HeadTypo>
-                  </HeadBox>
-                </HeadCell>
-                <HeadCell>
-                  <HeadBox>
-                    <HeadTypo>매수 물량</HeadTypo>
-                  </HeadBox>
-                </HeadCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+        <div className="w-full h-[25rem] bg-white overflow-y-auto">
+          <table className="w-full border-collapse">
+            <thead className="sticky top-0 z-10 bg-main">
+              <tr>
+                <th className="py-[0.25rem] w-1/3 text-center">
+                  <HeadTypo>매도 물량</HeadTypo>
+                </th>
+                <th className="py-[0.25rem] w-1/3 text-center">
+                  <HeadTypo>가격</HeadTypo>
+                </th>
+                <th className="py-[0.25rem] w-1/3 text-center">
+                  <HeadTypo>매수 물량</HeadTypo>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
               {/* 매도 물량 */}
               {[...orderbookData.orderbook_units]
                 .reverse()
                 .map((element, index) => (
-                  <TableRow key={`${element.ask_price}${index}`}>
-                    <TableCell
-                      sx={{ backgroundColor: globalColors.color_ask['200'] }}
-                      align="right"
-                    >
-                      <Box
-                        sx={{
-                          position: 'relative',
-                          height: '0.9rem',
-                        }}
-                      >
+                  <tr key={`${element.ask_price}${index}`}>
+                    <td className="py-1 bg-[#b6f5fa] h-[1rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid">
+                      <div className="relative">
                         <PriceTypo
                           fontSize={10}
                           sx={{
@@ -136,17 +81,16 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                         >
                           {Number(element.ask_size).toFixed(4)}
                         </PriceTypo>
-                        <AmountBar
-                          sx={{
-                            backgroundColor: globalColors.color_ask['500'],
+                        <div
+                          className={`absolute opacity-50 max-w-[100%] right-0 -top-[0.4rem] h-[0.6rem] bg-[#42b3e3]`}
+                          style={{
                             width: `${(element.ask_size / askMaxSize) * 100}%`,
-                            right: 0,
                           }}
                         />
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ padding: 1 }} align="center">
-                      <Box display="flex" justifyContent={'space-between'}>
+                      </div>
+                    </td>
+                    <td className="p-1 border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid">
+                      <div className="flex justify-between">
                         <PriceTypo
                           color={numColor}
                           fontSize={12}
@@ -163,17 +107,17 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                             ).toFixed(2)}
                           {prevPrice && '%'}
                         </PriceTypo>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ padding: 1 }}></TableCell>
-                  </TableRow>
+                      </div>
+                    </td>
+                    <td className="p-1 border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid" />
+                  </tr>
                 ))}
               {/* 매수 물량 */}
               {[...orderbookData.orderbook_units].map((element, index) => (
-                <TableRow key={`bid_${index}`}>
-                  <TableCell sx={{ padding: 1 }}></TableCell>
-                  <TableCell sx={{ padding: 1 }} align="center">
-                    <Box display="flex" justifyContent={'space-between'}>
+                <tr key={`bid_${index}`}>
+                  <td className="p-1 border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid" />
+                  <td className="p-1 border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid">
+                    <div className="flex justify-between">
                       <PriceTypo
                         color={numColor}
                         fontSize={12}
@@ -189,18 +133,10 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                           ).toFixed(2)}
                         {prevPrice && '%'}
                       </PriceTypo>
-                    </Box>
-                  </TableCell>
-                  <TableCell
-                    sx={{ backgroundColor: globalColors.color_bid['200'] }}
-                    align="left"
-                  >
-                    <Box
-                      sx={{
-                        position: 'relative',
-                        height: '0.938rem',
-                      }}
-                    >
+                    </div>
+                  </td>
+                  <td className="py-1 bg-[#f5bfd0] h-[1rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid">
+                    <div className="relative">
                       <PriceTypo
                         fontSize={10}
                         sx={{
@@ -210,19 +146,19 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
                       >
                         {Number(element.bid_size).toFixed(4)}
                       </PriceTypo>
-                      <AmountBar
-                        sx={{
+                      <div
+                        className={`absolute opacity-50 max-w-[100%] left-0 -top-[0.5rem] h-[0.6rem] bg-[#b567b0]`}
+                        style={{
                           width: `${(element.bid_size / bidMaxSize) * 100}%`,
-                          backgroundColor: globalColors.color_bid['500'],
                         }}
                       />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                    </div>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            </tbody>
+          </table>
+        </div>
       )}
     </>
   );

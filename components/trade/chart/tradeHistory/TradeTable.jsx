@@ -1,17 +1,4 @@
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import {
-  DescriptionTypo,
-  NGTypo,
-  PriceTypo,
-  StyledTableCell,
-} from '@/defaultTheme';
+import { DescriptionTypo, NGTypo, PriceTypo } from '@/defaultTheme';
 import { styled } from '@mui/system';
 import { globalColors } from '@/globalColors';
 
@@ -22,13 +9,6 @@ const HeadTypo = styled(DescriptionTypo)(() => ({
   },
 }));
 
-const StyledTableContainer = styled(TableContainer)(() => ({
-  maxWidth: '62.5rem',
-  height: '25rem',
-  overflow: 'auto',
-  backgroundColor: globalColors.white,
-}));
-
 export default function TradeTable({ tradeData }) {
   const timestampToTime = timestamp => {
     const time = new Date(timestamp);
@@ -37,39 +17,39 @@ export default function TradeTable({ tradeData }) {
   };
 
   return (
-    <StyledTableContainer>
+    <div className="max-w-[62.5rem] h-[25rem] overflow-auto bg-white">
       {tradeData && (
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">
+        <table className="w-full">
+          <thead className="sticky top-0 z-10 bg-main">
+            <tr>
+              <th className="py-[0.25rem] bg-main">
                 <HeadTypo>체결 시간</HeadTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="py-[0.25rem] bg-main">
                 <HeadTypo>체결 가격</HeadTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="py-[0.25rem] bg-main">
                 <HeadTypo>체결량</HeadTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="py-[0.25rem] bg-main">
                 <HeadTypo>체결금액</HeadTypo>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
             {tradeData.slice().map(data => (
-              <TableRow key={data.sequential_id * Math.random()}>
-                <TableCell align="center">
+              <tr key={data.sequential_id * Math.random()}>
+                <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <NGTypo fontSize={12}>
                     {timestampToTime(data.timestamp)}
                   </NGTypo>
-                </TableCell>
-                <TableCell align="center">
+                </td>
+                <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <NGTypo fontSize={12}>
                     {Number(data.trade_price).toLocaleString()}원
                   </NGTypo>
-                </TableCell>
-                <TableCell align="center">
+                </td>
+                <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <PriceTypo
                     fontSize={12}
                     color={
@@ -80,8 +60,8 @@ export default function TradeTable({ tradeData }) {
                   >
                     {data.trade_volume}
                   </PriceTypo>
-                </TableCell>
-                <TableCell align="center">
+                </td>
+                <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <PriceTypo
                     fontSize={12}
                     color={
@@ -95,12 +75,12 @@ export default function TradeTable({ tradeData }) {
                     ).toLocaleString()}
                     원
                   </PriceTypo>
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       )}
-    </StyledTableContainer>
+    </div>
   );
 }

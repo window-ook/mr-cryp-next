@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -81,38 +85,6 @@ body {
   font-family: 'NEXON Lv1 Gothic Low OTF', Arial, sans-serif;
 }
 
-.table {
-  max-width: '62.5rem';
-  margin-top:  '1rem';
-  border-radius: '0.5rem';
-  background-color: #fff;
-  border-collapse: collapse;
-  overflow: hidden;
-}
-
-thead {
-  background-color: #ff63ac;
-}
-
-.table th,
-.table td {
-  border-bottom: 1px solid #ddd; 
-  text-align: center; 
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.table th {
-  font-weight: bold; 
-  font-size: 1.2rem;
-  background-color: #ff63ac;
-  color: #fff;
-}
-
-.td-center {
-  padding: 1.5rem;
-}
-
 .ask-volume {
   padding-left: 3rem;
   padding-right: 0rem;
@@ -127,8 +99,40 @@ thead {
   text-align: left; 
 }
 
+.alone-table {
+  max-width: '62.5rem';
+  margin-top:  '1rem';
+  border-radius: '0.5rem';
+  background-color: #fff;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.alone-thead {
+  background-color: #ff63ac;
+}
+
+.alone-table-th,
+.alone-table-td {
+  border-bottom: 1px solid #ddd; 
+  text-align: center; 
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.alone-table-th {
+  font-weight: bold; 
+  font-size: 1.2rem;
+  background-color: #ff63ac;
+  color: #fff;
+}
+
+.center {
+  padding: 1.5rem;
+}
+
 @media (max-width: 900px) {
-  .table {
+  .alone-table {
     width: 100%; 
     max-width: 100%;
     font-size: 0.8rem; 
@@ -136,13 +140,13 @@ thead {
 }
 
 @media (max-width: 600px) {
-  .table th,
-  .table td {
+  .alone-table-th,
+  .alone-table-td {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
   
-  .table th {
+  .alone-table-th {
     font-size: 1rem
   }
 }

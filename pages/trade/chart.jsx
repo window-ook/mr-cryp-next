@@ -19,7 +19,7 @@ const ChartBox = styled(Box)(() => ({
 const GridContainer = styled(Grid)(() => ({
   width: '100%',
   maxWidth: '75rem',
-  height: '1005',
+  height: '62.813rem',
   border: '0.063rem',
   boxShadow: '0.188rem',
 }));

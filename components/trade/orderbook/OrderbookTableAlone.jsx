@@ -60,16 +60,16 @@ function OrderTableAlone({
             <NGTypo>총 매도 물량 : {orderbookData.total_ask_size}</NGTypo>
             <NGTypo>총 매수 물량 : {orderbookData.total_bid_size}</NGTypo>
           </Box>
-          <table className="table">
-            <thead>
+          <table className="alone-table">
+            <thead className="alone-thead">
               <tr>
-                <th>
+                <th className="alone-table-th">
                   <DescriptionTypo>매도 물량</DescriptionTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <DescriptionTypo>가격</DescriptionTypo>
                 </th>
-                <th>
+                <th className="alone-table-th">
                   <DescriptionTypo>매수 물량</DescriptionTypo>
                 </th>
               </tr>
@@ -79,28 +79,28 @@ function OrderTableAlone({
                 .reverse()
                 .map((element, index) => (
                   <tr key={`${element.ask_price}${index}`}>
-                    <td className="td ask-volume">
+                    <td className="alone-table-td ask-volume">
                       <PriceTypo fontSize={12}>
                         {Number(element.ask_size)}
                       </PriceTypo>
                     </td>
-                    <td className="td td-center">
+                    <td className="alone-table-td td-center">
                       <PriceTypo fontSize={12}>
                         {Number(element.ask_price).toLocaleString()}
                       </PriceTypo>
                     </td>
-                    <td className="td">-</td>
+                    <td className="alone-table-td">-</td>
                   </tr>
                 ))}
               {[...orderbookData.orderbook_units].map((element, index) => (
                 <tr key={`${element.bid_price}${index}`}>
-                  <td className="td">-</td>
-                  <td className="td">
+                  <td className="alone-table-td">-</td>
+                  <td className="alone-table-td">
                     <PriceTypo fontSize={12}>
                       {Number(element.bid_price).toLocaleString()}
                     </PriceTypo>
                   </td>
-                  <td className="td bid-volume">
+                  <td className="alone-table-td bid-volume">
                     <PriceTypo fontSize={12}>{element.bid_size}</PriceTypo>
                   </td>
                 </tr>

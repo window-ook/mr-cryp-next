@@ -6,41 +6,20 @@ import {
   setPrevPrice,
   setCurrPrice,
 } from '@/utils/redux/chartSlice';
-import {
-  DescriptionTypo,
-  NGTypo,
-  PriceTypo,
-  StyledTableCell,
-} from '@/defaultTheme';
+import { DescriptionTypo, NGTypo, PriceTypo } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import {
-  Box,
-  TableContainer,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  InputAdornment,
-} from '@mui/material';
+import { TableContainer, TextField, InputAdornment } from '@mui/material';
 import { styled } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
 
 const StyledTableContainer = styled(TableContainer)(() => ({
   maxWidth: '100%',
-  height: 'calc(900px - 55px)',
-  overflow: 'auto',
+  height: 'calc(56.25rem - 3.438rem)',
+  overflowY: 'auto',
+  overflowX: 'hidden',
   margin: 0,
   padding: 0,
   backgroundColor: globalColors.white,
-}));
-
-const StyledRow = styled(TableRow)(() => ({
-  '&:hover': {
-    backgroundColor: '#e1e3e1',
-    cursor: 'pointer',
-  },
 }));
 
 export default function MarketListTable({ marketCodeMap, tickers }) {
@@ -85,27 +64,28 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
         sx={{ bgcolor: 'white', borderRadius: 1 }}
       />
       <StyledTableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">
+        <table className="w-full">
+          <thead className="sticky top-0 z-10 bg-main">
+            <tr>
+              <th className="w-[6.75rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>코인</DescriptionTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>현재가</DescriptionTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>전일대비</DescriptionTypo>
-              </StyledTableCell>
-              <StyledTableCell align="center">
+              </th>
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>거래대금</DescriptionTypo>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
             {filteredTickers &&
               filteredTickers.map(ticker => (
-                <StyledRow
+                <tr
+                  className="hover:bg-list_hover hover:cursor-pointer"
                   key={`${ticker.acc_trade_price} + ${ticker.signed_change_rate}`}
                   onClick={() => {
                     handleRowClick(
@@ -116,11 +96,11 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     );
                   }}
                 >
-                  <TableCell>
+                  <td className="table-cell w-[6.75rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid whitespace-nowrap">
                     <NGTypo
                       fontSize={11}
                       fontWeight={'bold'}
-                      sx={{ maxWidth: '5em', overflowWrap: 'break-word' }}
+                      sx={{ maxWidth: '5rem' }}
                     >
                       {marketCodeMap[ticker.code] ||
                         marketCodeMap[ticker.market]}
@@ -128,17 +108,15 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     <NGTypo fontSize={10} color={globalColors.market_code}>
                       {ticker.code || ticker.market}
                     </NGTypo>
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{
-                      color:
-                        ticker.signed_change_rate > 0
-                          ? globalColors.color_pos['400']
-                          : ticker.signed_change_rate < 0
-                            ? globalColors.color_neg['400']
-                            : 'black',
-                    }}
+                  </td>
+                  <td
+                    className={`table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-right ${
+                      ticker.signed_change_rate > 0
+                        ? 'text-color_pos'
+                        : ticker.signed_change_rate < 0
+                          ? 'text-color_neg'
+                          : 'text-black'
+                    }`}
                   >
                     <PriceTypo fontSize={11} fontWeight={'bold'}>
                       {ticker.trade_price !== undefined &&
@@ -146,41 +124,39 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                         ? ticker.trade_price.toLocaleString()
                         : 0}
                     </PriceTypo>
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{
-                      color:
-                        ticker.signed_change_rate > 0
-                          ? globalColors.color_pos['400']
-                          : ticker.signed_change_rate < 0
-                            ? globalColors.color_neg['400']
-                            : 'black',
-                    }}
+                  </td>
+                  <td
+                    className={`table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-right ${
+                      ticker.signed_change_rate > 0
+                        ? 'text-color_pos'
+                        : ticker.signed_change_rate < 0
+                          ? 'text-color_neg'
+                          : 'text-black'
+                    }`}
                   >
-                    <Box display="flex" flexDirection="column">
+                    <div className="flex flex-col">
                       <PriceTypo fontSize={10} fontWeight={'bold'}>
                         {(ticker.signed_change_rate * 100).toFixed(2)}%
                       </PriceTypo>
                       <PriceTypo fontSize={10} fontWeight={'bold'}>
                         {ticker.signed_change_price.toLocaleString()}
                       </PriceTypo>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box display={'flex'}>
+                    </div>
+                  </td>
+                  <td className="table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid whitespace-nowrap">
+                    <div className="flex flex-col">
                       <PriceTypo fontSize={10}>
                         {Math.round(
                           parseInt(ticker.acc_trade_price_24h) / 1000000,
                         ).toLocaleString()}
                       </PriceTypo>
                       <NGTypo fontSize={10}>백만</NGTypo>
-                    </Box>
-                  </TableCell>
-                </StyledRow>
+                    </div>
+                  </td>
+                </tr>
               ))}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </StyledTableContainer>
     </>
   );
