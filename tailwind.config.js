@@ -21,6 +21,7 @@ module.exports = {
       },
       screens: {
         'max-1180': { max: '1180px' },
+        'max-900': { max: '900px' },
         'max-500': { max: '500px' },
       },
       fontFamily: {

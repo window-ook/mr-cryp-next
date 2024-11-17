@@ -65,18 +65,18 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
       />
       <StyledTableContainer>
         <table className="w-full">
-          <thead className="sticky bg-main">
+          <thead className="sticky top-0 z-10 bg-main">
             <tr>
-              <th className="bg-main sticky top-0 z-100 w-[6.75rem]">
+              <th className="w-[6.75rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>코인</DescriptionTypo>
               </th>
-              <th className="bg-main sticky top-0 z-100 w-[4rem] text-center">
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>현재가</DescriptionTypo>
               </th>
-              <th className="bg-main sticky top-0 z-100 w-[4rem] text-center">
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>전일대비</DescriptionTypo>
               </th>
-              <th className="bg-main sticky top-0 z-100 w-[4rem] text-center">
+              <th className="w-[4rem] py-[0.25rem]">
                 <DescriptionTypo fontSize={12}>거래대금</DescriptionTypo>
               </th>
             </tr>
@@ -96,7 +96,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     );
                   }}
                 >
-                  <td className="table-cell w-[6.75rem] border-b-[0.063rem] [border-color:rgba(224, 224, 224, 1)]] border-solid whitespace-nowrap">
+                  <td className="table-cell w-[6.75rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid whitespace-nowrap">
                     <NGTypo
                       fontSize={11}
                       fontWeight={'bold'}
@@ -110,7 +110,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     </NGTypo>
                   </td>
                   <td
-                    className={`table-cell w-[4rem] border-b-[0.063rem] [border-color:rgba(224, 224, 224, 1)]] border-solid text-right ${
+                    className={`table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-right ${
                       ticker.signed_change_rate > 0
                         ? 'text-color_pos'
                         : ticker.signed_change_rate < 0
@@ -126,7 +126,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     </PriceTypo>
                   </td>
                   <td
-                    className={`table-cell w-[4rem] border-b-[0.063rem] [border-color:rgba(224, 224, 224, 1)]] border-solid text-right ${
+                    className={`table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-right ${
                       ticker.signed_change_rate > 0
                         ? 'text-color_pos'
                         : ticker.signed_change_rate < 0
@@ -143,7 +143,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                       </PriceTypo>
                     </div>
                   </td>
-                  <td className="table-cell w-[4rem] border-b-[0.063rem] [border-color:rgba(224, 224, 224, 1)]] border-solid whitespace-nowrap">
+                  <td className="table-cell w-[4rem] border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid whitespace-nowrap">
                     <div className="flex flex-col">
                       <PriceTypo fontSize={10}>
                         {Math.round(
