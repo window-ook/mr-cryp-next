@@ -65,7 +65,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
       />
       <StyledTableContainer>
         <table className="w-full">
-          <thead className="sticky">
+          <thead className="sticky bg-main">
             <tr>
               <th className="bg-main sticky top-0 z-100 w-[6.75rem]">
                 <DescriptionTypo fontSize={12}>코인</DescriptionTypo>
@@ -100,7 +100,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                     <NGTypo
                       fontSize={11}
                       fontWeight={'bold'}
-                      sx={{ maxWidth: '5rem', overflowWrap: 'break-word' }}
+                      sx={{ maxWidth: '5rem' }}
                     >
                       {marketCodeMap[ticker.code] ||
                         marketCodeMap[ticker.market]}

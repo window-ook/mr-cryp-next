@@ -42,10 +42,10 @@ export default function MarketDetailGrid({ marketCodes }) {
 
   const numColor =
     ticker && ticker.signed_change_rate === 0
-      ? 'black'
+      ? 'text-black'
       : ticker && ticker.signed_change_rate > 0
-        ? globalColors.color_pos['400']
-        : globalColors.color_neg['400'];
+        ? 'text-color_pos'
+        : 'text-color_neg';
 
   if (isLoading) return <LinearProgress color="primary" />;
 

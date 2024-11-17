@@ -1,181 +1,101 @@
-import { NGTypo, PriceTypo, theme } from '@/defaultTheme';
-import { globalColors } from '@/globalColors';
-import { Box, Divider } from '@mui/material';
-import { styled } from '@mui/system';
-
-const TableContainer = styled(Box)(() => ({
-  height: '6.25rem',
-  border: `dashed 0.313rem ${theme.palette.primary.main}`,
-  backgroundColor: globalColors.white,
-  boxSizing: 'border-box',
-}));
-
-const IndicatorContainer = styled(Box)(() => ({
-  display: 'flex',
-  gap: 2,
-  marginRight: 2,
-  '@media (max-width:500px)': {
-    display: 'none',
-  },
-}));
-
-const SubIndicatorsBox = styled(Box)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  flex: '1 1 100%',
-}));
-
-const Indicator = styled(Box)(() => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  width: '12.5rem',
-  '@media (max-width:1180px)': {
-    width: '9.375rem',
-  },
-}));
-
-const IndicatorTypo = styled(NGTypo)(() => ({
-  fontSize: '0.75rem',
-  alignSelf: 'end',
-}));
-
-const StyledPriceTypo = styled(PriceTypo)(() => ({
-  fontWeight: 'bold',
-  fontSize: '0.938rem',
-}));
-
-const posStyle = {
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  marginTop: '0.063rem',
-  color: globalColors.color_pos['400'],
-};
-
-const negStyle = {
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  marginTop: '0.063rem',
-  color: globalColors.color_neg['400'],
-};
-
-const normalStyle = {
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  marginTop: '0.063rem',
-};
-
 function SubIndicator({ label, value, valueStyle }) {
   return (
     <>
-      <Indicator>
-        <IndicatorTypo>{label}</IndicatorTypo>
-        <PriceTypo sx={valueStyle}>{Number(value).toLocaleString()}</PriceTypo>
-      </Indicator>
-      <Divider />
+      <div className="flex justify-between w-[12.5rem] max-1180:w-[9.375rem]">
+        <span className="font-ng text-[0.75rem] max-1180:text-[0.5rem] self-end">
+          {label}
+        </span>
+        <span
+          className={`font-oneTitle text-[0.75rem] self-end ${valueStyle === 'neg' ? 'text-color_neg' : valueStyle === 'pos' ? 'text-color_pos' : 'text-black'}`}
+        >
+          {Number(value).toLocaleString()}
+        </span>
+      </div>
+      <div className="bg-gray-300 w-full h-[0.05rem]" />
     </>
   );
 }
 
 export default function MarketDetailTable({ marketCodeMap, ticker, numColor }) {
   return (
-    <TableContainer>
-      <Box
-        display="flex"
-        flexWrap="wrap"
-        marginLeft={0.5}
-        gap={0.5}
-        alignItems="flex-end"
-      >
-        <NGTypo fontSize={20} fontWeight={'bold'}>
+    <div className="h-[6.25rem] border-dashed border-[0.313rem] border-main bg-white box-border">
+      <div className="flex flex-wrap ml-[0.125rem] gap-0.5 items-end">
+        <span className="font-ng font-bold text-[1.25rem]">
           {marketCodeMap[ticker.market]}
-        </NGTypo>
-        <NGTypo fontSize={15} align="right">
+        </span>
+        <span className="font-ng text-[0.938rem] text-right">
           {ticker.market}
-        </NGTypo>
-      </Box>
-      <Divider />
-      <Box
-        display="flex"
-        flexWrap="wrap"
-        justifyContent={'space-between'}
-        paddingLeft={1}
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent={'center'}
-          marginTop={1}
-        >
-          <Box display="flex" alignItems="flex-end">
-            <StyledPriceTypo color={numColor} sx={{ fontSize: '1.25rem' }}>
-              {Number(ticker.trade_price).toLocaleString()}
-            </StyledPriceTypo>
-            <NGTypo fontWeight={'bold'} color={numColor}>
-              KRW
-            </NGTypo>
-          </Box>
-          <Box display="flex" justifyContent={'space-between'} gap={2}>
-            <NGTypo
-              fontSize={12}
-              fontWeight="bold"
-              color={globalColors.market_code}
+        </span>
+      </div>
+      <div className="bg-gray-300 w-full h-[0.05rem]" />
+
+      <div className="flex flex-wrap justify-between pl-1">
+        <div className="flex flex-col justify-center mt-[0.5rem]">
+          <div className="flex items-end">
+            <span
+              className={`text-[1.25rem] font-bold font-oneTitle ${numColor}`}
             >
+              {Number(ticker.trade_price).toLocaleString()}
+            </span>
+            <span className={`font-bold ${numColor}`}>KRW</span>
+          </div>
+          <div className="flex justify-between gap-2 items-center">
+            <span className="text-[0.75rem] text-market_code font-bold">
               전일대비
-            </NGTypo>
-            <StyledPriceTypo color={numColor}>
+            </span>
+            <span className={`font-oneTitle ${numColor}`}>
               {Number(ticker.signed_change_rate) > 0 ? '+' : ''}
               {Number(ticker.signed_change_rate * 100).toFixed(2)}%
-            </StyledPriceTypo>
-            <StyledPriceTypo color={numColor}>
+            </span>
+            <span className={`font-oneTitle ${numColor}`}>
               {Number(ticker.signed_change_price) < 0
                 ? '▼'
                 : Number(ticker.signed_change_price) > 0
                   ? '▲'
                   : ''}
               {Number(ticker.change_price).toLocaleString()}
-            </StyledPriceTypo>
-          </Box>
-        </Box>
-        <IndicatorContainer>
-          <SubIndicatorsBox>
+            </span>
+          </div>
+        </div>
+        <div className="flex gap-2 mr-2 max-500:hidden">
+          <div className="flex flex-col justify-center flex-shrink flex-grow basis-full">
             <SubIndicator
               label="고가"
               value={ticker.high_price}
-              valueStyle={posStyle}
+              valueStyle={'pos'}
             />
             <SubIndicator
               label="저가"
               value={ticker.low_price}
-              valueStyle={negStyle}
+              valueStyle={'neg'}
             />
-          </SubIndicatorsBox>
-          <SubIndicatorsBox>
+          </div>
+          <div className="flex flex-col justify-center flex-shrink flex-grow basis-full">
             <SubIndicator
               label="52주 신고가"
               value={ticker.highest_52_week_price}
-              valueStyle={posStyle}
+              valueStyle={'pos'}
             />
             <SubIndicator
               label="52주 신저가"
               value={ticker.lowest_52_week_price}
-              valueStyle={negStyle}
+              valueStyle={'neg'}
             />
-          </SubIndicatorsBox>
-          <SubIndicatorsBox>
+          </div>
+          <div className="flex flex-col justify-center flex-shrink flex-grow basis-full">
             <SubIndicator
-              label="거래량(24시간)"
+              label="거래량(24H)"
               value={ticker.acc_trade_volume_24h}
-              valueStyle={normalStyle}
+              valueStyle={'normal'}
             />
             <SubIndicator
-              label="거래대금(24시간)"
+              label="거래대금(24H)"
               value={Math.round(ticker.acc_trade_price_24h)}
-              valueStyle={normalStyle}
+              valueStyle={'normal'}
             />
-          </SubIndicatorsBox>
-        </IndicatorContainer>
-      </Box>
-    </TableContainer>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

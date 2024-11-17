@@ -16,7 +16,16 @@ module.exports = {
         main: '#ff63ac',
         color_pos: '#fa0015',
         color_neg: '#000cfa',
+        market_code: '#8c8b88',
         list_hover: '#e1e3e1',
+      },
+      screens: {
+        'max-1180': { max: '1180px' },
+        'max-500': { max: '500px' },
+      },
+      fontFamily: {
+        ng: 'NEXON Lv1 Gothic OTF',
+        oneTitle: 'ONE-Mobile-Title',
       },
     },
   },
