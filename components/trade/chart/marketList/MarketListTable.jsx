@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   setCode,
@@ -22,7 +22,7 @@ const StyledTableContainer = styled(TableContainer)(() => ({
   backgroundColor: globalColors.white,
 }));
 
-export default function MarketListTable({ marketCodeMap, tickers }) {
+export default function MarketListTable({ codeMap, tickers }) {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const dispatch = useDispatch();
@@ -34,17 +34,18 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
     dispatch(setCurrPrice(currPrice));
   };
 
-  const filteredTickers = tickers.filter(ticker => {
-    const marketName =
-      marketCodeMap[ticker.code] || marketCodeMap[ticker.market];
-    return (
-      (marketName && marketName.includes(searchKeyword.toLowerCase())) ||
-      (ticker.code &&
-        ticker.code.toLowerCase().includes(searchKeyword.toLowerCase())) ||
-      (ticker.market &&
-        ticker.market.toLowerCase().includes(searchKeyword.toLowerCase()))
-    );
-  });
+  const filteredTickers = useMemo(() => {
+    return tickers.filter(ticker => {
+      const marketName = codeMap[ticker.code] || codeMap[ticker.market];
+      return (
+        (marketName && marketName.includes(searchKeyword.toLowerCase())) ||
+        (ticker.code &&
+          ticker.code.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+        (ticker.market &&
+          ticker.market.toLowerCase().includes(searchKeyword.toLowerCase()))
+      );
+    });
+  }, [tickers, searchKeyword, codeMap]);
 
   return (
     <>
@@ -102,8 +103,7 @@ export default function MarketListTable({ marketCodeMap, tickers }) {
                       fontWeight={'bold'}
                       sx={{ maxWidth: '5rem' }}
                     >
-                      {marketCodeMap[ticker.code] ||
-                        marketCodeMap[ticker.market]}
+                      {codeMap[ticker.code] || codeMap[ticker.market]}
                     </NGTypo>
                     <NGTypo fontSize={10} color={globalColors.market_code}>
                       {ticker.code || ticker.market}

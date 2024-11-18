@@ -13,6 +13,7 @@ function TradeHistoryGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [tradeData, setTradeData] = useState([]);
   const code = useSelector(state => state.chart.code);
+  const intervalTime = useSelector(state => state.chart.intervalTime);
 
   useEffect(() => {
     if (code) {
@@ -45,10 +46,10 @@ function TradeHistoryGrid() {
       };
 
       fetchTradeData();
-      const interval = setInterval(fetchTradeData, 3000);
+      const interval = setInterval(fetchTradeData, intervalTime);
       return () => clearInterval(interval);
     }
-  }, [code]);
+  }, [code, intervalTime]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;

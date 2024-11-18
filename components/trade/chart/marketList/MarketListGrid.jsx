@@ -1,4 +1,5 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useMemo, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import axios from 'axios';
 import MarketListTable from './MarketListTable';
@@ -12,10 +13,15 @@ import MarketListTable from './MarketListTable';
 function MarketListGrid({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [tickers, setTickers] = useState([]);
-  const marketCodeMap = {};
-  marketCodes.forEach(item => {
-    marketCodeMap[item.market] = item.korean_name;
-  });
+  const intervalTime = useSelector(state => state.chart.intervalTime);
+
+  const codeMap = useMemo(() => {
+    const map = {};
+    marketCodes.forEach(item => {
+      map[item.market] = item.korean_name;
+    });
+    return map;
+  }, [marketCodes]);
 
   useEffect(() => {
     if (marketCodes) {
@@ -36,15 +42,15 @@ function MarketListGrid({ marketCodes }) {
       };
 
       fetchTickers();
-      const interval = setInterval(fetchTickers, 3000);
+      const interval = setInterval(fetchTickers, intervalTime);
       return () => clearInterval(interval);
     }
-  }, [marketCodes]);
+  }, [marketCodes, intervalTime]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
   }
 
-  return <MarketListTable tickers={tickers} marketCodeMap={marketCodeMap} />;
+  return <MarketListTable tickers={tickers} codeMap={codeMap} />;
 }
 export default memo(MarketListGrid);

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   code: 'KRW-BTC',
+  intervalTime: 5000,
   rate: 0,
   prevPrice: null,
   currPrice: null,
@@ -21,6 +22,9 @@ const chartSlice = createSlice({
   reducers: {
     setCode: (state, action) => {
       state.code = action.payload;
+    },
+    setCallTime: (state, action) => {
+      state.intervalTime = action.payload;
     },
     setRate: (state, action) => {
       state.rate = action.payload;

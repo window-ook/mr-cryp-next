@@ -31,7 +31,7 @@ const OpenModalButton = styled(Button)(() => ({
   '&:hover': { color: theme.palette.secondary.light },
 }));
 
-const DynamicChart = dynamic(
+const HighStockChart = dynamic(
   () => import('@/components/trade/chart/HighChartGrid'),
   {
     ssr: false,
@@ -41,7 +41,7 @@ const DynamicChart = dynamic(
 function HighChartGrid() {
   return (
     <div>
-      <DynamicChart />
+      <HighStockChart />
     </div>
   );
 }
