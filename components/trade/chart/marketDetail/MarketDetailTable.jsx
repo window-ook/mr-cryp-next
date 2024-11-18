@@ -16,12 +16,12 @@ function SubIndicator({ label, value, valueStyle }) {
   );
 }
 
-export default function MarketDetailTable({ marketCodeMap, ticker, numColor }) {
+export default function MarketDetailTable({ codeMap, ticker, numColor }) {
   return (
     <div className="h-[6.25rem] border-dashed border-[0.313rem] border-main bg-white box-border">
       <div className="flex flex-wrap ml-[0.125rem] gap-0.5 items-end">
         <span className="font-ng font-bold text-[1.25rem]">
-          {marketCodeMap[ticker.market]}
+          {codeMap[ticker.market]}
         </span>
         <span className="font-ng text-[0.938rem] text-right">
           {ticker.market}

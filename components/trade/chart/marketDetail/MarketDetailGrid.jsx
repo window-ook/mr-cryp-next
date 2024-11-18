@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { globalColors } from '@/globalColors';
+import { useMemo, useEffect, useState } from 'react';
 import { LinearProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -15,10 +14,15 @@ export default function MarketDetailGrid({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [ticker, setTicker] = useState([]);
   const code = useSelector(state => state.chart.code);
-  const marketCodeMap = {};
-  marketCodes.forEach(item => {
-    marketCodeMap[item.market] = item.korean_name;
-  });
+  const intervalTime = useSelector(state => state.chart.intervalTime);
+
+  const codeMap = useMemo(() => {
+    const map = {};
+    marketCodes.forEach(item => {
+      map[item.market] = item.korean_name;
+    });
+    return map;
+  }, [marketCodes]);
 
   useEffect(() => {
     if (code) {
@@ -35,10 +39,10 @@ export default function MarketDetailGrid({ marketCodes }) {
       };
 
       fetchTicker();
-      const interval = setInterval(fetchTicker, 3000);
+      const interval = setInterval(fetchTicker, intervalTime);
       return () => clearInterval(interval);
     }
-  }, [code]);
+  }, [code, intervalTime]);
 
   const numColor =
     ticker && ticker.signed_change_rate === 0
@@ -50,10 +54,6 @@ export default function MarketDetailGrid({ marketCodes }) {
   if (isLoading) return <LinearProgress color="primary" />;
 
   return (
-    <MarketDetailTable
-      marketCodeMap={marketCodeMap}
-      ticker={ticker}
-      numColor={numColor}
-    />
+    <MarketDetailTable codeMap={codeMap} ticker={ticker} numColor={numColor} />
   );
 }

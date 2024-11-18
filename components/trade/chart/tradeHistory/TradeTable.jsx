@@ -18,7 +18,7 @@ export default function TradeTable({ tradeData }) {
 
   return (
     <div className="max-w-[62.5rem] h-[25rem] overflow-auto bg-white">
-      {tradeData && (
+      {tradeData?.length > 0 && (
         <table className="w-full">
           <thead className="sticky top-0 z-10 bg-main">
             <tr>
@@ -38,7 +38,7 @@ export default function TradeTable({ tradeData }) {
           </thead>
           <tbody>
             {tradeData.slice().map(data => (
-              <tr key={data.sequential_id * Math.random()}>
+              <tr key={data.sequential_id}>
                 <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <NGTypo fontSize={12}>
                     {timestampToTime(data.timestamp)}

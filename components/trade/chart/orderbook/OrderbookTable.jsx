@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect, memo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { globalColors } from '@/globalColors';
 import { LinearProgress } from '@mui/material';
 import { PriceTypo, HeadTypo } from '@/defaultTheme';
 
-const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
+export default function OrderbookTable({ orderbookData }) {
   const rate = useSelector(state => state.chart.rate);
   const prevPrice = useSelector(state => state.chart.prevPrice);
   const [numColor, setNumColor] = useState(
@@ -48,7 +48,7 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
 
   return (
     <>
-      {orderbookData.orderbook_units && (
+      {orderbookData?.orderbook_units && (
         <div className="w-full h-[25rem] bg-white overflow-y-auto">
           <table className="w-full border-collapse">
             <thead className="sticky top-0 z-10 bg-main">
@@ -162,6 +162,4 @@ const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
       )}
     </>
   );
-});
-
-export default OrderbookTable;
+}

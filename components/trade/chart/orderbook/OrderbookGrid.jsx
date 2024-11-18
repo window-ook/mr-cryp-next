@@ -13,6 +13,7 @@ function OrderbookGrid() {
   const [isLoading, setIsLoading] = useState(true);
   const [orderbookData, setOrderbookData] = useState([]);
   const code = useSelector(state => state.chart.code);
+  const intervalTime = useSelector(state => state.chart.intervalTime);
 
   useEffect(() => {
     if (code) {
@@ -29,10 +30,10 @@ function OrderbookGrid() {
       };
 
       fetchOrderbookData();
-      const interval = setInterval(fetchOrderbookData, 3000);
+      const interval = setInterval(fetchOrderbookData, intervalTime);
       return () => clearInterval(interval);
     }
-  }, [code]);
+  }, [code, intervalTime]);
 
   if (isLoading) {
     return <LinearProgress color="primary" />;
