@@ -1,38 +1,22 @@
 import { useDispatch } from 'react-redux';
 import { setOpen } from '@/utils/redux/chartSlice';
-import { DescriptionTypo, theme } from '@/defaultTheme';
-import { Box, Grid, Button } from '@mui/material';
-import { styled } from '@mui/system';
+import { DescriptionTypo } from '@/defaultTheme';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import MarketListGrid from '@/components/trade/chart/marketList/MarketListGrid';
 import MarketDetailGrid from '@/components/trade/chart/marketDetail/MarketDetailGrid';
-import OrderModal from '@/components/trade/chart/modal/OrderModal';
 import TradeHistoryGrid from '@/components/trade/chart/tradeHistory/TradeHistoryGrid';
 import OrderbookGrid from '@/components/trade/chart/orderbook/OrderbookGrid';
 
-const ChartBox = styled(Box)(() => ({
-  marginTop: '3rem',
-  marginBottom: '4rem',
-}));
-
-const GridContainer = styled(Grid)(() => ({
-  width: '100%',
-  maxWidth: '75rem',
-  height: '62.813rem',
-  border: '0.063rem',
-  boxShadow: '0.188rem',
-}));
-
-const OpenModalButton = styled(Button)(() => ({
-  position: 'absolute',
-  right: 5,
-  top: 5,
-  '&:hover': { color: theme.palette.secondary.light },
-}));
-
 const HighStockChart = dynamic(
   () => import('@/components/trade/chart/HighChartGrid'),
+  {
+    ssr: false,
+  },
+);
+
+const OrderModal = dynamic(
+  () => import('@/components/trade/chart/modal/OrderModal'),
   {
     ssr: false,
   },
@@ -69,31 +53,44 @@ export default function Chart({ marketCodes }) {
   const dispatch = useDispatch();
   const handleOpen = () => dispatch(setOpen(true));
   const handleClose = () => dispatch(setOpen(false));
+
   return (
-    <ChartBox>
-      <GridContainer container spacing={0} margin="auto">
-        <Grid item xs={12} md={3}>
-          <MarketListGrid marketCodes={marketCodes} />
-        </Grid>
-        <Grid item xs={12} md={9}>
-          <MarketDetailGrid marketCodes={marketCodes} />
-          <Box sx={{ position: 'relative' }}>
-            <HighChartGrid />
-            <OpenModalButton onClick={handleOpen}>
-              <DescriptionTypo>주문하기</DescriptionTypo>
-            </OpenModalButton>
-          </Box>
-          <Grid container spacing={0} padding="0">
-            <Grid item xs={12} md={7}>
-              <TradeHistoryGrid />
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <OrderbookGrid />
-            </Grid>
-          </Grid>
-        </Grid>
-      </GridContainer>
+    <div className="mt-12 mb-12">
+      <div className="container mx-auto max-w-[75rem] h-[55rem] border border-gray-300 shadow-md">
+        <div className="flex flex-wrap">
+          {/* Left */}
+          <div className="w-full md:w-3/12">
+            <MarketListGrid marketCodes={marketCodes} />
+          </div>
+
+          {/* Right */}
+          <div className="w-full md:w-9/12">
+            <MarketDetailGrid marketCodes={marketCodes} />
+
+            <div className="relative">
+              <HighChartGrid />
+              <button
+                className="absolute right-2 top-2 bg-main shadow-md p-2 rounded-lg hover:opacity-60 transition duration-200 ease-in"
+                onClick={handleOpen}
+              >
+                <DescriptionTypo>주문하기</DescriptionTypo>
+              </button>
+            </div>
+
+            <div className="flex flex-wrap">
+              <div className="w-full md:w-7/12">
+                <TradeHistoryGrid />
+              </div>
+              <div className="w-full md:w-5/12">
+                <OrderbookGrid />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Order Modal */}
       <OrderModal handleClose={handleClose} />
-    </ChartBox>
+    </div>
   );
 }
