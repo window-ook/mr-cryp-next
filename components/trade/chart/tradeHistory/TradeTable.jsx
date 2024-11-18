@@ -38,7 +38,9 @@ export default function TradeTable({ tradeData }) {
           </thead>
           <tbody>
             {tradeData.slice().map(data => (
-              <tr key={data.sequential_id}>
+              <tr
+                key={`${data.sequential_id}-${data.timestamp}-${Math.random()}`}
+              >
                 <td className="table-cell border-b-[0.063rem] border-color:rgba(224, 224, 224, 1)] border-solid text-center">
                   <NGTypo fontSize={12}>
                     {timestampToTime(data.timestamp)}
