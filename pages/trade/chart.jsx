@@ -56,7 +56,7 @@ export default function Chart({ marketCodes }) {
 
   return (
     <div className="mt-12 mb-12">
-      <div className="container mx-auto max-w-[75rem] h-[55rem] border border-gray-300 shadow-md">
+      <div className="container mx-auto max-w-[75rem] h-[58rem] border border-gray-300 shadow-md">
         <div className="flex flex-wrap">
           {/* Left */}
           <div className="w-full md:w-3/12">

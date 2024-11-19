@@ -14,7 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const StyledTableContainer = styled(TableContainer)(() => ({
   maxWidth: '100%',
-  height: 'calc(56.25rem - 3.438rem)',
+  height: 'calc(58rem - 3.438rem)',
   overflowY: 'auto',
   overflowX: 'hidden',
   margin: 0,

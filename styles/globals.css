@@ -22,7 +22,7 @@
     format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: fallback;
+  font-display: swap;
 }
   
 /* 원모바일 - 가격 폰트 */

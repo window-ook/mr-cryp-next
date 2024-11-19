@@ -33,7 +33,7 @@ function TradeHistoryGrid() {
             );
 
             const updatedTradeData = [...newData.reverse(), ...prevTradeData]
-              .slice(0, 20)
+              .slice(0, 30)
               .reverse();
 
             return updatedTradeData;
