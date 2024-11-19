@@ -6,7 +6,7 @@ import {
   TableContainer,
   theme,
 } from '@/defaultTheme';
-import { Box, Paper, LinearProgress } from '@mui/material';
+import { Paper, LinearProgress } from '@mui/material';
 import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 
 function OrderTableAlone({
@@ -18,49 +18,33 @@ function OrderTableAlone({
   marketCodes,
 }) {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={1}
-      sx={{
-        mb: '2rem',
-        mt: '2rem',
-        [theme.breakpoints.down('md')]: {
-          mb: '5rem',
-        },
-      }}
-    >
+    <div className="flex flex-col items-center gap-4 mb-5 mt-4">
       <MarketCodeSelector
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <Box display="flex" alignItems="center" gap={4}>
+      <div className="flex items-center gap-4">
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-      </Box>
+      </div>
       {orderbookData && isConnected ? (
         <TableContainer
           component={Paper}
           sx={{
-            maxWidth: 500,
-            marginTop: '1rem',
+            width: '31.25rem',
+            [theme.breakpoints.down('sm')]: {
+              width: '20rem',
+            },
           }}
         >
-          <Box
-            sx={{
-              paddingLeft: 1,
-              paddingTop: 1,
-              paddingBottom: 1,
-            }}
-          >
+          <div className="p-2">
             <NGTypo>총 매도 물량 : {orderbookData.total_ask_size}</NGTypo>
             <NGTypo>총 매수 물량 : {orderbookData.total_bid_size}</NGTypo>
-          </Box>
-          <table className="alone-table">
+          </div>
+          <table className="alone-table w-full">
             <thead className="alone-thead">
               <tr>
                 <th className="alone-table-th">
@@ -80,7 +64,7 @@ function OrderTableAlone({
                 .map((element, index) => (
                   <tr key={`${element.ask_price}${index}`}>
                     <td className="alone-table-td ask-volume">
-                      <PriceTypo fontSize={12}>
+                      <PriceTypo fontSize={12} align={'right'}>
                         {Number(element.ask_size)}
                       </PriceTypo>
                     </td>
@@ -101,7 +85,9 @@ function OrderTableAlone({
                     </PriceTypo>
                   </td>
                   <td className="alone-table-td bid-volume">
-                    <PriceTypo fontSize={12}>{element.bid_size}</PriceTypo>
+                    <PriceTypo fontSize={12} align={'left'}>
+                      {element.bid_size}
+                    </PriceTypo>
                   </td>
                 </tr>
               ))}
@@ -111,7 +97,7 @@ function OrderTableAlone({
       ) : (
         <LinearProgress color="primary" />
       )}
-    </Box>
+    </div>
   );
 }
 export default memo(OrderTableAlone);
