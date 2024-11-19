@@ -17,7 +17,7 @@ export default function TradeTable({ tradeData }) {
   };
 
   return (
-    <div className="max-w-[62.5rem] h-[25rem] overflow-auto bg-white">
+    <div className="max-w-[62.5rem] h-[28.1rem] overflow-auto bg-white">
       {tradeData?.length > 0 && (
         <table className="w-full">
           <thead className="sticky top-0 z-10 bg-main">

@@ -49,7 +49,7 @@ export default function OrderbookTable({ orderbookData }) {
   return (
     <>
       {orderbookData?.orderbook_units && (
-        <div className="w-full h-[25rem] bg-white overflow-y-auto">
+        <div className="w-full h-[28.1rem] bg-white overflow-y-auto">
           <table className="w-full border-collapse">
             <thead className="sticky top-0 z-10 bg-main">
               <tr>

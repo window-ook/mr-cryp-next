@@ -28,7 +28,7 @@ export async function loginGoogle() {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const accessToken = credential.accessToken;
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('socialType', 'google');
+    localStorage.setItem('socialType', 'Google');
     localStorage.setItem('userId', user.uid);
     localStorage.setItem('nickname', user.displayName);
     localStorage.setItem('imgUrl', user.photoURL);
