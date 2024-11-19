@@ -1,11 +1,6 @@
 import { memo } from 'react';
-import {
-  TableContainer,
-  DescriptionTypo,
-  theme,
-  HeadTypo,
-} from '@/defaultTheme';
-import { Box, LinearProgress } from '@mui/material';
+import { TableContainer, DescriptionTypo, HeadTypo } from '@/defaultTheme';
+import { LinearProgress } from '@mui/material';
 import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
 
 function TradeTableAlone({
@@ -17,30 +12,18 @@ function TradeTableAlone({
   marketCodes,
 }) {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={1}
-      sx={{
-        mb: '2rem',
-        mt: '2rem',
-        [theme.breakpoints.down('md')]: {
-          mb: '5rem',
-        },
-      }}
-    >
+    <div className="flex flex-col items-center gap-4 mb-5 mt-4">
       <MarketCodeSelector
         currentCode={currentCode}
         setCurrentCode={setCurrentCode}
         isLoading={isLoading}
         marketCodes={marketCodes}
       />
-      <Box display="flex" alignItems="center" gap={4}>
+      <div className="flex items-center gap-4">
         <DescriptionTypo>
           연결 상태 : {isConnected ? '🟢' : '🔴'}
         </DescriptionTypo>
-      </Box>
+      </div>
       <TableContainer>
         {tradeData && isConnected ? (
           <table className="alone-table">
@@ -85,7 +68,7 @@ function TradeTableAlone({
           <LinearProgress color="primary" />
         )}
       </TableContainer>
-    </Box>
+    </div>
   );
 }
 

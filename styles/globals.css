@@ -56,17 +56,13 @@ body {
 }
 
 .ask-volume {
-  padding-left: 3rem;
-  padding-right: 0rem;
+  padding: 0;
   background-color: #b6f5fa;
-  text-align: right; 
 }
 
 .bid-volume {
-  padding-right: 3rem;
-  padding-left: 0rem;
+  padding: 0;
   background-color: #f5bfd0;
-  text-align: left; 
 }
 
 .alone-table {
@@ -84,6 +80,7 @@ body {
 
 .alone-table-th,
 .alone-table-td {
+  width: 33.33%;
   border-bottom: 1px solid #ddd; 
   text-align: center; 
   padding-top: 0.5rem;
@@ -94,7 +91,6 @@ body {
   font-weight: bold; 
   font-size: 1.2rem;
   background-color: #ff63ac;
-  color: #fff;
 }
 
 .center {
