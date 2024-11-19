@@ -1,16 +1,11 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { styled } from '@mui/system';
-import { Link } from '@mui/material';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import Avatar from '@mui/material/Avatar';
-import SocialButton from '@/components/layout/SocialButton';
-import CssBaseline from '@mui/material/CssBaseline';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { styled } from '@mui/system';
+import { Avatar, Box, CssBaseline, Grid, Link, Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import SocialButton from '@/components/layout/SocialButton';
 import Image from 'next/image';
 import Head from 'next/head';
 

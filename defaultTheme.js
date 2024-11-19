@@ -1,4 +1,4 @@
-import { createTheme, TableCell, Typography, Box } from '@mui/material';
+import { createTheme, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { globalColors } from '@/globalColors';
 
@@ -58,16 +58,6 @@ export let theme = createTheme({
         },
       },
     },
-    // 테이블 컨테이너
-    MuiTableContainer: {
-      styleOverrides: {
-        root: {},
-      },
-    },
-    // 테이블
-    MuiTable: {
-      defaultProps: {},
-    },
     // 테이블 헤드
     MuiTableHead: {
       defaultProps: {
@@ -98,7 +88,7 @@ export let theme = createTheme({
 });
 
 /**
- * 공통 서브 타이틀 스타일을 정의하는 컴포넌트입니다.
+ * 서브 타이틀
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const SubTitle = styled(Typography)(() => ({
@@ -115,7 +105,7 @@ export const SubTitle = styled(Typography)(() => ({
 }));
 
 /**
- * 공통 디스크립션 스타일을 정의하는 컴포넌트입니다.
+ * 디스크립션
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const DescriptionTypo = styled(Typography)(() => ({
@@ -126,7 +116,7 @@ export const DescriptionTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 공통 넥슨 고딕 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * 넥슨 고딕 타이포그래피
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const NGTypo = styled(Typography)(() => ({
@@ -134,7 +124,7 @@ export const NGTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 공통 금액 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * 금액 타이포그래피
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const PriceTypo = styled(Typography)(() => ({
@@ -142,7 +132,7 @@ export const PriceTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 초기 화면, 네브바의 로고 타이포그래피 스타일을 정의하는 컴포넌트입니다.
+ * 초기 화면, 네브바의 로고 타이포그래피
  * @type {import('@mui/system').StyledComponent<import('@mui/material').TypographyProps>}
  */
 export const LogoTypo = styled(Typography)(() => ({
@@ -152,7 +142,7 @@ export const LogoTypo = styled(Typography)(() => ({
 }));
 
 /**
- * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
+ * flex center Box
  * @returns {import('@mui/system').StyledComponent<import('@mui/material').BoxProps>}
  */
 export const FlexCenterBox = styled(Box)(() => ({
@@ -181,28 +171,6 @@ export const TableContainer = styled(Box)(() => ({
     marginLeft: '1rem',
     marginRight: '1rem',
   },
-}));
-
-/**
- * 스티키 테이블 헤더 셀 스타일을 정의하는 컴포넌트입니다.
- * @param {object} theme - MUI 테마 객체
- * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
- */
-export const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  position: 'sticky',
-  top: 0,
-  zIndex: 100,
-}));
-
-/**
- * 실시간 오더북, 실시간 거래내역의 테이블 셀
- * @returns {import('@mui/system').StyledComponent<import('@mui/material').TableCellProps>}
- */
-export const AloneTableCell = styled(TableCell)(() => ({
-  paddingLeft: '3rem',
-  paddingRight: '3rem',
-  textAlign: 'center',
 }));
 
 /**

@@ -15,17 +15,17 @@
   background: #555;
 }
 
-/* 오뮤 예쁨 */
+/* 넥슨 Lv.1 고딕 - 기본 폰트 */
 @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
-      format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
   
-/* 원모바일 */
+/* 원모바일 - 가격 폰트 */
 @font-face {
   font-family: 'ONE-Mobile-Title';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff')
@@ -35,7 +35,7 @@
   font-display: swap;
 }
 
-/* 어그로체 */
+/* 어그로체 - 로고 폰트 */
 @font-face {
   font-family: 'SBAggroB';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff')
@@ -45,36 +45,6 @@
   font-display: swap;
 }
 
-/* 넥슨 Lv.1 고딕 */
-@font-face {
-  font-family: 'NEXON Lv1 Gothic OTF';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* 창원단감아삭체 */
-@font-face {
-  font-family: 'CWDangamAsac-Bold';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-
-}
-
-/* 산돌 삼립호빵체 */
-@font-face {
-  font-family: 'SDSamliphopangche_Outline';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 body {
   overflow-y: scroll;
