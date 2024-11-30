@@ -1,8 +1,10 @@
-import axios from 'axios';
+import Upbit from '@/lib/upbit';
 
 export default async function handler(req, res) {
+  const upbit = new Upbit();
+
   try {
-    const response = await axios.get('https://api.upbit.com/v1/market/all');
+    const response = await upbit.marketCodes();
     const marketCodes = response.data;
     res.status(200).json({ marketCodes });
   } catch (error) {
