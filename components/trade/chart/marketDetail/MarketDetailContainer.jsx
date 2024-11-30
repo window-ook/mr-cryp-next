@@ -2,15 +2,9 @@ import { useMemo, useEffect, useState } from 'react';
 import { LinearProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import MarketDetailTable from './MarketDetailTable';
+import MarketDetail from './MarketDetail';
 
-/** 
- * 실시간 마켓 정보
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description krwCodes: KRW로 시작하는 마켓 코드들
-  @description tickers: KRW 마켓 코드들의 실시간 호가 정보
-   */
-export default function MarketDetailGrid({ marketCodes }) {
+export default function MarketDetailContainer({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [ticker, setTicker] = useState([]);
   const code = useSelector(state => state.chart.code);
@@ -53,7 +47,5 @@ export default function MarketDetailGrid({ marketCodes }) {
 
   if (isLoading) return <LinearProgress color="primary" />;
 
-  return (
-    <MarketDetailTable codeMap={codeMap} ticker={ticker} numColor={numColor} />
-  );
+  return <MarketDetail codeMap={codeMap} ticker={ticker} numColor={numColor} />;
 }

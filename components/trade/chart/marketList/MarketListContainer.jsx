@@ -2,15 +2,9 @@ import { memo, useMemo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import axios from 'axios';
-import MarketListTable from './MarketListTable';
+import MarketList from './MarketList';
 
-/** 
- * 실시간 마켓 코드 정보
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description krwCodes: KRW로 시작하는 마켓 코드들
-  @description tickers: KRW 마켓 코드들의 실시간 호가 정보
-*/
-function MarketListGrid({ marketCodes }) {
+function MarketListContainer({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [tickers, setTickers] = useState([]);
   const intervalTime = useSelector(state => state.chart.intervalTime);
@@ -51,6 +45,6 @@ function MarketListGrid({ marketCodes }) {
     return <LinearProgress color="primary" />;
   }
 
-  return <MarketListTable tickers={tickers} codeMap={codeMap} />;
+  return <MarketList tickers={tickers} codeMap={codeMap} />;
 }
-export default memo(MarketListGrid);
+export default memo(MarketListContainer);

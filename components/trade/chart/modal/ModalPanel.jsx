@@ -51,7 +51,7 @@ const ResetButton = styled(Button)(() => ({
   },
 }));
 
-export default function OrderPanel({ value, addOrder, askablePrice }) {
+export default function ModalPanel({ value, addOrder, askablePrice }) {
   const code = useSelector(state => state.chart.code);
   const currPrice = useSelector(state => state.chart.currPrice);
   const bidableCash = 3000000;

@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
-import TradeTableAlone from '@/components/trade/tradeHistory/TradeTableAlone';
+import TradeHistoryTable from '@/components/trade/tradeHistory/TradeHistoryTable';
 
 export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
@@ -21,12 +21,6 @@ export async function getStaticProps() {
   };
 }
 
-/** 
- * 실시간 거래 내역
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description tradeData : 거래 내역 데이터
-  @description currentCode : 현재 선택한 코드
-*/
 function TradeHistory({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -73,7 +67,7 @@ function TradeHistory({ marketCodes }) {
   }, [currentCode]);
 
   return (
-    <TradeTableAlone
+    <TradeHistoryTable
       tradeData={tradeData}
       isConnected={isConnected}
       currentCode={currentCode}

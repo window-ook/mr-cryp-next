@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import axios from 'axios';
-import OrderbookTableAlone from '@/components/trade/orderbook/OrderbookTableAlone';
+import OrderbookTable from '@/components/trade/orderbook/OrderbookTable';
 
 export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
@@ -21,12 +21,6 @@ export async function getStaticProps() {
   };
 }
 
-/** 
- * 실시간 오더북
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description orderbookData : 오더북 데이터
-  @description currentCode : 현재 선택한 코드
-*/
 function Orderbook({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -57,7 +51,7 @@ function Orderbook({ marketCodes }) {
   }, [currentCode]);
 
   return (
-    <OrderbookTableAlone
+    <OrderbookTable
       orderbookData={orderbookData}
       isConnected={isConnected}
       currentCode={currentCode}

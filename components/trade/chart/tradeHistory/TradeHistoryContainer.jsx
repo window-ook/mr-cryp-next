@@ -2,14 +2,9 @@ import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import axios from 'axios';
-import TradeTable from '@/components/trade/chart/tradeHistory/TradeTable';
+import TradeHistory from '@/components/trade/chart/tradeHistory/TradeHistory';
 
-/** 
- * 실시간 거래 내역
-  @description tradeData : 거래 내역 데이터
-  @description code : 리스트에서 선택한 마켓 코드
-*/
-function TradeHistoryGrid() {
+function TradeHistoryContainer() {
   const [isLoading, setIsLoading] = useState(true);
   const [tradeData, setTradeData] = useState([]);
   const code = useSelector(state => state.chart.code);
@@ -55,7 +50,7 @@ function TradeHistoryGrid() {
     return <LinearProgress color="primary" />;
   }
 
-  return <TradeTable tradeData={tradeData} />;
+  return <TradeHistory tradeData={tradeData} />;
 }
 
-export default memo(TradeHistoryGrid);
+export default memo(TradeHistoryContainer);

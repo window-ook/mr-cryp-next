@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { TableContainer, DescriptionTypo, HeadTypo } from '@/defaultTheme';
 import { LinearProgress } from '@mui/material';
-import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
+import MarketCodeSelector from '@/components/trade/shared/MarketCodeSelector';
 
-function TradeTableAlone({
+function TradeHistoryTable({
   isConnected,
   tradeData,
   currentCode,
@@ -72,4 +72,4 @@ function TradeTableAlone({
   );
 }
 
-export default memo(TradeTableAlone);
+export default memo(TradeHistoryTable);

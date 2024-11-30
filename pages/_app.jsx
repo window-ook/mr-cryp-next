@@ -10,9 +10,12 @@ import dynamic from 'next/dynamic';
 
 const Layout = dynamic(() => import('@/layouts/Layout'), { ssr: false });
 
-const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), {
-  ssr: false,
-});
+const ProtectedRoute = dynamic(
+  () => import('@/components/global/ProtectedRoute'),
+  {
+    ssr: false,
+  },
+);
 
 const queryClient = new QueryClient();
 

@@ -1,9 +1,9 @@
 import { DescriptionTypo, SubTitle, theme } from '@/defaultTheme';
 import { Grid } from '@mui/material';
 import { Box, styled } from '@mui/system';
-import Information from '@/components/vision/Information';
-import Videos from '@/components/vision/video/Videos';
-import Articles from '@/components/vision/articles/Articles';
+import Information from '@/components/vision/videos/Information';
+import VideosContainer from '@/components/vision/videos/VideosContainer';
+import ArticlesContainer from '@/components/vision/articles/ArticlesContainer';
 
 const VisionBox = styled(Box)(() => ({
   display: 'flex',
@@ -48,10 +48,10 @@ export default function Vision() {
           <ContentsBox sx={{ boxShadow: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Videos />
+                <VideosContainer />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Articles />
+                <ArticlesContainer />
               </Grid>
             </Grid>
           </ContentsBox>

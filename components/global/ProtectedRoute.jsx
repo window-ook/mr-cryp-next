@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children }) {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_DISABLE_PROTECTED === 'true') return; // 테스트시 비활성화
+    if (process.env.NEXT_PUBLIC_IS_TESTING === 'true') return;
 
     const storedUserId = localStorage.getItem('userId');
     setUserId(storedUserId);

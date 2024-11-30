@@ -29,7 +29,7 @@ const CancelButton = styled(Button)(() => ({
   },
 }));
 
-export default function OrderHistory({ value, orders, removeOrder }) {
+export default function ModalHistory({ value, orders, removeOrder }) {
   const [selectedValue, setSelectedValue] = useState('a');
   const [open, setOpen] = useState(false);
 

@@ -5,7 +5,7 @@ import { globalColors } from '@/globalColors';
 import { styled } from '@mui/system';
 import { Avatar, Box, CssBaseline, Grid, Link, Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import SocialButton from '@/components/layout/SocialButton';
+import SocialLoginButton from '@/components/layout/SocialLoginButton';
 import Image from 'next/image';
 import Head from 'next/head';
 
@@ -100,19 +100,19 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
               <LockOutlinedIcon />
             </Avatar>
             <LoginTypo>로그인</LoginTypo>
-            <SocialButton
+            <SocialLoginButton
               platform={'google'}
               bgColor={'#094eed'}
               fontColor={'#fff'}
             />
-            <SocialButton
+            <SocialLoginButton
               CLIENT_ID={KAKAO_CLIENT_ID}
               REDIRECT_URI={KAKAO_REDIRECT_URI}
               platform={'kakao'}
               bgColor={'#fddc3f'}
               fontColor={'#000000'}
             />
-            <SocialButton
+            <SocialLoginButton
               CLIENT_ID={NAVER_CLIENT_ID}
               REDIRECT_URI={NAVER_REDIRECT_URI}
               platform={'naver'}

@@ -2,13 +2,6 @@ import { memo } from 'react';
 import { Box, MenuItem, Select } from '@mui/material';
 import { DescriptionTypo } from '@/defaultTheme';
 
-/** 
-  * 마켓 코드 셀렉터
-@prop currentCode : 현재 마켓 코드
-@prop setCurrentCode : 현재 마켓 코드 설정
-@prop isLoading : 로딩 UI 구현
-@prop marketCode : 전체 마켓 코드  
-*/
 function MarketCodeSelector({
   currentCode,
   setCurrentCode,

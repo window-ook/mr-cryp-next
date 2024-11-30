@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import Grid from '@mui/material/Grid';
-import VideoCard from './video/VideoCard';
+import VideoCard from './VideoCard';
 
 const Information = () => {
   const information = [
