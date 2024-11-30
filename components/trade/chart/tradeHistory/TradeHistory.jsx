@@ -9,7 +9,7 @@ const HeadTypo = styled(DescriptionTypo)(() => ({
   },
 }));
 
-export default function TradeTable({ tradeData }) {
+export default function TradeHistory({ tradeData }) {
   const timestampToTime = timestamp => {
     const time = new Date(timestamp);
     const timeStr = time.toLocaleTimeString();

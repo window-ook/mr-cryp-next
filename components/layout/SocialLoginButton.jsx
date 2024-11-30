@@ -16,7 +16,7 @@ const StyledButton = styled(Button)(() => ({
   },
 }));
 
-export default function SocialButton({
+export default function SocialLoginButton({
   CLIENT_ID,
   REDIRECT_URI,
   platform,

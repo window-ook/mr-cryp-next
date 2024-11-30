@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  const { authCode } = req.body; // req.body에서 authCode 추출
+  const { authCode } = req.body;
   const NAVER_CLIENT_ID = process.env.NEXT_NAVER_CLIENT_ID;
   const NAVER_CLIENT_SECRET = process.env.NEXT_NAVER_CLIENT_SECRET;
 

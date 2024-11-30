@@ -2,14 +2,9 @@ import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import axios from 'axios';
-import OrderbookTable from '@/components/trade/chart/orderbook/OrderbookTable';
+import Orderbook from '@/components/trade/chart/orderbook/Orderbook';
 
-/** 
- * 실시간 오더북
-  @description orderbookData : 오더북 데이터
-  @description code : 리스트에서 선택한 마켓 코드
-*/
-function OrderbookGrid() {
+function OrderbookContainer() {
   const [isLoading, setIsLoading] = useState(true);
   const [orderbookData, setOrderbookData] = useState([]);
   const code = useSelector(state => state.chart.code);
@@ -39,6 +34,6 @@ function OrderbookGrid() {
     return <LinearProgress color="primary" />;
   }
 
-  return <OrderbookTable orderbookData={orderbookData} />;
+  return <Orderbook orderbookData={orderbookData} />;
 }
-export default memo(OrderbookGrid);
+export default memo(OrderbookContainer);

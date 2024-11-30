@@ -7,9 +7,9 @@ import {
   theme,
 } from '@/defaultTheme';
 import { Paper, LinearProgress } from '@mui/material';
-import MarketCodeSelector from '@/components/trade/MarketCodeSelector';
+import MarketCodeSelector from '@/components/trade/shared/MarketCodeSelector';
 
-function OrderTableAlone({
+function OrderbookTable({
   orderbookData,
   isConnected,
   currentCode,
@@ -100,4 +100,4 @@ function OrderTableAlone({
     </div>
   );
 }
-export default memo(OrderTableAlone);
+export default memo(OrderbookTable);

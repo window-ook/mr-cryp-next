@@ -7,7 +7,7 @@ export default function NaverAuth() {
 
   const fetchAccessToken = useCallback(async authCode => {
     try {
-      const response = await axios.post('/api/getNaverToken', { authCode });
+      const response = await axios.post('/api/naverAccessToken', { authCode });
       const { accessToken } = response.data;
 
       localStorage.setItem('socialType', 'Naver');
@@ -39,7 +39,7 @@ export default function NaverAuth() {
 
   const getUserData = async accessToken => {
     try {
-      const response = await axios.post('/api/getNaverUser', {
+      const response = await axios.post('/api/naverUserData', {
         token: accessToken,
       });
       const { id, imgUrl, nickname } = response.data;

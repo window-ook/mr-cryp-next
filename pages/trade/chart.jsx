@@ -3,13 +3,13 @@ import { setOpen } from '@/utils/redux/chartSlice';
 import { DescriptionTypo } from '@/defaultTheme';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
-import MarketListGrid from '@/components/trade/chart/marketList/MarketListGrid';
-import MarketDetailGrid from '@/components/trade/chart/marketDetail/MarketDetailGrid';
-import TradeHistoryGrid from '@/components/trade/chart/tradeHistory/TradeHistoryGrid';
-import OrderbookGrid from '@/components/trade/chart/orderbook/OrderbookGrid';
+import MarketListContainer from '@/components/trade/chart/marketList/MarketListContainer';
+import MarketDetailContainer from '@/components/trade/chart/marketDetail/MarketDetailContainer';
+import TradeHistoryContainer from '@/components/trade/chart/tradeHistory/TradeHistoryContainer';
+import OrderbookContainer from '@/components/trade/chart/orderbook/OrderbookContainer';
 
 const HighStockChart = dynamic(
-  () => import('@/components/trade/chart/HighChartGrid'),
+  () => import('@/components/trade/chart/highCharts/HighChartsContainer'),
   {
     ssr: false,
   },
@@ -60,12 +60,12 @@ export default function Chart({ marketCodes }) {
         <div className="flex flex-wrap">
           {/* Left */}
           <div className="w-full md:w-3/12">
-            <MarketListGrid marketCodes={marketCodes} />
+            <MarketListContainer marketCodes={marketCodes} />
           </div>
 
           {/* Right */}
           <div className="w-full md:w-9/12">
-            <MarketDetailGrid marketCodes={marketCodes} />
+            <MarketDetailContainer marketCodes={marketCodes} />
 
             <div className="relative">
               <HighChartGrid />
@@ -79,17 +79,16 @@ export default function Chart({ marketCodes }) {
 
             <div className="flex flex-wrap">
               <div className="w-full md:w-7/12">
-                <TradeHistoryGrid />
+                <TradeHistoryContainer />
               </div>
               <div className="w-full md:w-5/12">
-                <OrderbookGrid />
+                <OrderbookContainer />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Order Modal */}
       <OrderModal handleClose={handleClose} />
     </div>
   );

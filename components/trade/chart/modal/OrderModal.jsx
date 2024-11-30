@@ -4,8 +4,8 @@ import { Box, Modal, Tab } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
 import { styled } from '@mui/system';
 import { theme } from '@/defaultTheme';
-import OrderHistory from './OrderHistory';
-import OrderPanel from './OrderPanel';
+import ModalHistory from './ModalHistory';
+import ModalPanel from './ModalPanel';
 
 const ModalBox = styled(Box)(() => ({
   position: 'absolute',
@@ -64,13 +64,13 @@ export default function OrderModal({ handleClose }) {
               />
             </TabList>
           </Box>
-          <OrderPanel value="1" addOrder={addOrder} />
-          <OrderPanel
+          <ModalPanel value="1" addOrder={addOrder} />
+          <ModalPanel
             value="2"
             addOrder={addOrder}
             askablePrice={askablePrice}
           />
-          <OrderHistory value="3" orders={orders} removeOrder={removeOrder} />
+          <ModalHistory value="3" orders={orders} removeOrder={removeOrder} />
         </TabContext>
       </ModalBox>
     </Modal>

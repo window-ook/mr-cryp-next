@@ -42,7 +42,7 @@ const ProfileBox = styled(Box)(() => ({
   gap: '0.25rem',
 }));
 
-export default function UserModal({ open, handleClose }) {
+export default function ProfileModal({ open, handleClose }) {
   const [imgUrl, setImgUrl] = useState('');
   const [nickname, setNickname] = useState('');
   const [socialType, setSocialType] = useState('');

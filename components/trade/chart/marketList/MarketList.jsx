@@ -22,7 +22,7 @@ const StyledTableContainer = styled(TableContainer)(() => ({
   backgroundColor: globalColors.white,
 }));
 
-export default function MarketListTable({ codeMap, tickers }) {
+export default function MarketList({ codeMap, tickers }) {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const dispatch = useDispatch();

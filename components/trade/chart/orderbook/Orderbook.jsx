@@ -4,7 +4,7 @@ import { globalColors } from '@/globalColors';
 import { LinearProgress } from '@mui/material';
 import { PriceTypo, HeadTypo } from '@/defaultTheme';
 
-export default function OrderbookTable({ orderbookData }) {
+export default function Orderbook({ orderbookData }) {
   const rate = useSelector(state => state.chart.rate);
   const prevPrice = useSelector(state => state.chart.prevPrice);
   const [numColor, setNumColor] = useState(
