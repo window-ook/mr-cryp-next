@@ -1,7 +1,9 @@
-import axios from 'axios';
+import Upbit from '@/lib/upbit';
 
 export default async function handler(req, res) {
   const { code } = req.query;
+
+  const upbit = new Upbit();
 
   if (!code) {
     res.status(400).json({ error: '마켓 코드가 필요합니다.' });
@@ -9,9 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await axios.get(
-      `https://api.upbit.com/v1/trades/ticks?market=${code}&count=100`,
-    );
+    const response = await upbit.tradeHistory(code);
     const data = await response.data;
     res.status(200).json(data);
   } catch (error) {
