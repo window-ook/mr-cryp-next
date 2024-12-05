@@ -1,228 +1,103 @@
-import { useState, useCallback, useEffect, memo } from 'react';
-import { useSelector } from 'react-redux';
-import { globalColors } from '@/globalColors';
+import { memo } from 'react';
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
+  DescriptionTypo,
+  NGTypo,
+  PriceTypo,
   TableContainer,
-  TableHead,
-  TableRow,
-  LinearProgress,
-} from '@mui/material';
-import { StyledTableCell, PriceTypo, DescriptionTypo } from '@/defaultTheme';
+  theme,
+} from '@/defaultTheme';
+import { Paper, LinearProgress } from '@mui/material';
+import MarketCodeSelector from '@/components/trade/shared/MarketCodeSelector';
 
-const boxStyle = {
-  height: '11px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
-const cellStyle = {
-  padding: 0.7,
-  width: '33%',
-  align: 'center',
-};
-
-const OrderbookTable = memo(function OrderbookTable({ orderbookData }) {
-  const rate = useSelector(state => state.chart.rate);
-  const prevPrice = useSelector(state => state.chart.prevPrice);
-  const [numColor, setNumColor] = useState(
-    rate === 0
-      ? 'black'
-      : rate > 0
-        ? globalColors.color_pos['400']
-        : globalColors.color_neg['400'],
-  );
-  const [bidMaxSize, setBidMaxSize] = useState(0);
-  const [askMaxSize, setAskMaxSize] = useState(0);
-
-  const getMaxSize = useCallback(data => {
-    if (!data || !data.orderbook_units) {
-      return [0, 0];
-    }
-    const askSizes = data.orderbook_units.map(unit => unit.ask_size);
-    const bidSizes = data.orderbook_units.map(unit => unit.bid_size);
-    return [Math.max(...askSizes), Math.max(...bidSizes)];
-  }, []);
-
-  useEffect(() => {
-    setNumColor(
-      rate === 0
-        ? 'black'
-        : rate > 0
-          ? globalColors.color_pos['400']
-          : globalColors.color_neg['400'],
-    );
-  }, [rate]);
-
-  useEffect(() => {
-    const [maxAskSize, maxBidSize] = getMaxSize(orderbookData);
-    setAskMaxSize(maxAskSize);
-    setBidMaxSize(maxBidSize);
-  }, [getMaxSize, orderbookData]);
-
-  if (!orderbookData) {
-    return <LinearProgress color="primary" />;
-  }
-
+function OrderbookTable({
+  orderbookData,
+  isConnected,
+  currentCode,
+  setCurrentCode,
+  isLoading,
+  marketCodes,
+}) {
   return (
-    <>
-      {orderbookData.orderbook_units && (
+    <div className="flex flex-col items-center gap-4 mb-5 mt-4">
+      <MarketCodeSelector
+        currentCode={currentCode}
+        setCurrentCode={setCurrentCode}
+        isLoading={isLoading}
+        marketCodes={marketCodes}
+      />
+      <div className="flex items-center gap-4">
+        <DescriptionTypo>
+          연결 상태 : {isConnected ? '🟢' : '🔴'}
+        </DescriptionTypo>
+      </div>
+      {orderbookData && isConnected ? (
         <TableContainer
+          component={Paper}
           sx={{
-            height: 400,
-            margin: 0,
-            padding: 0,
-            backgroundColor: globalColors.white,
+            width: '31.25rem',
+            [theme.breakpoints.down('sm')]: {
+              width: '20rem',
+            },
           }}
         >
-          <Table display="flex" stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>매도 물량</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>가격</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
-                <StyledTableCell sx={cellStyle}>
-                  <Box sx={boxStyle}>
-                    <DescriptionTypo fontSize={12}>매수 물량</DescriptionTypo>
-                  </Box>
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/* 매도 물량 */}
+          <div className="p-2">
+            <NGTypo>총 매도 물량 : {orderbookData.total_ask_size}</NGTypo>
+            <NGTypo>총 매수 물량 : {orderbookData.total_bid_size}</NGTypo>
+          </div>
+          <table className="alone-table w-full">
+            <thead className="alone-thead">
+              <tr>
+                <th className="alone-table-th">
+                  <DescriptionTypo>매도 물량</DescriptionTypo>
+                </th>
+                <th className="alone-table-th">
+                  <DescriptionTypo>가격</DescriptionTypo>
+                </th>
+                <th className="alone-table-th">
+                  <DescriptionTypo>매수 물량</DescriptionTypo>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
               {[...orderbookData.orderbook_units]
                 .reverse()
                 .map((element, index) => (
-                  <TableRow key={`${element.ask_price}${index}`}>
-                    <TableCell
-                      sx={{ backgroundColor: globalColors.color_ask['200'] }}
-                      align="right"
-                    >
-                      <Box
-                        sx={{
-                          position: 'relative',
-                          height: '15px',
-                        }}
-                      >
-                        <PriceTypo
-                          fontSize={10}
-                          sx={{
-                            position: 'absolute',
-                            right: 0,
-                          }}
-                        >
-                          {Number(element.ask_size).toFixed(4)}
-                        </PriceTypo>
-                        <Box
-                          sx={{
-                            position: 'absolute',
-                            right: 0,
-                            height: '15px',
-                            width: `${(element.ask_size / askMaxSize) * 100}%`,
-                            maxWidth: '100%',
-                            backgroundColor: globalColors.color_ask['500'],
-                            opacity: 0.5,
-                          }}
-                        />
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ padding: 1 }} align="center">
-                      <Box display="flex" justifyContent={'space-between'}>
-                        <PriceTypo
-                          color={numColor}
-                          fontSize={12}
-                          fontWeight={'bold'}
-                        >
-                          {Number(element.ask_price).toLocaleString()}
-                        </PriceTypo>
-                        <PriceTypo fontSize={12} color={numColor}>
-                          {Number(rate) > 0 ? '+' : ''}
-                          {prevPrice &&
-                            Number(
-                              ((element.ask_price - prevPrice) / prevPrice) *
-                                100,
-                            ).toFixed(2)}
-                          {prevPrice && '%'}
-                        </PriceTypo>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ padding: 1 }}></TableCell>
-                  </TableRow>
+                  <tr key={`${element.ask_price}${index}`}>
+                    <td className="alone-table-td ask-volume">
+                      <PriceTypo fontSize={12} align={'right'}>
+                        {Number(element.ask_size)}
+                      </PriceTypo>
+                    </td>
+                    <td className="alone-table-td td-center">
+                      <PriceTypo fontSize={12}>
+                        {Number(element.ask_price).toLocaleString()}
+                      </PriceTypo>
+                    </td>
+                    <td className="alone-table-td">-</td>
+                  </tr>
                 ))}
-              {/* 매수 물량 */}
               {[...orderbookData.orderbook_units].map((element, index) => (
-                <TableRow key={`bid_${index}`}>
-                  <TableCell sx={{ padding: 1 }}></TableCell>
-                  <TableCell sx={{ padding: 1 }} align="center">
-                    <Box display="flex" justifyContent={'space-between'}>
-                      <PriceTypo
-                        color={numColor}
-                        fontSize={12}
-                        fontWeight={'bold'}
-                      >
-                        {Number(element.bid_price).toLocaleString()}
-                      </PriceTypo>
-                      <PriceTypo fontSize={12} color={numColor}>
-                        {Number(rate) > 0 ? '+' : ''}
-                        {prevPrice &&
-                          Number(
-                            ((element.bid_price - prevPrice) / prevPrice) * 100,
-                          ).toFixed(2)}
-                        {prevPrice && '%'}
-                      </PriceTypo>
-                    </Box>
-                  </TableCell>
-                  <TableCell
-                    sx={{ backgroundColor: globalColors.color_bid['200'] }}
-                    align="left"
-                  >
-                    <Box
-                      sx={{
-                        position: 'relative',
-                        height: '15px',
-                      }}
-                    >
-                      <PriceTypo
-                        fontSize={10}
-                        sx={{
-                          position: 'absolute',
-                          left: 0,
-                        }}
-                      >
-                        {Number(element.bid_size).toFixed(4)}
-                      </PriceTypo>
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          left: 0,
-                          height: '15px',
-                          width: `${(element.bid_size / bidMaxSize) * 100}%`,
-                          maxWidth: '100%',
-                          backgroundColor: globalColors.color_bid['500'],
-                          opacity: 0.5,
-                        }}
-                      />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                <tr key={`${element.bid_price}${index}`}>
+                  <td className="alone-table-td">-</td>
+                  <td className="alone-table-td">
+                    <PriceTypo fontSize={12}>
+                      {Number(element.bid_price).toLocaleString()}
+                    </PriceTypo>
+                  </td>
+                  <td className="alone-table-td bid-volume">
+                    <PriceTypo fontSize={12} align={'left'}>
+                      {element.bid_size}
+                    </PriceTypo>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </TableContainer>
+      ) : (
+        <LinearProgress color="primary" />
       )}
-    </>
+    </div>
   );
-});
-
-export default OrderbookTable;
+}
+export default memo(OrderbookTable);

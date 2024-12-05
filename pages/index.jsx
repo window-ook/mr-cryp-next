@@ -1,16 +1,36 @@
-import Avatar from '@mui/material/Avatar';
-import SocialButton from '@/components/SocialButton';
-import CssBaseline from '@mui/material/CssBaseline';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { DescriptionTypo, NGTypo, LogoTypo, theme } from '@/defaultTheme';
 import { globalColors } from '@/globalColors';
-import { Link } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { styled } from '@mui/system';
+import { Avatar, Box, CssBaseline, Grid, Link, Paper } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import SocialLoginButton from '@/components/layout/SocialLoginButton';
+import Image from 'next/image';
+import Head from 'next/head';
+
+const ButtonsBox = styled(Box)(() => ({
+  my: 8,
+  mx: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+}));
+
+const LoginTypo = styled(DescriptionTypo)(() => ({
+  color: theme.palette.primary.main,
+  textShadow: 'none',
+  fontSize: '2rem',
+}));
+
+const StyledLogoTypo = styled(LogoTypo)(() => ({
+  letterSpacing: '.3rem',
+  color: theme.palette.primary.main,
+  textDecoration: 'none',
+  '@media (max-width: 900px)': {
+    fontSize: '1.5rem',
+  },
+}));
 
 export async function getServerSideProps() {
   const KAKAO_CLIENT_ID = process.env.NEXT_KAKAO_CLIENT_ID;
@@ -23,8 +43,6 @@ export async function getServerSideProps() {
     },
   };
 }
-
-const defaultTheme = createTheme();
 
 function Copyright(props) {
   return (
@@ -46,18 +64,18 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const userId = localStorage.getItem('userId');
-
       if (userId) {
         alert('이미 로그인 되어있습니다.');
-        setTimeout(() => {
-          router.push('/home');
-        }, 1000);
+        router.push('/home');
       }
     }
   }, [router]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <main>
+      <Head>
+        <title>미스터 크립 Mr.cryp</title>
+      </Head>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         {/* 로그인 폼 */}
@@ -73,33 +91,28 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, backgroundColor: theme.palette.primary.main }}>
+          <ButtonsBox>
+            <Avatar
+              style={{
+                backgroundColor: theme.palette.primary.main,
+              }}
+            >
               <LockOutlinedIcon />
             </Avatar>
-            <DescriptionTypo
-              fontSize={30}
-              sx={{ color: theme.palette.primary.main, mb: 1 }}
-            >
-              로그인
-            </DescriptionTypo>
-            <SocialButton platform={'google'} />
-            <SocialButton
+            <LoginTypo>로그인</LoginTypo>
+            <SocialLoginButton
+              platform={'google'}
+              bgColor={'#094eed'}
+              fontColor={'#fff'}
+            />
+            <SocialLoginButton
               CLIENT_ID={KAKAO_CLIENT_ID}
               REDIRECT_URI={KAKAO_REDIRECT_URI}
               platform={'kakao'}
               bgColor={'#fddc3f'}
               fontColor={'#000000'}
             />
-            <SocialButton
+            <SocialLoginButton
               CLIENT_ID={NAVER_CLIENT_ID}
               REDIRECT_URI={NAVER_REDIRECT_URI}
               platform={'naver'}
@@ -107,7 +120,7 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
               fontColor={'#fff'}
             />
             <Copyright sx={{ mt: 5 }} />
-          </Box>
+          </ButtonsBox>
         </Grid>
         {/* 포스터 사이드 */}
         <Grid
@@ -122,44 +135,29 @@ export default function Root({ KAKAO_CLIENT_ID, NAVER_CLIENT_ID }) {
         >
           <Box
             display={'flex'}
-            flexDirection={'column'}
             alignItems={'center'}
             justifyContent={'center'}
             height={'100vh'}
+            gap={2}
           >
-            <Box
-              component="img"
+            <Image
+              alt="로고 이미지"
               src="/images/logo_mustache.webp"
-              width={450}
-              height={150}
-              sx={{
-                '@media (max-width: 900px)': {
-                  width: 210,
-                  height: 70,
-                },
+              width={100}
+              height={30}
+              priority={true}
+              style={{
+                width: '10%',
+                height: 'auto',
+                objectFit: 'contain',
               }}
             />
-            <LogoTypo
-              noWrap
-              component="a"
-              fontWeight="bold"
-              fontSize={'50px'}
-              sx={{
-                letterSpacing: '.3rem',
-                color: theme.palette.secondary.main,
-                textDecoration: 'none',
-                textShadow: globalColors.shadow_text,
-                mr: 2,
-                '@media (max-width: 900px)': {
-                  fontSize: 24,
-                },
-              }}
-            >
+            <StyledLogoTypo noWrap fontWeight="bold" fontSize={'2.5rem'}>
               Mr.Cryp
-            </LogoTypo>
+            </StyledLogoTypo>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </main>
   );
 }

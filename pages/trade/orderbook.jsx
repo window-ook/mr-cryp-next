@@ -1,8 +1,8 @@
-import axios from 'axios';
-import OrderbookTableAlone from '@/components/trade/orderbook/OrderbookTableAlone';
 import { memo, useEffect, useState } from 'react';
+import axios from 'axios';
+import OrderbookTable from '@/components/trade/orderbook/OrderbookTable';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
   let marketCodes = [];
 
@@ -17,15 +17,10 @@ export async function getServerSideProps() {
     props: {
       marketCodes,
     },
+    revalidate: 60,
   };
 }
 
-/** 
- * 실시간 오더북
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description orderbookData : 오더북 데이터
-  @description currentCode : 현재 선택한 코드
-*/
 function Orderbook({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -56,7 +51,7 @@ function Orderbook({ marketCodes }) {
   }, [currentCode]);
 
   return (
-    <OrderbookTableAlone
+    <OrderbookTable
       orderbookData={orderbookData}
       isConnected={isConnected}
       currentCode={currentCode}

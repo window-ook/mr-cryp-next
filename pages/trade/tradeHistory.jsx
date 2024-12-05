@@ -1,8 +1,8 @@
-import axios from 'axios';
-import TradeTableAlone from '@/components/trade/tradeHistory/TradeTableAlone';
 import { memo, useEffect, useState } from 'react';
+import axios from 'axios';
+import TradeHistoryTable from '@/components/trade/tradeHistory/TradeHistoryTable';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const domain = process.env.NEXT_PUBLIC_API_URL;
   let marketCodes = [];
 
@@ -17,15 +17,10 @@ export async function getServerSideProps() {
     props: {
       marketCodes,
     },
+    revalidate: 60,
   };
 }
 
-/** 
- * 실시간 거래 내역
-  @description marketCodes: [{market, korean_name, english_name}]
-  @description tradeData : 거래 내역 데이터
-  @description currentCode : 현재 선택한 코드
-*/
 function TradeHistory({ marketCodes }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -50,7 +45,12 @@ function TradeHistory({ marketCodes }) {
                   prevItem => prevItem.sequential_id === item.sequential_id,
                 ),
             );
-            return [...prevTradeData, ...newData];
+
+            const updatedTradeData = [...newData.reverse(), ...prevTradeData]
+              .slice(0, 20)
+              .reverse();
+
+            return updatedTradeData;
           });
         } catch (error) {
           console.error('실시간 거래 내역 데이터 다운로드 에러: ', error);
@@ -67,7 +67,7 @@ function TradeHistory({ marketCodes }) {
   }, [currentCode]);
 
   return (
-    <TradeTableAlone
+    <TradeHistoryTable
       tradeData={tradeData}
       isConnected={isConnected}
       currentCode={currentCode}

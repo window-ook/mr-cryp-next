@@ -1,75 +1,118 @@
-/* 오뮤 예쁨 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 넥슨 Lv.1 고딕 - 기본 폰트 */
 @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
-      format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+  
+/* 원모바일 - 가격 폰트 */
+@font-face {
+  font-family: 'ONE-Mobile-Title';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 어그로체 - 로고 폰트 */
+@font-face {
+  font-family: 'SBAggroB';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+body {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+  margin: 0;
+  padding: 0;
+  font-family: 'NEXON Lv1 Gothic Low OTF', Arial, sans-serif;
+}
+
+.ask-volume {
+  padding: 0;
+  background-color: #b6f5fa;
+}
+
+.bid-volume {
+  padding: 0;
+  background-color: #f5bfd0;
+}
+
+.alone-table {
+  max-width: '62.5rem';
+  margin-top:  '1rem';
+  border-radius: '0.5rem';
+  background-color: #fff;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+.alone-thead {
+  background-color: #ff63ac;
+}
+
+.alone-table-th,
+.alone-table-td {
+  width: 33.33%;
+  border-bottom: 1px solid #ddd; 
+  text-align: center; 
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.alone-table-th {
+  font-weight: bold; 
+  font-size: 1.2rem;
+  background-color: #ff63ac;
+}
+
+.center {
+  padding: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .alone-table {
+    width: 100%; 
+    max-width: 100%;
+    font-size: 0.8rem; 
+  }
+}
+
+@media (max-width: 600px) {
+  .alone-table-th,
+  .alone-table-td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   
-  /* 원모바일 */
-  @font-face {
-    font-family: 'ONE-Mobile-Title';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Title.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
+  .alone-table-th {
+    font-size: 1rem
   }
-  
-  /* 어그로체 */
-  @font-face {
-    font-family: 'SBAggroB';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  /* 넥슨 Lv.1 고딕 */
-  @font-face {
-    font-family: 'NEXON Lv1 Gothic OTF';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  /* 창원단감아삭체 */
-  @font-face {
-    font-family: 'CWDangamAsac-Bold';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  /* 산돌 삼립호빵체 */
-  @font-face {
-    font-family: 'SDSamliphopangche_Outline';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  body {
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f1f1f1;
-    margin: 0;
-    padding: 0;
-  }
-  
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
+}
